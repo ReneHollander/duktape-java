@@ -1,6 +1,19 @@
 duktape-java - A Java binding for [Duktape](http://duktape.org/)
 ================================================================
 
+# Featurs
+- Spawn multiple duktape contexts that are isolated from each other
+- Put java values into global context
+- Register java methods in duktape to be used from javascript
+
+# Building
+### Native
+- `mkdir build && cd build`
+- `cmake ../`
+- `make`
+### Java
+- `./gradlew build` or `gradlew.bat build`
+
 # Authors
 - Rene Hollander `<rene@rene8888.at>`
 
