@@ -1,0 +1,16 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+task javah {
+    String inputClass = 'at.renehollander.duktape.Duktape';
+    String inputClassPath = inputClass.replaceAll('\\.', '/') + ".class"
+    String outputFile = "src/main/c/duktape-java.h"
+    inputs.file sourceSets.main.output.asFileTree.matching {
+        include inputClassPath
+    }
+    outputs.file outputFile
+    doLast {
+        ant.javah(class: inputClass, outputFile: outputFile, classpath: sourceSets.main.output.asPath)
+    }
+}
