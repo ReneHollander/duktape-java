@@ -10,6 +10,7 @@ endif()
 
 
 set(C_SRC_PATH ./src/main/c)
-add_library(duktape-java SHARED ${C_SRC_PATH}/duktape.c ${C_SRC_PATH}/duktape-java.c)
+include_directories(${C_SRC_PATH}/include)
+add_library(duktape-java SHARED ${C_SRC_PATH}/duktape.c ${C_SRC_PATH}/helper.c ${C_SRC_PATH}/duktape-java.c)
 # add_executable(duktape-java ${C_SRC_PATH}/duktape.c ${C_SRC_PATH}/duktape-java.c)
 target_link_libraries(duktape-java -lm)

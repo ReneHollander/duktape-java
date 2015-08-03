@@ -1,6 +1,7 @@
 package at.renehollander.duktape;
 
 import java.io.File;
+import java.lang.reflect.Method;
 
 public class Duktape {
 
@@ -9,6 +10,26 @@ public class Duktape {
         System.load(libraryFile.getAbsolutePath());
     }
 
-    public static native void execute(String script);
+    private long contextPtr;
+
+    public Duktape() {
+        createContext();
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        destroyContext();
+    }
+
+    private native void createContext();
+
+    private native void destroyContext();
+
+    public native void put(String name, String value);
+
+    public native void registerMethod(String name, Object object, Method method);
+
+    public native void execute(String script);
 
 }

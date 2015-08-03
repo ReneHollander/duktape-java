@@ -5,7 +5,8 @@ apply plugin: 'eclipse'
 task javah {
     String inputClass = 'at.renehollander.duktape.Duktape';
     String inputClassPath = inputClass.replaceAll('\\.', '/') + ".class"
-    String outputFile = "src/main/c/duktape-java.h"
+    String outputFile = "src/main/c/include/duktape-java.h"
+    delete(outputFile)
     inputs.file sourceSets.main.output.asFileTree.matching {
         include inputClassPath
     }
