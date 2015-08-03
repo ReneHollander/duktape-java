@@ -11,6 +11,7 @@ duktape-java - A Java binding for [Duktape](http://duktape.org/)
 - `mkdir build && cd build`
 - `cmake ../`
 - `make`
+
 ### Java
 - `./gradlew build` or `gradlew.bat build`
 
