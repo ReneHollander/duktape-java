@@ -8,7 +8,11 @@ import java.util.Set;
 
 public class DukObject extends DukReferencedValue implements Map<String, DukValue> {
 
-    public DukObject(Duktape parent, int ref) {
+    public DukObject(Duktape parent) {
+        super(parent, Creator.createEmptyObject(parent));
+    }
+
+    private DukObject(Duktape parent, int ref) {
         super(parent, ref);
     }
 
@@ -59,12 +63,10 @@ public class DukObject extends DukReferencedValue implements Map<String, DukValu
 
     @Override
     public void putAll(Map<? extends String, ? extends DukValue> m) {
-
     }
 
     @Override
     public void clear() {
-
     }
 
     @Override

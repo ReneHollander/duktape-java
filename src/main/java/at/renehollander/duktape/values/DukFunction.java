@@ -4,11 +4,11 @@ import at.renehollander.duktape.Duktape;
 
 public class DukFunction extends DukReferencedValue {
 
-    public DukFunction(Duktape parent, int ref) {
+    private DukFunction(Duktape parent, int ref) {
         super(parent, ref);
     }
 
-    public void invoke(Object... args) {
+    public void invoke(DukValue... args) {
 
     }
 

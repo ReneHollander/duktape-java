@@ -6,7 +6,7 @@ public abstract class DukReferencedValue extends DukValue {
 
     private int ref;
 
-    public DukReferencedValue(Duktape parent, int ref) {
+    protected DukReferencedValue(Duktape parent, int ref) {
         super(parent);
     }
 

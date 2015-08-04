@@ -6,7 +6,7 @@ public abstract class DukValue {
 
     private Duktape parent;
 
-    public DukValue(Duktape parent) {
+    protected DukValue(Duktape parent) {
         this.parent = parent;
     }
 

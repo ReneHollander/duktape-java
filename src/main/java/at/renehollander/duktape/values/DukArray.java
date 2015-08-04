@@ -9,7 +9,11 @@ import java.util.ListIterator;
 
 public class DukArray extends DukReferencedValue implements List<DukValue> {
 
-    public DukArray(Duktape parent, int ref) {
+    public DukArray(Duktape parent) {
+        super(parent, Creator.createEmptyArray(parent));
+    }
+
+    private DukArray(Duktape parent, int ref) {
         super(parent, ref);
     }
 
