@@ -1,10 +1,7 @@
-#ifndef METHOD_H
-#define METHOD_H
+#pragma once
 
 struct MethodData {
     jobject callerObject;
     jmethodID methodID;
 };
 typedef struct MethodData MethodData;
-
-#endif

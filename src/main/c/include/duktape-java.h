@@ -34,10 +34,10 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_put
 /*
  * Class:     at_renehollander_duktape_Duktape
  * Method:    registerMethod
- * Signature: (Ljava/lang/String;Ljava/lang/Object;Ljava/lang/reflect/Method;)V
+ * Signature: (Ljava/lang/String;Ljava/lang/Object;Ljava/lang/reflect/Method;I)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_registerMethod
-  (JNIEnv *, jobject, jstring, jobject, jobject);
+  (JNIEnv *, jobject, jstring, jobject, jobject, jint);
 
 /*
  * Class:     at_renehollander_duktape_Duktape

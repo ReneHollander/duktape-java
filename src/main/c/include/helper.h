@@ -1,10 +1,7 @@
-#ifndef HELPER_H
-#define HELPER_H
+#pragma once
 
 #include "jni.h"
 
 extern JavaVM *jvm;
 
 JNIEnv* getJNIEnv();
-
-#endif

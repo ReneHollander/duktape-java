@@ -28,7 +28,7 @@ public class Duktape {
 
     public native void put(String name, String value);
 
-    public native void registerMethod(String name, Object object, Method method);
+    public native void registerMethod(String name, Object callerObject, Method method, int paramCount);
 
     public native void execute(String script);
 
