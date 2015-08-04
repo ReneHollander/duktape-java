@@ -13,10 +13,6 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     return JNI_VERSION_1_6;
 }
 
-duk_context* getContextFromObject(JNIEnv *env, jobject obj) {
-    return (duk_context *) env->GetLongField(obj, fieldIdCache.AtReneHollanderDuktapeDuktapeContextPtr);
-}
-
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_createContext(JNIEnv *env, jobject obj) {
     duk_context *ctx = duk_create_heap_default();
     duj_ref_setup(ctx);

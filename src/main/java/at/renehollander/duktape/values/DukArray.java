@@ -10,7 +10,7 @@ import java.util.ListIterator;
 public class DukArray extends DukReferencedValue implements List<DukValue> {
 
     public DukArray(Duktape parent) {
-        super(parent, Creator.createEmptyArray(parent));
+        super(parent, createEmptyArray(parent));
     }
 
     private DukArray(Duktape parent, int ref) {
@@ -141,4 +141,6 @@ public class DukArray extends DukReferencedValue implements List<DukValue> {
     public List<DukValue> subList(int fromIndex, int toIndex) {
         return null;
     }
+
+    private native static int createEmptyArray(Duktape parent);
 }

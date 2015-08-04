@@ -7,6 +7,14 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+/*
+ * Class:     at_renehollander_duktape_values_DukArray
+ * Method:    createEmptyArray
+ * Signature: (Lat/renehollander/duktape/Duktape;)I
+ */
+JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukArray_createEmptyArray
+  (JNIEnv *, jclass, jobject);
+
 #ifdef __cplusplus
 }
 #endif

@@ -9,7 +9,7 @@ import java.util.Set;
 public class DukObject extends DukReferencedValue implements Map<String, DukValue> {
 
     public DukObject(Duktape parent) {
-        super(parent, Creator.createEmptyObject(parent));
+        super(parent, createEmptyObject(parent));
     }
 
     private DukObject(Duktape parent, int ref) {
@@ -25,6 +25,8 @@ public class DukObject extends DukReferencedValue implements Map<String, DukValu
     public DukObject asObject() {
         return this;
     }
+
+    public native String toJSON();
 
     @Override
     public int size() {
@@ -52,9 +54,7 @@ public class DukObject extends DukReferencedValue implements Map<String, DukValu
     }
 
     @Override
-    public DukValue put(String key, DukValue value) {
-        return null;
-    }
+    public native DukValue put(String key, DukValue value);
 
     @Override
     public DukValue remove(Object key) {
@@ -83,4 +83,7 @@ public class DukObject extends DukReferencedValue implements Map<String, DukValu
     public Set<Entry<String, DukValue>> entrySet() {
         return null;
     }
+
+    private native static int createEmptyObject(Duktape parent);
+
 }

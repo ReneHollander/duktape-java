@@ -1,5 +1,4 @@
-#ifndef duj_REFS_H
-#define duj_REFS_H
+#pragma once
 
 #include "duktape.h"
 
@@ -9,5 +8,3 @@ void duj_ref_setup(duk_context *ctx);
 int duj_ref(duk_context *ctx);
 void duj_push_ref(duk_context *ctx, int ref);
 void duj_unref(duk_context *ctx, int ref);
-
-#endif

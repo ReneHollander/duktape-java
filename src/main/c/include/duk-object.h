@@ -7,6 +7,30 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+/*
+ * Class:     at_renehollander_duktape_values_DukObject
+ * Method:    toJSON
+ * Signature: ()Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_at_renehollander_duktape_values_DukObject_toJSON
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     at_renehollander_duktape_values_DukObject
+ * Method:    put
+ * Signature: (Ljava/lang/String;Lat/renehollander/duktape/values/DukValue;)Lat/renehollander/duktape/values/DukValue;
+ */
+JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukObject_put
+  (JNIEnv *, jobject, jstring, jobject);
+
+/*
+ * Class:     at_renehollander_duktape_values_DukObject
+ * Method:    createEmptyObject
+ * Signature: (Lat/renehollander/duktape/Duktape;)I
+ */
+JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukObject_createEmptyObject
+  (JNIEnv *, jclass, jobject);
+
 #ifdef __cplusplus
 }
 #endif

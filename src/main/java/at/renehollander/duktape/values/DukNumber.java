@@ -6,8 +6,17 @@ public class DukNumber extends DukValue {
 
     private double value;
 
-    public DukNumber(Duktape parent) {
+    public DukNumber(Duktape parent, double value) {
         super(parent);
+        this.value = value;
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
     }
 
     @Override

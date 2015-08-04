@@ -8,6 +8,7 @@ public abstract class DukReferencedValue extends DukValue {
 
     protected DukReferencedValue(Duktape parent, int ref) {
         super(parent);
+        this.ref = ref;
     }
 
     public int getRef() {
