@@ -5,6 +5,7 @@
 #include "cache.h"
 #include "helper.h"
 #include "objectwrapper.h"
+#include "refs.h"
 
 jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     jvm = vm;
@@ -18,6 +19,7 @@ duk_context* getContextFromObject(JNIEnv *env, jobject obj) {
 
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_createContext(JNIEnv *env, jobject obj) {
     duk_context *ctx = duk_create_heap_default();
+    duj_ref_setup(ctx);
     env->SetLongField(obj, fieldIdCache.AtReneHollanderDuktapeDuktapeContextPtr, (jlong) ctx);
 }
 
@@ -29,28 +31,15 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_destroyContext(JNIE
 int methodExecutor(duk_context *ctx) {
     JNIEnv* env = getJNIEnv();
 
-    duk_push_heap_stash(ctx);
+    duk_push_current_function(ctx);
     duk_get_prop_index(ctx, -1, 0);
+    int ref = duk_get_int(ctx, -1);
+
     duk_size_t size;
+    duj_push_ref(ctx, ref);
     MethodData* methodData = (MethodData*) duk_get_buffer(ctx, -1, &size);
-    duk_pop(ctx);
 
-    //int n = duk_get_top(ctx);  /* #args */
-
-    //const jvalue args[2] = {5, 0x00};
-
-    //jobjectArray params = env->NewObjectArray(1, classCache.object, NULL);
-    //env->SetObjectArrayElement(params, 0, wrapInteger(5));
-    /*
-
-    DUK_TYPE_UNDEFINED
-    DUK_TYPE_NULL
-    DUK_TYPE_BOOLEAN
-    DUK_TYPE_NUMBER
-    DUK_TYPE_STRING
-    DUK_TYPE_OBJECT
-    */
-
+    // just testing if I can call something from c++
     env->CallObjectMethod(methodData->callerObject, methodData->methodID, wrapInteger(env, 5), wrapLong(env, 7));
 
     return 0;
@@ -60,16 +49,16 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_registerMethod(JNIE
     const char *name = env->GetStringUTFChars(jName, 0);
     duk_context* ctx = getContextFromObject(env, obj);
 
-    duk_push_heap_stash(ctx);
     MethodData* methodData = (MethodData*) duk_push_fixed_buffer(ctx, sizeof(MethodData));
-    duk_put_prop_index(ctx, -2, 0);
-    duk_pop(ctx);
+    int ref = duj_ref(ctx);
 
     methodData->callerObject = jObject;
     methodData->methodID = env->FromReflectedMethod(jMethod);
 
     duk_push_global_object(ctx);
     duk_push_c_function(ctx, methodExecutor, paramCount);
+    duk_push_int(ctx, ref);
+    duk_put_prop_index(ctx, -2, 0);
     duk_put_prop_string(ctx, -2, name);
     duk_pop(ctx);
 
