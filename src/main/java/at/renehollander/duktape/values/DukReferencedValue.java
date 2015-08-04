@@ -23,4 +23,14 @@ public abstract class DukReferencedValue extends DukValue {
         super.finalize();
         this.unref();
     }
+
+    @Override
+    public boolean isReferenceValue() {
+        return true;
+    }
+
+    @Override
+    public DukReferencedValue asReferencedValue() {
+        return this;
+    }
 }

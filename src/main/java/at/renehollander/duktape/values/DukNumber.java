@@ -2,7 +2,7 @@ package at.renehollander.duktape.values;
 
 import at.renehollander.duktape.Duktape;
 
-public class DukNumber extends DukValue {
+public final class DukNumber extends DukValue {
 
     private double value;
 

@@ -7,13 +7,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class DukArray extends DukReferencedValue implements List<DukValue> {
+public final class DukArray extends DukReferencedValue implements List<DukValue> {
 
     public DukArray(Duktape parent) {
         super(parent, createEmptyArray(parent));
     }
 
-    private DukArray(Duktape parent, int ref) {
+    protected DukArray(Duktape parent, int ref) {
         super(parent, ref);
     }
 

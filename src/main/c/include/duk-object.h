@@ -17,11 +17,51 @@ JNIEXPORT jstring JNICALL Java_at_renehollander_duktape_values_DukObject_toJSON
 
 /*
  * Class:     at_renehollander_duktape_values_DukObject
- * Method:    put
- * Signature: (Ljava/lang/String;Lat/renehollander/duktape/values/DukValue;)Lat/renehollander/duktape/values/DukValue;
+ * Method:    _putDouble
+ * Signature: (Ljava/lang/String;D)V
  */
-JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukObject_put
-  (JNIEnv *, jobject, jstring, jobject);
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putDouble
+  (JNIEnv *, jobject, jstring, jdouble);
+
+/*
+ * Class:     at_renehollander_duktape_values_DukObject
+ * Method:    _putBoolean
+ * Signature: (Ljava/lang/String;Z)V
+ */
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putBoolean
+  (JNIEnv *, jobject, jstring, jboolean);
+
+/*
+ * Class:     at_renehollander_duktape_values_DukObject
+ * Method:    _putString
+ * Signature: (Ljava/lang/String;Ljava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putString
+  (JNIEnv *, jobject, jstring, jstring);
+
+/*
+ * Class:     at_renehollander_duktape_values_DukObject
+ * Method:    _putUndefined
+ * Signature: (Ljava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putUndefined
+  (JNIEnv *, jobject, jstring);
+
+/*
+ * Class:     at_renehollander_duktape_values_DukObject
+ * Method:    _putNull
+ * Signature: (Ljava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putNull
+  (JNIEnv *, jobject, jstring);
+
+/*
+ * Class:     at_renehollander_duktape_values_DukObject
+ * Method:    _putReference
+ * Signature: (Ljava/lang/String;I)V
+ */
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putReference
+  (JNIEnv *, jobject, jstring, jint);
 
 /*
  * Class:     at_renehollander_duktape_values_DukObject

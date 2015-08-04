@@ -2,7 +2,7 @@ package at.renehollander.duktape.values;
 
 import at.renehollander.duktape.Duktape;
 
-public class DukBoolean extends DukValue {
+public final class DukBoolean extends DukValue {
 
     private boolean value;
 
@@ -17,5 +17,15 @@ public class DukBoolean extends DukValue {
 
     public void setValue(boolean value) {
         this.value = value;
+    }
+
+    @Override
+    public boolean isBoolean() {
+        return true;
+    }
+
+    @Override
+    public boolean asBoolean() {
+        return this.value;
     }
 }

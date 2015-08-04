@@ -22,6 +22,14 @@ public abstract class DukValue {
         throw new WrongValueTypeException("Number");
     }
 
+    public boolean isBoolean() {
+        return false;
+    }
+
+    public boolean asBoolean() {
+        throw new WrongValueTypeException("Boolean");
+    }
+
     public boolean isString() {
         return false;
     }
@@ -68,6 +76,14 @@ public abstract class DukValue {
 
     public DukNull asNull() {
         throw new WrongValueTypeException("Null");
+    }
+
+    public boolean isReferenceValue() {
+        return false;
+    }
+
+    public DukReferencedValue asReferencedValue() {
+        throw new WrongValueTypeException("ReferencedValue");
     }
 
     public <T> T as() {

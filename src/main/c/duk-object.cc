@@ -10,41 +10,70 @@ JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukObject_createEmpt
     return duj_ref(ctx);
 }
 
-JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukObject_put(JNIEnv *env, jobject dukObject, jstring jName, jobject jValue) {
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putDouble(JNIEnv *env, jobject dukObject, jstring jKey, jdouble jValue) {
+    const char *key = env->GetStringUTFChars(jKey, 0);
     duk_context *ctx = getContextFromDukValue(env, dukObject);
     duj_push_ref(ctx, getRefFromDukReferencedValue(env, dukObject));
-    const char *name = env->GetStringUTFChars(jName, 0);
-
-    if (env->IsInstanceOf(jValue, classCache.AtReneHollanderDuktapeValuesDukNumber)) {
-        duk_push_number(ctx, env->GetDoubleField(jValue, fieldIdCache.AtReneHollanderDuktapeValuesDukNumberValue));
-    } else if (env->IsInstanceOf(jValue, classCache.AtReneHollanderDuktapeValuesDukNull)) {
-        duk_push_null(ctx);
-    } else if (env->IsInstanceOf(jValue, classCache.AtReneHollanderDuktapeValuesDukUndefined)) {
-        duk_push_undefined(ctx);
-    } else if (env->IsInstanceOf(jValue, classCache.AtReneHollanderDuktapeValuesDukBoolean)) {
-        bool value = env->GetBooleanField(jValue, fieldIdCache.AtReneHollanderDuktapeValuesDukBooleanValue);
-        duk_push_boolean(ctx, value);
-    } else if (env->IsInstanceOf(jValue, classCache.AtReneHollanderDuktapeValuesDukString)) {
-        jstring jStringValue = (jstring) env->GetObjectField(jValue, fieldIdCache.AtReneHollanderDuktapeValuesDukStringValue);
-        if (jStringValue == 0) {
-            duk_push_null(ctx);
-        } else {
-            const char *stringValue = env->GetStringUTFChars(jStringValue, 0);
-            duk_push_string(ctx, stringValue);
-            env->ReleaseStringUTFChars(jStringValue, stringValue);
-        }
-    } else if (env->IsInstanceOf(jValue, classCache.AtReneHollanderDuktapeValuesDukReferencedValue)) {
-        int valueRef = getRefFromDukReferencedValue(env, jValue);
-        duj_push_ref(ctx, valueRef);
-    } else {
-        fprintf(stderr, "unknown type");
-        exit(1);
-    }
-
-    duk_put_prop_string(ctx, -2, name);
+    duk_push_number(ctx, jValue);
+    duk_put_prop_string(ctx, -2, key);
     duk_pop(ctx);
+    env->ReleaseStringUTFChars(jKey, key);
+}
 
-    env->ReleaseStringUTFChars(jName, name);
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putBoolean(JNIEnv *env, jobject dukObject, jstring jKey, jboolean jValue) {
+    const char *key = env->GetStringUTFChars(jKey, 0);
+    duk_context *ctx = getContextFromDukValue(env, dukObject);
+    duj_push_ref(ctx, getRefFromDukReferencedValue(env, dukObject));
+    duk_push_boolean(ctx, jValue);
+    duk_put_prop_string(ctx, -2, key);
+    duk_pop(ctx);
+    env->ReleaseStringUTFChars(jKey, key);
+}
+
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putString(JNIEnv *env, jobject dukObject, jstring jKey, jstring jValue) {
+    const char *key = env->GetStringUTFChars(jKey, 0);
+    duk_context *ctx = getContextFromDukValue(env, dukObject);
+    duj_push_ref(ctx, getRefFromDukReferencedValue(env, dukObject));
+    if (jValue != NULL) {
+        const char *value = env->GetStringUTFChars(jValue, 0);
+        duk_push_string(ctx, value);
+        env->ReleaseStringUTFChars(jValue, value);
+    } else {
+        duk_push_null(ctx);
+    }
+    duk_put_prop_string(ctx, -2, key);
+    duk_pop(ctx);
+    env->ReleaseStringUTFChars(jKey, key);
+}
+
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putUndefined(JNIEnv *env, jobject dukObject, jstring jKey) {
+    const char *key = env->GetStringUTFChars(jKey, 0);
+    duk_context *ctx = getContextFromDukValue(env, dukObject);
+    duj_push_ref(ctx, getRefFromDukReferencedValue(env, dukObject));
+    duk_push_undefined(ctx);
+    duk_put_prop_string(ctx, -2, key);
+    duk_pop(ctx);
+    env->ReleaseStringUTFChars(jKey, key);
+}
+
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putNull(JNIEnv *env, jobject dukObject, jstring jKey) {
+    const char *key = env->GetStringUTFChars(jKey, 0);
+    duk_context *ctx = getContextFromDukValue(env, dukObject);
+    duj_push_ref(ctx, getRefFromDukReferencedValue(env, dukObject));
+    duk_push_null(ctx);
+    duk_put_prop_string(ctx, -2, key);
+    duk_pop(ctx);
+    env->ReleaseStringUTFChars(jKey, key);
+}
+
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putReference(JNIEnv *env, jobject dukObject, jstring jKey, jint jValue) {
+    const char *key = env->GetStringUTFChars(jKey, 0);
+    duk_context *ctx = getContextFromDukValue(env, dukObject);
+    duj_push_ref(ctx, getRefFromDukReferencedValue(env, dukObject));
+    duj_push_ref(ctx, jValue);
+    duk_put_prop_string(ctx, -2, key);
+    duk_pop(ctx);
+    env->ReleaseStringUTFChars(jKey, key);
 }
 
 JNIEXPORT jstring JNICALL Java_at_renehollander_duktape_values_DukObject_toJSON(JNIEnv *env, jobject dukObject) {
