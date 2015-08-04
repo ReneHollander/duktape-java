@@ -17,4 +17,9 @@ public final class DukNull extends DukValue {
     public DukNull asNull() {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return null;
+    }
 }

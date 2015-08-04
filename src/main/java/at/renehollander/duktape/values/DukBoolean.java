@@ -28,4 +28,9 @@ public final class DukBoolean extends DukValue {
     public boolean asBoolean() {
         return this.value;
     }
+
+    @Override
+    public String toString() {
+        return Boolean.toString(value);
+    }
 }

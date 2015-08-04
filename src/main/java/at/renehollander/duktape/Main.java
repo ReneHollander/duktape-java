@@ -24,9 +24,23 @@ public class Main {
         object.put("innerObject", innerObject);
         object.put("innerArray", innerArray);
 
+        System.out.println(object.containsKey("innerArray"));
+
         innerObject.put("oi", "m8");
 
         System.out.println(object.toJSON());
+        System.out.println(object.size());
+
+        System.out.println(object.get("numberValue"));
+        System.out.println(object.get("stringValue"));
+
+        object.remove("numberValue");
+        System.out.println(object);
+
+
+        object.clear();
+        System.out.println(object);
+
 
         Object method = (Function.TwoArg.WithoutReturn<Integer, Long>) Main::lol;
         Class<?> clazz = method.getClass();

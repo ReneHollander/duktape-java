@@ -109,7 +109,6 @@ public final class DukArray extends DukReferencedValue implements List<DukValue>
 
     @Override
     public void add(int index, DukValue element) {
-
     }
 
     @Override
@@ -143,4 +142,5 @@ public final class DukArray extends DukReferencedValue implements List<DukValue>
     }
 
     private native static int createEmptyArray(Duktape parent);
+
 }

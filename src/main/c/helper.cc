@@ -19,7 +19,11 @@ duk_context* getContextFromObject(JNIEnv *env, jobject obj) {
 }
 
 duk_context* getContextFromDukValue(JNIEnv *env, jobject dukValue) {
-    return getContextFromObject(env, env->GetObjectField(dukValue, fieldIdCache.AtReneHollanderDuktapeValuesDukValueParent));
+    return getContextFromObject(env, getParentDuktapeFromDukValue(env, dukValue));
+}
+
+jobject getParentDuktapeFromDukValue(JNIEnv *env, jobject dukValue) {
+    return env->GetObjectField(dukValue, fieldIdCache.AtReneHollanderDuktapeValuesDukValueParent);
 }
 
 jint getRefFromDukReferencedValue(JNIEnv *env, jobject obj) {

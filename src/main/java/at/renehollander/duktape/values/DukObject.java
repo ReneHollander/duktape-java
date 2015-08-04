@@ -113,10 +113,7 @@ public final class DukObject extends DukReferencedValue implements Map<String, D
     private native void _putReference(String key, int ref);
 
     @Override
-    public int size() {
-        // TODO needs implementation
-        return 0;
-    }
+    public native int size();
 
     @Override
     public boolean isEmpty() {
@@ -125,26 +122,43 @@ public final class DukObject extends DukReferencedValue implements Map<String, D
 
     @Override
     public boolean containsKey(Object key) {
-        return get(key) != null;
+        return key instanceof String && _containsKey((String) key);
     }
+
+    private native boolean _containsKey(String key);
 
     @Override
     public boolean containsValue(Object value) {
+        if (!(value instanceof DukValue)) {
+            return false;
+        }
         // TODO needs implementation
         return false;
     }
 
     @Override
     public DukValue get(Object key) {
-        // TODO needs implementation
-        return null;
+        if (!(key instanceof String)) {
+            return new DukUndefined(this.getParent());
+        }
+        return _get((String) key);
     }
+
+    private native DukValue _get(String key);
 
     @Override
     public DukValue remove(Object key) {
-        // TODO needs implementation
-        return null;
+        if (!(key instanceof String)) return new DukUndefined(this.getParent());
+        DukValue oldValue = get(key);
+        if (oldValue == null) {
+            return new DukUndefined(this.getParent());
+        } else {
+            this._remove((String) key);
+            return oldValue;
+        }
     }
+
+    private native void _remove(String key);
 
     @Override
     public void putAll(Map<? extends String, ? extends DukValue> m) {
@@ -152,9 +166,7 @@ public final class DukObject extends DukReferencedValue implements Map<String, D
     }
 
     @Override
-    public void clear() {
-        // TODO needs implementation
-    }
+    public native void clear();
 
     @Override
     public Set<String> keySet() {

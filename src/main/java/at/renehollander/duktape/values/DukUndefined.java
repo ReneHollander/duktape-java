@@ -18,4 +18,8 @@ public final class DukUndefined extends DukValue {
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "undefined";
+    }
 }

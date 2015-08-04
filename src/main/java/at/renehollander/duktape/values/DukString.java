@@ -28,4 +28,9 @@ public final class DukString extends DukValue {
     public String asString() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

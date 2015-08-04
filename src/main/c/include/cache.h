@@ -8,12 +8,12 @@ struct ClassCache {
     jclass JavaLangLong;
     jclass AtReneHollanderDuktapeDuktape;
     jclass AtReneHollanderDuktapeValuesDukValue;
+    jclass AtReneHollanderDuktapeValuesDukReferencedValue;
     jclass AtReneHollanderDuktapeValuesDukArray;
     jclass AtReneHollanderDuktapeValuesDukFunction;
     jclass AtReneHollanderDuktapeValuesDukNull;
     jclass AtReneHollanderDuktapeValuesDukNumber;
     jclass AtReneHollanderDuktapeValuesDukObject;
-    jclass AtReneHollanderDuktapeValuesDukReferencedValue;
     jclass AtReneHollanderDuktapeValuesDukString;
     jclass AtReneHollanderDuktapeValuesDukUndefined;
     jclass AtReneHollanderDuktapeValuesDukBoolean;
@@ -23,6 +23,14 @@ typedef struct ClassCache ClassCache;
 struct MethodIDCache {
     jmethodID JavaLangIntegerInit;
     jmethodID JavaLangLongInit;
+    jmethodID AtReneHollanderDuktapeValuesDukArrayInit;
+    jmethodID AtReneHollanderDuktapeValuesDukFunctionInit;
+    jmethodID AtReneHollanderDuktapeValuesDukNullInit;
+    jmethodID AtReneHollanderDuktapeValuesDukNumberInit;
+    jmethodID AtReneHollanderDuktapeValuesDukObjectInit;
+    jmethodID AtReneHollanderDuktapeValuesDukStringInit;
+    jmethodID AtReneHollanderDuktapeValuesDukUndefinedInit;
+    jmethodID AtReneHollanderDuktapeValuesDukBooleanInit;
 };
 typedef struct MethodIDCache MethodIDCache;
 

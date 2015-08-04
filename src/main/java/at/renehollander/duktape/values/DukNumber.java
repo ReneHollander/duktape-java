@@ -29,4 +29,8 @@ public final class DukNumber extends DukValue {
         return value;
     }
 
+    @Override
+    public String toString() {
+        return Double.toString(value);
+    }
 }

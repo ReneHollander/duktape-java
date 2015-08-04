@@ -82,6 +82,5 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_execute(JNIEnv *env
         printf("eval failed: %s\n", duk_safe_to_string(ctx, -1));
     }
     duk_pop(ctx);
-
     env->ReleaseStringUTFChars(script, nativeScript);
 }
