@@ -2,16 +2,20 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 
-task javah {
-    String inputClass = 'at.renehollander.duktape.Duktape';
-    String inputClassPath = inputClass.replaceAll('\\.', '/') + ".class"
-    String outputFile = "src/main/c/include/duktape-java.h"
-    delete(outputFile)
-    inputs.file sourceSets.main.output.asFileTree.matching {
-        include inputClassPath
-    }
-    outputs.file outputFile
+task javah(dependsOn: [build]) {
     doLast {
-        ant.javah(class: inputClass, outputFile: outputFile, classpath: sourceSets.main.output.asPath)
+        def classes = [
+                'at.renehollander.duktape.Duktape'                  : 'src/main/c/include/duktape-java.h',
+                'at.renehollander.duktape.values.Creator'           : 'src/main/c/include/creator.h',
+                'at.renehollander.duktape.values.DukReferencedValue': 'src/main/c/include/duk-referenced-value.h',
+                'at.renehollander.duktape.values.DukFunction'       : 'src/main/c/include/duk-function.h',
+                'at.renehollander.duktape.values.DukObject'         : 'src/main/c/include/duk-object.h',
+                'at.renehollander.duktape.values.DukArray'          : 'src/main/c/include/duk-array.h'
+        ]
+        classes.each { inputClass, outputFile ->
+            // println inputClass + ": " + outputFile
+            delete(outputFile)
+            ant.javah(class: inputClass, outputFile: outputFile, classpath: sourceSets.main.output.asPath)
+        }
     }
 }
