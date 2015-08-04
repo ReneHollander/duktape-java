@@ -22,6 +22,10 @@ public class Duktape {
         destroyContext();
     }
 
+    public long getContextPtr() {
+        return contextPtr;
+    }
+
     private native void createContext();
 
     private native void destroyContext();
