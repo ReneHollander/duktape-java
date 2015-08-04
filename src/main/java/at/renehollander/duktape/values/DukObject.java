@@ -114,54 +114,63 @@ public final class DukObject extends DukReferencedValue implements Map<String, D
 
     @Override
     public int size() {
+        // TODO needs implementation
         return 0;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size() == 0;
     }
 
     @Override
     public boolean containsKey(Object key) {
-        return false;
+        return get(key) != null;
     }
 
     @Override
     public boolean containsValue(Object value) {
+        // TODO needs implementation
         return false;
     }
 
     @Override
     public DukValue get(Object key) {
+        // TODO needs implementation
         return null;
     }
 
     @Override
     public DukValue remove(Object key) {
+        // TODO needs implementation
         return null;
     }
 
     @Override
     public void putAll(Map<? extends String, ? extends DukValue> m) {
+        m.forEach(this::put);
     }
 
     @Override
     public void clear() {
+        // TODO needs implementation
     }
 
     @Override
     public Set<String> keySet() {
+        // TODO needs implementation
         return null;
     }
 
     @Override
     public Collection<DukValue> values() {
+        // TODO needs implementation
         return null;
     }
 
     @Override
     public Set<Entry<String, DukValue>> entrySet() {
+        // TODO needs implementation
         return null;
     }
 

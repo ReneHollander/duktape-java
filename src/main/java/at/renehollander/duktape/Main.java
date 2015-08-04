@@ -23,7 +23,7 @@ public class Main {
         object.put("booleanValue", false);
         object.put("innerObject", innerObject);
         object.put("innerArray", innerArray);
-        
+
         innerObject.put("oi", "m8");
 
         System.out.println(object.toJSON());
