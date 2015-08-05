@@ -18,3 +18,19 @@ task javah(dependsOn: [build]) {
         }
     }
 }
+
+def mainClassName = "at.renehollander.duktape.Main"
+
+task fatJar(type: Jar) {
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
+
+jar {
+    actions = []
+    dependsOn = []
+    dependsOn('fatJar')
+}

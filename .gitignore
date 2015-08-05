@@ -3,3 +3,8 @@
 /*.iml
 /*.ipr
 /*.iws
+/.idea/
+*.log
+*.so
+*.dll
+*.dylib

@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 public class Duktape {
 
     static {
-        File libraryFile = new File("build/libduktape-java.so");
+        File libraryFile = new File("lib/libduktape-java.so");
         System.load(libraryFile.getAbsolutePath());
     }
 
@@ -35,5 +35,7 @@ public class Duktape {
     public native void registerMethod(String name, Object callerObject, Method method, int paramCount);
 
     public native void execute(String script);
+
+    public native long getHeapUsage();
 
 }

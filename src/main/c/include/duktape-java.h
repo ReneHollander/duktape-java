@@ -47,6 +47,14 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_registerMethod
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_execute
   (JNIEnv *, jobject, jstring);
 
+/*
+ * Class:     at_renehollander_duktape_Duktape
+ * Method:    getHeapUsage
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_at_renehollander_duktape_Duktape_getHeapUsage
+  (JNIEnv *, jobject);
+
 #ifdef __cplusplus
 }
 #endif

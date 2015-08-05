@@ -8,6 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         Duktape duktape = new Duktape();
+        System.out.println("Initial Memory Usage: " + duktape.getHeapUsage());
 
         DukArray innerArray = new DukArray(duktape);
 
@@ -37,10 +38,12 @@ public class Main {
         object.remove("numberValue");
         System.out.println(object);
 
+        System.out.println("Memory Usage: " + duktape.getHeapUsage());
 
         object.clear();
         System.out.println(object);
 
+        System.out.println("Memory Usage: " + duktape.getHeapUsage());
 
         Object method = (Function.TwoArg.WithoutReturn<Integer, Long>) Main::lol;
         Class<?> clazz = method.getClass();
