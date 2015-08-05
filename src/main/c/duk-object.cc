@@ -143,8 +143,7 @@ JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukObject__1get(J
     duj_push_ref(ctx, getRefFromDukReferencedValue(env, dukObject));
 
     duk_get_prop_string(ctx, -1, key);
-    int type = duk_get_type(ctx, 1);
-
+    int type = duk_get_type(ctx, -1);
     jobject retVal = NULL;
     if (type == DUK_TYPE_NUMBER) {
         retVal = env->NewObject(

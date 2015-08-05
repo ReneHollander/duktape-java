@@ -2,9 +2,7 @@ package at.renehollander.duktape.values;
 
 import at.renehollander.duktape.Duktape;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public final class DukObject extends DukReferencedValue implements Map<String, DukValue> {
 
@@ -25,8 +23,6 @@ public final class DukObject extends DukReferencedValue implements Map<String, D
     public DukObject asObject() {
         return this;
     }
-
-    public native String toJSON();
 
     public DukValue put(String key, DukValue value) {
         if (value.isNumber()) {
@@ -100,21 +96,6 @@ public final class DukObject extends DukReferencedValue implements Map<String, D
         return old;
     }
 
-    private native void _putDouble(String key, double value);
-
-    private native void _putBoolean(String key, boolean value);
-
-    private native void _putString(String key, String value);
-
-    private native void _putUndefined(String key);
-
-    private native void _putNull(String key);
-
-    private native void _putReference(String key, int ref);
-
-    @Override
-    public native int size();
-
     @Override
     public boolean isEmpty() {
         return size() == 0;
@@ -124,8 +105,6 @@ public final class DukObject extends DukReferencedValue implements Map<String, D
     public boolean containsKey(Object key) {
         return key instanceof String && _containsKey((String) key);
     }
-
-    private native boolean _containsKey(String key);
 
     @Override
     public boolean containsValue(Object value) {
@@ -144,7 +123,6 @@ public final class DukObject extends DukReferencedValue implements Map<String, D
         return _get((String) key);
     }
 
-    private native DukValue _get(String key);
 
     @Override
     public DukValue remove(Object key) {
@@ -158,19 +136,15 @@ public final class DukObject extends DukReferencedValue implements Map<String, D
         }
     }
 
-    private native void _remove(String key);
-
     @Override
     public void putAll(Map<? extends String, ? extends DukValue> m) {
         m.forEach(this::put);
     }
 
     @Override
-    public native void clear();
-
-    @Override
     public Set<String> keySet() {
         // TODO needs implementation
+        new HashSet<String>();
         return null;
     }
 
@@ -190,6 +164,32 @@ public final class DukObject extends DukReferencedValue implements Map<String, D
     public String toString() {
         return this.toJSON();
     }
+
+    @Override
+    public native int size();
+
+    @Override
+    public native void clear();
+
+    public native String toJSON();
+
+    private native boolean _containsKey(String key);
+
+    private native DukValue _get(String key);
+
+    private native void _remove(String key);
+
+    private native void _putDouble(String key, double value);
+
+    private native void _putBoolean(String key, boolean value);
+
+    private native void _putString(String key, String value);
+
+    private native void _putUndefined(String key);
+
+    private native void _putNull(String key);
+
+    private native void _putReference(String key, int ref);
 
     private native static int createEmptyObject(Duktape parent);
 

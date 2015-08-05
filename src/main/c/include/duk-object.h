@@ -9,11 +9,51 @@ extern "C" {
 #endif
 /*
  * Class:     at_renehollander_duktape_values_DukObject
+ * Method:    size
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukObject_size
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     at_renehollander_duktape_values_DukObject
+ * Method:    clear
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject_clear
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     at_renehollander_duktape_values_DukObject
  * Method:    toJSON
  * Signature: ()Ljava/lang/String;
  */
 JNIEXPORT jstring JNICALL Java_at_renehollander_duktape_values_DukObject_toJSON
   (JNIEnv *, jobject);
+
+/*
+ * Class:     at_renehollander_duktape_values_DukObject
+ * Method:    _containsKey
+ * Signature: (Ljava/lang/String;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_at_renehollander_duktape_values_DukObject__1containsKey
+  (JNIEnv *, jobject, jstring);
+
+/*
+ * Class:     at_renehollander_duktape_values_DukObject
+ * Method:    _get
+ * Signature: (Ljava/lang/String;)Lat/renehollander/duktape/values/DukValue;
+ */
+JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukObject__1get
+  (JNIEnv *, jobject, jstring);
+
+/*
+ * Class:     at_renehollander_duktape_values_DukObject
+ * Method:    _remove
+ * Signature: (Ljava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1remove
+  (JNIEnv *, jobject, jstring);
 
 /*
  * Class:     at_renehollander_duktape_values_DukObject
@@ -62,46 +102,6 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putNull
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putReference
   (JNIEnv *, jobject, jstring, jint);
-
-/*
- * Class:     at_renehollander_duktape_values_DukObject
- * Method:    size
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukObject_size
-  (JNIEnv *, jobject);
-
-/*
- * Class:     at_renehollander_duktape_values_DukObject
- * Method:    _containsKey
- * Signature: (Ljava/lang/String;)Z
- */
-JNIEXPORT jboolean JNICALL Java_at_renehollander_duktape_values_DukObject__1containsKey
-  (JNIEnv *, jobject, jstring);
-
-/*
- * Class:     at_renehollander_duktape_values_DukObject
- * Method:    _get
- * Signature: (Ljava/lang/String;)Lat/renehollander/duktape/values/DukValue;
- */
-JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukObject__1get
-  (JNIEnv *, jobject, jstring);
-
-/*
- * Class:     at_renehollander_duktape_values_DukObject
- * Method:    _remove
- * Signature: (Ljava/lang/String;)V
- */
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1remove
-  (JNIEnv *, jobject, jstring);
-
-/*
- * Class:     at_renehollander_duktape_values_DukObject
- * Method:    clear
- * Signature: ()V
- */
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject_clear
-  (JNIEnv *, jobject);
 
 /*
  * Class:     at_renehollander_duktape_values_DukObject

@@ -35,8 +35,8 @@ public class Main {
         System.out.println(object.toJSON());
         System.out.println(object.size());
 
-        System.out.println(object.get("numberValue"));
-        System.out.println(object.get("stringValue"));
+        System.out.println("numberValue: " + object.get("numberValue"));
+        System.out.println("stringValue: " + object.get("stringValue"));
 
         object.remove("numberValue");
         System.out.println(object);
