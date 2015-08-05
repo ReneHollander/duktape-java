@@ -3,13 +3,25 @@ package at.renehollander.duktape;
 import at.renehollander.duktape.values.*;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) {
         Duktape duktape = new Duktape();
-        System.out.println("Initial Memory Usage: " + duktape.getHeapUsage());
 
+        DukObject innerObject = new DukObject(duktape);
+        innerObject.put("heyo", "captain jack");
+
+        DukArray array = new DukArray(duktape);
+        array.add(5);
+        array.add(10);
+        array.add(innerObject);
+        System.out.println(array);
+        System.out.println(array.size());
+
+        /*
+        System.out.println("Initial Memory Usage: " + duktape.getHeapUsage());
         DukArray innerArray = new DukArray(duktape);
 
         DukObject innerObject = new DukObject(duktape);
@@ -54,6 +66,8 @@ public class Main {
         duktape.registerMethod("testMethod", method, invokeMethod, invokeMethod.getParameterCount());
         duktape.put("testValue", "I am a test value");
         duktape.execute("testMethod();");
+
+        */
     }
 
     public static void lol(int i, long j) {

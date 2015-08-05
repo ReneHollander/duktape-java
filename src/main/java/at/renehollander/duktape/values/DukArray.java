@@ -27,10 +27,91 @@ public final class DukArray extends DukReferencedValue implements List<DukValue>
         return this;
     }
 
-    @Override
-    public int size() {
-        return 0;
+    /* ======================================================================== */
+    /* =========================== START add(value) =========================== */
+    /* ======================================================================== */
+
+    public boolean add(DukValue value) {
+        if (value.isNumber()) {
+            return add(value.asNumber());
+        } else if (value.isBoolean()) {
+            return add(value.asBoolean());
+        } else if (value.isString()) {
+            return add(value.asString());
+        } else if (value.isUndefined()) {
+            return addUndefined();
+        } else if (value.isNull()) {
+            return addNull();
+        } else if (value.isReferenceValue()) {
+            return add(value.asReferencedValue());
+        } else {
+            throw new WrongValueTypeException("Unknown DukValue");
+        }
     }
+
+    public boolean add(double value) {
+        this._addDouble(value);
+        return true;
+    }
+
+    public boolean add(boolean value) {
+        this._addBoolean(value);
+        return true;
+    }
+
+    public boolean add(String value) {
+        this._addString(value);
+        return true;
+    }
+
+    public boolean addUndefined() {
+        this._addUndefined();
+        return true;
+    }
+
+    public boolean addNull() {
+        this._addNull();
+        return true;
+    }
+
+    public boolean add(DukArray value) {
+        this._addReference(value.getRef());
+        return true;
+    }
+
+    public boolean add(DukObject value) {
+        this._addReference(value.getRef());
+        return true;
+    }
+
+    public boolean add(DukFunction value) {
+        this._addReference(value.getRef());
+        return true;
+    }
+
+    public boolean add(DukReferencedValue value) {
+        this._addReference(value.getRef());
+        return true;
+    }
+
+    private native void _addDouble(double value);
+
+    private native void _addBoolean(boolean value);
+
+    private native void _addString(String value);
+
+    private native void _addUndefined();
+
+    private native void _addNull();
+
+    private native void _addReference(int ref);
+
+    /* ======================================================================== */
+    /* =========================== END add(value) ============================= */
+    /* ======================================================================== */
+
+    @Override
+    public native int size();
 
     @Override
     public boolean isEmpty() {
@@ -55,11 +136,6 @@ public final class DukArray extends DukReferencedValue implements List<DukValue>
     @Override
     public <T> T[] toArray(T[] a) {
         return null;
-    }
-
-    @Override
-    public boolean add(DukValue value) {
-        return false;
     }
 
     @Override
@@ -140,6 +216,13 @@ public final class DukArray extends DukReferencedValue implements List<DukValue>
     public List<DukValue> subList(int fromIndex, int toIndex) {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return toJSON();
+    }
+
+    public native String toJSON();
 
     private native static int createEmptyArray(Duktape parent);
 
