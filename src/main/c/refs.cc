@@ -34,20 +34,20 @@ int duj_ref(duk_context *ctx) {
   // If there was a free slot, remove it from the list
   if (ref != 0) {
     // refs[0] = refs[ref]
-    duk_get_prop_index(ctx, -1, ref);
+    duk_get_prop_index(ctx, -1, (duk_uarridx_t) ref);
     duk_put_prop_index(ctx, -2, 0);
   }
   // Otherwise use the end of the list
   else {
     // ref = refs.length;
-    ref = duk_get_length(ctx, -1);
+    ref = (int) duk_get_length(ctx, -1);
   }
 
   // swap the array and the user value in the stack
   duk_insert(ctx, -2);
 
   // refs[ref] = value
-  duk_put_prop_index(ctx, -2, ref);
+  duk_put_prop_index(ctx, -2, (duk_uarridx_t) ref);
 
   // Remove the refs array from the stack.
   duk_pop(ctx);
@@ -65,7 +65,7 @@ void duj_push_ref(duk_context *ctx, int ref) {
   duk_get_prop_string(ctx, -1, "refs");
   duk_remove(ctx, -2);
 
-  duk_get_prop_index(ctx, -1, ref);
+  duk_get_prop_index(ctx, -1, (duk_uarridx_t) ref);
 
   duk_remove(ctx, -2);
 }
@@ -83,7 +83,7 @@ void duj_unref(duk_context *ctx, int ref) {
 
   // refs[ref] = refs[0]
   duk_get_prop_index(ctx, -1, 0);
-  duk_put_prop_index(ctx, -2, ref);
+  duk_put_prop_index(ctx, -2, (duk_uarridx_t) ref);
   // refs[0] = ref
   duk_push_int(ctx, ref);
   duk_put_prop_index(ctx, -2, 0);

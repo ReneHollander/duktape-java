@@ -94,7 +94,7 @@ JNIEXPORT jboolean JNICALL Java_at_renehollander_duktape_values_DukObject__1cont
     const char *key = env->GetStringUTFChars(jKey, 0);
     duk_context *ctx = getContextFromDukValue(env, dukObject);
     duj_push_ref(ctx, getRefFromDukReferencedValue(env, dukObject));
-    bool has = duk_has_prop_string(ctx, -1, key);
+    jboolean has = (jboolean) duk_has_prop_string(ctx, -1, key);
     duk_pop(ctx);
     env->ReleaseStringUTFChars(jKey, key);
     return has;
@@ -124,7 +124,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject_clear(JNIE
 JNIEXPORT jstring JNICALL Java_at_renehollander_duktape_values_DukObject_toJSON(JNIEnv *env, jobject dukObject) {
     duk_context *ctx = getContextFromDukValue(env, dukObject);
     duj_push_ref(ctx, getRefFromDukReferencedValue(env, dukObject));
-    const char* json = duk_json_encode(ctx, -1);
+    const char *json = duk_json_encode(ctx, -1);
     duk_pop(ctx);
     return env->NewStringUTF(json);
 }
@@ -139,36 +139,36 @@ JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukObject__1get(J
     jobject retVal = NULL;
     if (duk_is_number(ctx, -1)) {
         retVal = env->NewObject(
-            classCache.AtReneHollanderDuktapeValuesDukNumber,
-            methodIdCache.AtReneHollanderDuktapeValuesDukNumberInit,
-            getParentDuktapeFromDukValue(env, dukObject),
-            duk_get_number(ctx, -1)
+                classCache.AtReneHollanderDuktapeValuesDukNumber,
+                methodIdCache.AtReneHollanderDuktapeValuesDukNumberInit,
+                getParentDuktapeFromDukValue(env, dukObject),
+                duk_get_number(ctx, -1)
         );
     } else if (duk_is_boolean(ctx, -1)) {
         retVal = env->NewObject(
-            classCache.AtReneHollanderDuktapeValuesDukBoolean,
-            methodIdCache.AtReneHollanderDuktapeValuesDukBooleanInit,
-            getParentDuktapeFromDukValue(env, dukObject),
-            duk_get_boolean(ctx, -1)
+                classCache.AtReneHollanderDuktapeValuesDukBoolean,
+                methodIdCache.AtReneHollanderDuktapeValuesDukBooleanInit,
+                getParentDuktapeFromDukValue(env, dukObject),
+                duk_get_boolean(ctx, -1)
         );
     } else if (duk_is_string(ctx, -1)) {
         retVal = env->NewObject(
-            classCache.AtReneHollanderDuktapeValuesDukString,
-            methodIdCache.AtReneHollanderDuktapeValuesDukStringInit,
-            getParentDuktapeFromDukValue(env, dukObject),
-            env->NewStringUTF(duk_get_string(ctx, -1))
+                classCache.AtReneHollanderDuktapeValuesDukString,
+                methodIdCache.AtReneHollanderDuktapeValuesDukStringInit,
+                getParentDuktapeFromDukValue(env, dukObject),
+                env->NewStringUTF(duk_get_string(ctx, -1))
         );
     } else if (duk_is_undefined(ctx, -1)) {
         retVal = env->NewObject(
-            classCache.AtReneHollanderDuktapeValuesDukUndefined,
-            methodIdCache.AtReneHollanderDuktapeValuesDukUndefinedInit,
-            getParentDuktapeFromDukValue(env, dukObject)
+                classCache.AtReneHollanderDuktapeValuesDukUndefined,
+                methodIdCache.AtReneHollanderDuktapeValuesDukUndefinedInit,
+                getParentDuktapeFromDukValue(env, dukObject)
         );
     } else if (duk_is_null(ctx, -1)) {
         retVal = env->NewObject(
-            classCache.AtReneHollanderDuktapeValuesDukNull,
-            methodIdCache.AtReneHollanderDuktapeValuesDukNullInit,
-            getParentDuktapeFromDukValue(env, dukObject)
+                classCache.AtReneHollanderDuktapeValuesDukNull,
+                methodIdCache.AtReneHollanderDuktapeValuesDukNullInit,
+                getParentDuktapeFromDukValue(env, dukObject)
         );
     } else if (duk_is_array(ctx, -1)) {
         // TODO needs implementation
@@ -182,9 +182,9 @@ JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukObject__1get(J
     env->ReleaseStringUTFChars(jKey, key);
     if (retVal == NULL) {
         retVal = env->NewObject(
-            classCache.AtReneHollanderDuktapeValuesDukUndefined,
-            methodIdCache.AtReneHollanderDuktapeValuesDukUndefinedInit,
-            getParentDuktapeFromDukValue(env, dukObject)
+                classCache.AtReneHollanderDuktapeValuesDukUndefined,
+                methodIdCache.AtReneHollanderDuktapeValuesDukUndefinedInit,
+                getParentDuktapeFromDukValue(env, dukObject)
         );
     }
     return retVal;
