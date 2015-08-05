@@ -17,7 +17,6 @@ public class Main {
 
         DukObject object = new DukObject(duktape);
         object.put("numberValue", 10);
-        object.put("stringValue", "lol");
         object.put("stringValue", "fag");
         object.putUndefined("undefinedValue");
         object.putNull("nullValue");

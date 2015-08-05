@@ -211,6 +211,7 @@ JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukObject__1get(J
     };
 
     duk_pop(ctx);
+    duk_pop(ctx);
     env->ReleaseStringUTFChars(jKey, key);
     if (retVal == NULL) {
         retVal = env->NewObject(
