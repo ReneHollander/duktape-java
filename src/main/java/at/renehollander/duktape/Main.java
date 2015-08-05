@@ -25,7 +25,10 @@ public class Main {
         object.put("innerObject", innerObject);
         object.put("innerArray", innerArray);
 
+
         System.out.println(object.containsKey("innerArray"));
+
+        System.out.println("innerObject: " + object.get("innerObject").toString());
 
         innerObject.put("oi", "m8");
 

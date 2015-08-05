@@ -68,10 +68,18 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putNull(
 
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putReference(JNIEnv *env, jobject dukObject, jstring jKey, jint jValue) {
     const char *key = env->GetStringUTFChars(jKey, 0);
+    char hiddenName[strlen(key) + 2];
+    strcpy(hiddenName, "\xff");
+    strcat(hiddenName, key);
     duk_context *ctx = getContextFromDukValue(env, dukObject);
     duj_push_ref(ctx, getRefFromDukReferencedValue(env, dukObject));
+
     duj_push_ref(ctx, jValue);
     duk_put_prop_string(ctx, -2, key);
+
+    duk_push_int(ctx, jValue);
+    duk_put_prop_string(ctx, -2, hiddenName);
+
     duk_pop(ctx);
     env->ReleaseStringUTFChars(jKey, key);
 }
@@ -135,48 +143,73 @@ JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukObject__1get(J
     duj_push_ref(ctx, getRefFromDukReferencedValue(env, dukObject));
 
     duk_get_prop_string(ctx, -1, key);
+    int type = duk_get_type(ctx, 1);
 
     jobject retVal = NULL;
-    if (duk_is_number(ctx, -1)) {
+    if (type == DUK_TYPE_NUMBER) {
         retVal = env->NewObject(
                 classCache.AtReneHollanderDuktapeValuesDukNumber,
                 methodIdCache.AtReneHollanderDuktapeValuesDukNumberInit,
                 getParentDuktapeFromDukValue(env, dukObject),
                 duk_get_number(ctx, -1)
         );
-    } else if (duk_is_boolean(ctx, -1)) {
+    } else if (type == DUK_TYPE_BOOLEAN) {
         retVal = env->NewObject(
                 classCache.AtReneHollanderDuktapeValuesDukBoolean,
                 methodIdCache.AtReneHollanderDuktapeValuesDukBooleanInit,
                 getParentDuktapeFromDukValue(env, dukObject),
                 duk_get_boolean(ctx, -1)
         );
-    } else if (duk_is_string(ctx, -1)) {
+    } else if (type == DUK_TYPE_STRING) {
         retVal = env->NewObject(
                 classCache.AtReneHollanderDuktapeValuesDukString,
                 methodIdCache.AtReneHollanderDuktapeValuesDukStringInit,
                 getParentDuktapeFromDukValue(env, dukObject),
                 env->NewStringUTF(duk_get_string(ctx, -1))
         );
-    } else if (duk_is_undefined(ctx, -1)) {
+    } else if (type == DUK_TYPE_UNDEFINED) {
         retVal = env->NewObject(
                 classCache.AtReneHollanderDuktapeValuesDukUndefined,
                 methodIdCache.AtReneHollanderDuktapeValuesDukUndefinedInit,
                 getParentDuktapeFromDukValue(env, dukObject)
         );
-    } else if (duk_is_null(ctx, -1)) {
+    } else if (type == DUK_TYPE_NULL) {
         retVal = env->NewObject(
                 classCache.AtReneHollanderDuktapeValuesDukNull,
                 methodIdCache.AtReneHollanderDuktapeValuesDukNullInit,
                 getParentDuktapeFromDukValue(env, dukObject)
         );
-    } else if (duk_is_array(ctx, -1)) {
-        // TODO needs implementation
-    } else if (duk_is_object(ctx, -1)) {
-        // TODO needs implementation
-    } else if (duk_is_function(ctx, -1)) {
-        // TODO needs implementation
-    }
+    } else if (type == DUK_TYPE_OBJECT) {
+        char hiddenName[strlen(key) + 2];
+        strcpy(hiddenName, "\xff");
+        strcat(hiddenName, key);
+        duk_get_prop_string(ctx, -2, hiddenName);
+        int ref = duk_get_int(ctx, -1);
+        duk_pop(ctx);
+
+        if (duk_is_array(ctx, -1)) {
+            retVal = env->NewObject(
+                    classCache.AtReneHollanderDuktapeValuesDukArray,
+                    methodIdCache.AtReneHollanderDuktapeValuesDukArrayInit,
+                    getParentDuktapeFromDukValue(env, dukObject),
+                    ref
+            );
+        } else if (duk_is_object(ctx, -1)) {
+            retVal = env->NewObject(
+                    classCache.AtReneHollanderDuktapeValuesDukObject,
+                    methodIdCache.AtReneHollanderDuktapeValuesDukObjectInit,
+                    getParentDuktapeFromDukValue(env, dukObject),
+                    ref
+            );
+        } else if (duk_is_function(ctx, -1)) {
+            retVal = env->NewObject(
+                    classCache.AtReneHollanderDuktapeValuesDukFunction,
+                    methodIdCache.AtReneHollanderDuktapeValuesDukFunctionInit,
+                    getParentDuktapeFromDukValue(env, dukObject),
+                    ref
+            );
+        }
+    };
 
     duk_pop(ctx);
     env->ReleaseStringUTFChars(jKey, key);
