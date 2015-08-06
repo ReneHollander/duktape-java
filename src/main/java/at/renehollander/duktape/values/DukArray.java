@@ -27,6 +27,9 @@ public final class DukArray extends DukReferencedValue implements List<DukValue>
         return this;
     }
 
+    @Override
+    public native DukValue get(int index);
+
     /* ======================================================================== */
     /* =========================== START add(value) =========================== */
     /* ======================================================================== */
@@ -115,7 +118,7 @@ public final class DukArray extends DukReferencedValue implements List<DukValue>
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size() == 0;
     }
 
     @Override
@@ -173,10 +176,6 @@ public final class DukArray extends DukReferencedValue implements List<DukValue>
 
     }
 
-    @Override
-    public DukValue get(int index) {
-        return null;
-    }
 
     @Override
     public DukValue set(int index, DukValue element) {

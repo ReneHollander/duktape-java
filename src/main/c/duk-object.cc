@@ -1,8 +1,12 @@
+#include <iosfwd>
+#include <sstream>
 #include "duk-object.h"
 #include "duktape.h"
 #include "helper.h"
 #include "cache.h"
 #include "refs.h"
+
+using namespace std;
 
 JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukObject_createEmptyObject(JNIEnv *env, jclass cls, jobject duktape) {
     duk_context *ctx = getContextFromObject(env, duktape);
@@ -179,10 +183,9 @@ JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukObject__1get(J
                 getParentDuktapeFromDukValue(env, dukObject)
         );
     } else if (type == DUK_TYPE_OBJECT) {
-        char hiddenName[strlen(key) + 2];
-        strcpy(hiddenName, "\xff");
-        strcat(hiddenName, key);
-        duk_get_prop_string(ctx, -2, hiddenName);
+        stringstream hiddenName;
+        hiddenName << "\xff" << key;
+        duk_get_prop_string(ctx, -2, hiddenName.str().c_str());
         int ref = duk_get_int(ctx, -1);
         duk_pop(ctx);
 

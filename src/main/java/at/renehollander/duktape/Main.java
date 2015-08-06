@@ -13,19 +13,29 @@ public class Main {
         DukObject innerObject = new DukObject(duktape);
         innerObject.put("heyo", "captain jack");
 
+        DukObject innerObject2 = new DukObject(duktape);
+        innerObject2.put("innerObject2", "heyo");
+
+        DukObject innerObject3 = new DukObject(duktape);
+        innerObject3.put("innerObject3", "heyo");
+
         DukArray array = new DukArray(duktape);
         array.add(5);
         array.add(10);
         array.add(innerObject);
+        array.add(innerObject2);
+        array.add(innerObject3);
         System.out.println(array);
         System.out.println(array.size());
 
-        /*
+        System.out.println(array.get(4));
+
+
         System.out.println("Initial Memory Usage: " + duktape.getHeapUsage());
         DukArray innerArray = new DukArray(duktape);
 
-        DukObject innerObject = new DukObject(duktape);
-        innerObject.put("heyo", "captain jack");
+        //DukObject innerObject = new DukObject(duktape);
+        //innerObject.put("heyo", "captain jack");
 
         DukObject object = new DukObject(duktape);
         object.put("numberValue", 10);
@@ -67,7 +77,7 @@ public class Main {
         duktape.put("testValue", "I am a test value");
         duktape.execute("testMethod();");
 
-        */
+
     }
 
     public static void lol(int i, long j) {

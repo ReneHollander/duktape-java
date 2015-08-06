@@ -9,6 +9,14 @@ extern "C" {
 #endif
 /*
  * Class:     at_renehollander_duktape_values_DukArray
+ * Method:    get
+ * Signature: (I)Lat/renehollander/duktape/values/DukValue;
+ */
+JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukArray_get
+  (JNIEnv *, jobject, jint);
+
+/*
+ * Class:     at_renehollander_duktape_values_DukArray
  * Method:    _addDouble
  * Signature: (D)V
  */
