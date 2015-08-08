@@ -2,6 +2,30 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 
+def mainClassName = "at.renehollander.duktape.Main"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
+
+task fatJar(type: Jar) {
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
+
+jar {
+    actions = []
+    dependsOn = []
+    dependsOn('fatJar')
+}
+
 task javah(dependsOn: [build]) {
     doLast {
         def classes = [
@@ -19,18 +43,3 @@ task javah(dependsOn: [build]) {
     }
 }
 
-def mainClassName = "at.renehollander.duktape.Main"
-
-task fatJar(type: Jar) {
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
-    manifest {
-        attributes 'Main-Class': mainClassName
-    }
-}
-
-jar {
-    actions = []
-    dependsOn = []
-    dependsOn('fatJar')
-}
