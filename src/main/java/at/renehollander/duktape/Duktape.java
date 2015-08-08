@@ -16,10 +16,8 @@ public class Duktape {
         createContext();
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-        destroyContext();
+    public void destroy() {
+        this.destroyContext();
     }
 
     public long getContextPtr() {

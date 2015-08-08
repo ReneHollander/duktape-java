@@ -2,7 +2,10 @@ package at.renehollander.duktape.values;
 
 import at.renehollander.duktape.Duktape;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public final class DukObject extends DukReferencedValue implements Map<String, DukValue> {
 

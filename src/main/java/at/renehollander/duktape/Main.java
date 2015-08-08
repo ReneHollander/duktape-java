@@ -1,9 +1,9 @@
 package at.renehollander.duktape;
 
-import at.renehollander.duktape.values.*;
+import at.renehollander.duktape.values.DukArray;
+import at.renehollander.duktape.values.DukObject;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 public class Main {
 
