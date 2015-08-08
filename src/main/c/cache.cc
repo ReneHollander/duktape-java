@@ -6,7 +6,7 @@ MethodIDCache methodIdCache;
 FieldIDCache fieldIdCache;
 
 void populateCache() {
-    JNIEnv* env = getJNIEnv();
+    JNIEnv *env = getJNIEnv();
     classCache.JavaLangObject = env->FindClass("java/lang/Object");
     classCache.JavaLangInteger = env->FindClass("java/lang/Integer");
     classCache.JavaLangLong = env->FindClass("java/lang/Long");

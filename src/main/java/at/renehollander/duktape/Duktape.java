@@ -36,4 +36,6 @@ public class Duktape {
 
     public native long getHeapUsage();
 
+    public native void gc();
+
 }

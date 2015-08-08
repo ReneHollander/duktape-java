@@ -98,3 +98,8 @@ JNIEXPORT jlong JNICALL Java_at_renehollander_duktape_Duktape_getHeapUsage(JNIEn
     MemoryInfo *memoryInfo = (MemoryInfo *) functions.udata;
     return (jlong) memoryInfo->currentHeapSize;
 }
+
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_gc(JNIEnv *env, jobject duktabe) {
+    duk_context *ctx = getContextFromObject(env, duktabe);
+    duk_gc(ctx, 0);
+}

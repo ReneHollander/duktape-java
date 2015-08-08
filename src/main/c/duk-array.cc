@@ -1,6 +1,5 @@
 #include <iosfwd>
 #include <sstream>
-#include <iostream>
 #include "duk-array.h"
 #include "duktape.h"
 #include "helper.h"
@@ -22,7 +21,6 @@ JNIEXPORT jstring JNICALL Java_at_renehollander_duktape_values_DukArray_toJSON(J
     duk_pop(ctx);
     return env->NewStringUTF(json);
 }
-
 
 JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukArray_size(JNIEnv *env, jobject dukArray) {
     duk_context *ctx = getContextFromDukValue(env, dukArray);

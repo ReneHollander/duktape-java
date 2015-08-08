@@ -5,8 +5,8 @@
 
 JavaVM *jvm = NULL;
 
-JNIEnv* getJNIEnv() {
-    JNIEnv* env;
+JNIEnv *getJNIEnv() {
+    JNIEnv *env;
     if (jvm->GetEnv((void **) &env, JNI_VERSION_1_6) != JNI_OK) {
         printf("GetEnv failed.");
         exit(1);
@@ -14,11 +14,11 @@ JNIEnv* getJNIEnv() {
     return env;
 }
 
-duk_context* getContextFromObject(JNIEnv *env, jobject obj) {
+duk_context *getContextFromObject(JNIEnv *env, jobject obj) {
     return (duk_context *) env->GetLongField(obj, fieldIdCache.AtReneHollanderDuktapeDuktapeContextPtr);
 }
 
-duk_context* getContextFromDukValue(JNIEnv *env, jobject dukValue) {
+duk_context *getContextFromDukValue(JNIEnv *env, jobject dukValue) {
     return getContextFromObject(env, getParentDuktapeFromDukValue(env, dukValue));
 }
 

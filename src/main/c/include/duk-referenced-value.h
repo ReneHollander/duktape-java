@@ -7,6 +7,14 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+/*
+ * Class:     at_renehollander_duktape_values_DukReferencedValue
+ * Method:    unref
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukReferencedValue_unref
+  (JNIEnv *, jobject);
+
 #ifdef __cplusplus
 }
 #endif
