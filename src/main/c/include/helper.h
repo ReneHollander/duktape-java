@@ -2,6 +2,7 @@
 
 #include "jni.h"
 #include "duktape.h"
+#include "duktape_user_data.h"
 
 extern JavaVM *jvm;
 
@@ -14,3 +15,5 @@ duk_context *getContextFromDukValue(JNIEnv *, jobject);
 int getRefFromDukReferencedValue(JNIEnv *, jobject);
 
 jobject getParentDuktapeFromDukValue(JNIEnv *, jobject);
+
+DuktapeUserData *getDuktapeUserData(duk_context *ctx);

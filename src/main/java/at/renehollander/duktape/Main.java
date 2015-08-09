@@ -10,6 +10,11 @@ public class Main {
     public static void main(String[] args) {
         Duktape duktape = new Duktape();
 
+        duktape.setFatalErrorHandler(((code, msg) -> {
+            System.out.println("Fatal Error " + code + ": " + msg);
+            System.exit(1);
+        }));
+
         DukObject innerObject = new DukObject(duktape);
         innerObject.put("heyo", "captain jack");
 
@@ -30,6 +35,7 @@ public class Main {
 
         System.out.println(array.get(4));
 
+        duktape.gc();
 
         System.out.println("Initial Memory Usage: " + duktape.getHeapUsage());
         DukArray innerArray = new DukArray(duktape);

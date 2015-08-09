@@ -5,5 +5,5 @@ jobject wrapInteger(JNIEnv *env, jint i) {
 }
 
 jobject wrapLong(JNIEnv *env, jlong l) {
-    return env->NewObject(classCache.JavaLangLong, methodIdCache.JavaLangIntegerInit, l);
+    return env->NewObject(classCache.JavaLangLong, methodIdCache.JavaLangLongInit, l);
 }

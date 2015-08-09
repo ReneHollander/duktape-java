@@ -1,5 +1,7 @@
 package at.renehollander.duktape;
 
+import at.renehollander.duktape.error.FatalErrorHandler;
+
 import java.io.File;
 import java.lang.reflect.Method;
 
@@ -9,6 +11,8 @@ public class Duktape {
         File libraryFile = new File("lib/libduktape-java.so");
         System.load(libraryFile.getAbsolutePath());
     }
+
+    private FatalErrorHandler fatalErrorHandler;
 
     private long contextPtr;
 
@@ -37,5 +41,15 @@ public class Duktape {
     public native long getHeapUsage();
 
     public native void gc();
+
+    private void fatalErrorHandler(int code, String msg) {
+        if (this.fatalErrorHandler != null) {
+            this.fatalErrorHandler.fatalError(code, msg);
+        }
+    }
+
+    public void setFatalErrorHandler(FatalErrorHandler handler) {
+        this.fatalErrorHandler = handler;
+    }
 
 }

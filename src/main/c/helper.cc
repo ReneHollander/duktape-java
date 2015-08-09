@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <duktape_user_data.h>
 
 #include "helper.h"
 #include "cache.h"
@@ -28,4 +29,10 @@ jobject getParentDuktapeFromDukValue(JNIEnv *env, jobject dukValue) {
 
 jint getRefFromDukReferencedValue(JNIEnv *env, jobject obj) {
     return env->GetIntField(obj, fieldIdCache.AtReneHollanderDuktapeValuesDukReferencedValueRef);
+}
+
+DuktapeUserData *getDuktapeUserData(duk_context *ctx) {
+    duk_memory_functions functions;
+    duk_get_memory_functions(ctx, &functions);
+    return (DuktapeUserData *) functions.udata;
 }

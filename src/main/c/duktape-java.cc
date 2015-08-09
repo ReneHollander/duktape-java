@@ -6,7 +6,6 @@
 #include "helper.h"
 #include "objectwrapper.h"
 #include "refs.h"
-#include "memoryinfo.h"
 
 jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     jvm = vm;
@@ -14,20 +13,32 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     return JNI_VERSION_1_6;
 }
 
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_createContext(JNIEnv *env, jobject obj) {
-    MemoryInfo *memoryInfo = (MemoryInfo *) malloc(sizeof(MemoryInfo));
-    memoryInfo->currentHeapSize = 0;
-    duk_context *ctx = duk_create_heap(counting_alloc_function, counting_realloc_function, counting_free_function, memoryInfo, NULL);
+void duj_fatal_handler(duk_context *ctx, duk_errcode_t code, const char *msg) {
+    JNIEnv *env = getJNIEnv();
+    DuktapeUserData *userData = getDuktapeUserData(ctx);
+    env->CallObjectMethod(userData->duktape, methodIdCache.AtReneHollanderDuktapeDuktapeFatalErrorHandler, code, env->NewStringUTF(msg));
+}
+
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_createContext(JNIEnv *env, jobject duktape) {
+    DuktapeUserData *userData = (DuktapeUserData *) malloc(sizeof(MemoryInfo));
+    userData->memoryInfo.currentHeapSize = 0;
+    duk_context *ctx = duk_create_heap(counting_alloc_function, counting_realloc_function, counting_free_function, userData, duj_fatal_handler);
     duj_ref_setup(ctx);
-    env->SetLongField(obj, fieldIdCache.AtReneHollanderDuktapeDuktapeContextPtr, (jlong) ctx);
+
+    userData->duktape = env->NewGlobalRef(duktape);
+
+    env->SetLongField(duktape, fieldIdCache.AtReneHollanderDuktapeDuktapeContextPtr, (jlong) ctx);
 }
 
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_destroyContext(JNIEnv *env, jobject obj) {
     duk_context *ctx = getContextFromObject(env, obj);
-    duk_memory_functions functions;
-    duk_get_memory_functions(ctx, &functions);
+    DuktapeUserData *duktapeUserData = getDuktapeUserData(ctx);
+
     duk_destroy_heap(ctx);
-    free(functions.udata);
+
+    env->DeleteGlobalRef(duktapeUserData->duktape);
+
+    free(duktapeUserData);
 }
 
 int methodExecutor(duk_context *ctx) {
@@ -93,13 +104,12 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_execute(JNIEnv *env
 
 JNIEXPORT jlong JNICALL Java_at_renehollander_duktape_Duktape_getHeapUsage(JNIEnv *env, jobject obj) {
     duk_context *ctx = getContextFromObject(env, obj);
-    duk_memory_functions functions;
-    duk_get_memory_functions(ctx, &functions);
-    MemoryInfo *memoryInfo = (MemoryInfo *) functions.udata;
-    return (jlong) memoryInfo->currentHeapSize;
+    DuktapeUserData *userData = getDuktapeUserData(ctx);
+    return (jlong) userData->memoryInfo.currentHeapSize;
 }
 
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_gc(JNIEnv *env, jobject duktabe) {
     duk_context *ctx = getContextFromObject(env, duktabe);
     duk_gc(ctx, 0);
+    duk_fatal(ctx, 1, "this is a test");
 }

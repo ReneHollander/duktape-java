@@ -23,6 +23,7 @@ typedef struct ClassCache ClassCache;
 struct MethodIDCache {
     jmethodID JavaLangIntegerInit;
     jmethodID JavaLangLongInit;
+    jmethodID AtReneHollanderDuktapeDuktapeFatalErrorHandler;
     jmethodID AtReneHollanderDuktapeValuesDukArrayInit;
     jmethodID AtReneHollanderDuktapeValuesDukFunctionInit;
     jmethodID AtReneHollanderDuktapeValuesDukNullInit;
@@ -38,9 +39,6 @@ struct FieldIDCache {
     jfieldID AtReneHollanderDuktapeDuktapeContextPtr;
     jfieldID AtReneHollanderDuktapeValuesDukValueParent;
     jfieldID AtReneHollanderDuktapeValuesDukReferencedValueRef;
-    jfieldID AtReneHollanderDuktapeValuesDukNumberValue;
-    jfieldID AtReneHollanderDuktapeValuesDukStringValue;
-    jfieldID AtReneHollanderDuktapeValuesDukBooleanValue;
 };
 typedef struct FieldIDCache FieldIDCache;
 
