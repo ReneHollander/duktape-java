@@ -48,6 +48,8 @@ public class Duktape {
         }
     }
 
+    public native int getRefCount();
+
     public void setFatalErrorHandler(FatalErrorHandler handler) {
         this.fatalErrorHandler = handler;
     }

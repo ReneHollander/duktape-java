@@ -63,6 +63,14 @@ JNIEXPORT jlong JNICALL Java_at_renehollander_duktape_Duktape_getHeapUsage
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_gc
   (JNIEnv *, jobject);
 
+/*
+ * Class:     at_renehollander_duktape_Duktape
+ * Method:    getRefCount
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_at_renehollander_duktape_Duktape_getRefCount
+  (JNIEnv *, jobject);
+
 #ifdef __cplusplus
 }
 #endif

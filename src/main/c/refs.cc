@@ -16,6 +16,11 @@ void duj_ref_setup(duk_context *ctx) {
 
 // like luaL_ref, but assumes storage in "refs" property of heap stash
 int duj_ref(duk_context *ctx) {
+
+    if (duk_is_number(ctx, -1)) {
+        return -1;
+    }
+
     int ref;
     if (duk_is_undefined(ctx, -1)) {
         duk_pop(ctx);
@@ -89,4 +94,27 @@ void duj_unref(duk_context *ctx, int ref) {
     duk_put_prop_index(ctx, -2, 0);
 
     duk_pop(ctx);
+}
+
+int duj_get_ref_count(duk_context *ctx) {
+    // Get the "refs" array in the heap stash
+    duk_push_heap_stash(ctx);
+
+    duk_get_prop_string(ctx, -1, "refs");
+
+    int count = 0;
+
+    duk_enum(ctx, -1, 0);
+    while (duk_next(ctx, -1, DUK_ENUM_INCLUDE_NONENUMERABLE)) {
+        if (duk_is_number(ctx, -1) == 0) {
+            count++;
+        }
+        duk_pop_2(ctx);
+    }
+
+    duk_pop(ctx);
+    duk_pop(ctx);
+    duk_pop(ctx);
+
+    return count;
 }

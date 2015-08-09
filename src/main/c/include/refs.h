@@ -11,3 +11,5 @@ int duj_ref(duk_context *ctx);
 void duj_push_ref(duk_context *ctx, int ref);
 
 void duj_unref(duk_context *ctx, int ref);
+
+int duj_get_ref_count(duk_context *ctx);

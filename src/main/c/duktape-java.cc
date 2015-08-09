@@ -108,8 +108,12 @@ JNIEXPORT jlong JNICALL Java_at_renehollander_duktape_Duktape_getHeapUsage(JNIEn
     return (jlong) userData->memoryInfo.currentHeapSize;
 }
 
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_gc(JNIEnv *env, jobject duktabe) {
-    duk_context *ctx = getContextFromObject(env, duktabe);
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_gc(JNIEnv *env, jobject duktape) {
+    duk_context *ctx = getContextFromObject(env, duktape);
     duk_gc(ctx, 0);
-    duk_fatal(ctx, 1, "this is a test");
+}
+
+JNIEXPORT jint JNICALL Java_at_renehollander_duktape_Duktape_getRefCount(JNIEnv *env, jobject duktape) {
+    duk_context *ctx = getContextFromObject(env, duktape);
+    return duj_get_ref_count(ctx);
 }
