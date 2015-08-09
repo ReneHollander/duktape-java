@@ -18,7 +18,7 @@ public abstract class AbstractDukReferencedValue extends AbstractDukValue implem
     }
 
     public void destroy() {
-        NativeHelper.unref(this.getParent(), this.getRef());
+        NativeHelper.unref(this.getParent().getContextPointer(), this.getRef());
     }
 
     @Override

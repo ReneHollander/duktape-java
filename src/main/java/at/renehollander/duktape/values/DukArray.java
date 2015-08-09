@@ -11,7 +11,7 @@ public final class DukArray extends AbstractList<DukValue> implements DukReferen
     private int ref;
 
     public DukArray(Duktape parent) {
-        this(parent, createEmptyArray(parent));
+        this(parent, _createArray(parent.getContextPointer()));
     }
 
     protected DukArray(Duktape parent, int ref) {
@@ -35,14 +35,34 @@ public final class DukArray extends AbstractList<DukValue> implements DukReferen
     }
 
     @Override
-    public native DukValue get(int index);
+    public DukValue get(int index) {
+        return _get(this.getParent().getContextPointer(), this.getRef(), this.getParent(), index);
+    }
 
     @Override
-    public native int size();
+    public int size() {
+        return _size(this.getParent().getContextPointer(), this.getRef());
+    }
 
-    public native String toJSON();
 
-    private native static int createEmptyArray(Duktape parent);
+    public String toJSON() {
+        return _toJSON(this.getParent().getContextPointer(), this.getRef());
+    }
+
+    @Override
+    public String toString() {
+        return toJSON();
+    }
+
+    @Override
+    public int getRef() {
+        return this.ref;
+    }
+
+    @Override
+    public void destroy() {
+        NativeHelper.unref(this.getParent().getContextPointer(), this.getRef());
+    }
 
     /* ======================================================================== */
     /* =========================== START add(value) =========================== */
@@ -67,79 +87,83 @@ public final class DukArray extends AbstractList<DukValue> implements DukReferen
     }
 
     public boolean add(double value) {
-        this._addDouble(value);
+        _addDouble(this.getParent().getContextPointer(), this.getRef(), value);
         return true;
     }
 
     public boolean add(boolean value) {
-        this._addBoolean(value);
+        _addBoolean(this.getParent().getContextPointer(), this.getRef(), value);
         return true;
     }
 
     public boolean add(String value) {
-        this._addString(value);
+        _addString(this.getParent().getContextPointer(), this.getRef(), value);
         return true;
     }
 
     public boolean addUndefined() {
-        this._addUndefined();
+        _addUndefined(this.getParent().getContextPointer(), this.getRef());
         return true;
     }
 
     public boolean addNull() {
-        this._addNull();
+        _addNull(this.getParent().getContextPointer(), this.getRef());
         return true;
     }
 
     public boolean add(DukArray value) {
-        this._addReference(value.getRef());
+        _addReference(this.getParent().getContextPointer(), this.getRef(), value.getRef());
         return true;
     }
 
     public boolean add(DukObject value) {
-        this._addReference(value.getRef());
+        _addReference(this.getParent().getContextPointer(), this.getRef(), value.getRef());
         return true;
     }
 
     public boolean add(DukFunction value) {
-        this._addReference(value.getRef());
+        _addReference(this.getParent().getContextPointer(), this.getRef(), value.getRef());
         return true;
     }
 
     public boolean add(AbstractDukReferencedValue value) {
-        this._addReference(value.getRef());
+        _addReference(this.getParent().getContextPointer(), this.getRef(), value.getRef());
         return true;
     }
 
-    private native void _addDouble(double value);
 
-    private native void _addBoolean(boolean value);
-
-    private native void _addString(String value);
-
-    private native void _addUndefined();
-
-    private native void _addNull();
-
-    private native void _addReference(int ref);
 
     /* ======================================================================== */
     /* =========================== END add(value) ============================= */
     /* ======================================================================== */
 
-    @Override
-    public String toString() {
-        return toJSON();
-    }
+    /* ==================================================================== */
+    /* ======================== START native calls ======================== */
+    /* ==================================================================== */
 
-    @Override
-    public int getRef() {
-        return this.ref;
-    }
+    private static native int _createArray(long contextPointer);
 
-    @Override
-    public void destroy() {
-        NativeHelper.unref(this.getParent(), this.getRef());
-    }
+    public static native int _size(long contextPointer, int objectRef);
+
+    public static native String _toJSON(long contextPointer, int objectRef);
+
+    public static native DukValue _get(long contextPointer, int objectRef, Duktape duktape, int index);
+
+    private static native void _addDouble(long contextPointer, int objectRef, double value);
+
+    private static native void _addBoolean(long contextPointer, int objectRef, boolean value);
+
+    private static native void _addString(long contextPointer, int objectRef, String value);
+
+    private static native void _addUndefined(long contextPointer, int objectRef);
+
+    private static native void _addNull(long contextPointer, int objectRef);
+
+    private static native void _addReference(long contextPointer, int objectRef, int ref);
+
+    /* ==================================================================== */
+    /* ========================= END native calls ========================= */
+    /* ==================================================================== */
 
 }
+

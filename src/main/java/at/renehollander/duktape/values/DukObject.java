@@ -10,7 +10,7 @@ import java.util.Set;
 public final class DukObject extends AbstractDukReferencedValue implements Map<String, DukValue> {
 
     public DukObject(Duktape parent) {
-        super(parent, createEmptyObject(parent));
+        super(parent, createObject(parent.getContextPointer()));
     }
 
     protected DukObject(Duktape parent, int ref) {
@@ -47,55 +47,55 @@ public final class DukObject extends AbstractDukReferencedValue implements Map<S
 
     public DukValue put(String key, double value) {
         DukValue old = this.get(key);
-        this._putDouble(key, value);
+        _putDouble(this.getParent().getContextPointer(), this.getRef(), key, value);
         return old;
     }
 
     public DukValue put(String key, boolean value) {
         DukValue old = this.get(key);
-        this._putBoolean(key, value);
+        _putBoolean(this.getParent().getContextPointer(), this.getRef(), key, value);
         return old;
     }
 
     public DukValue put(String key, String value) {
         DukValue old = this.get(key);
-        this._putString(key, value);
+        _putString(this.getParent().getContextPointer(), this.getRef(), key, value);
         return old;
     }
 
     public DukValue putUndefined(String key) {
         DukValue old = this.get(key);
-        this._putUndefined(key);
+        _putUndefined(this.getParent().getContextPointer(), this.getRef(), key);
         return old;
     }
 
     public DukValue putNull(String key) {
         DukValue old = this.get(key);
-        this._putNull(key);
+        _putNull(this.getParent().getContextPointer(), this.getRef(), key);
         return old;
     }
 
     public DukValue put(String key, DukArray value) {
         DukValue old = this.get(key);
-        this._putReference(key, value.getRef());
+        _putReference(this.getParent().getContextPointer(), this.getRef(), key, value.getRef());
         return old;
     }
 
     public DukValue put(String key, DukObject value) {
         DukValue old = this.get(key);
-        this._putReference(key, value.getRef());
+        _putReference(this.getParent().getContextPointer(), this.getRef(), key, value.getRef());
         return old;
     }
 
     public DukValue put(String key, DukFunction value) {
         DukValue old = this.get(key);
-        this._putReference(key, value.getRef());
+        _putReference(this.getParent().getContextPointer(), this.getRef(), key, value.getRef());
         return old;
     }
 
     public DukValue put(String key, AbstractDukReferencedValue value) {
         DukValue old = this.get(key);
-        this._putReference(key, value.getRef());
+        _putReference(this.getParent().getContextPointer(), this.getRef(), key, value.getRef());
         return old;
     }
 
@@ -106,7 +106,7 @@ public final class DukObject extends AbstractDukReferencedValue implements Map<S
 
     @Override
     public boolean containsKey(Object key) {
-        return key instanceof String && _containsKey((String) key);
+        return key instanceof String && _containsKey(this.getParent().getContextPointer(), this.getRef(), (String) key);
     }
 
     @Override
@@ -123,7 +123,7 @@ public final class DukObject extends AbstractDukReferencedValue implements Map<S
         if (!(key instanceof String)) {
             return new DukUndefined(this.getParent());
         }
-        return _get((String) key);
+        return _get(this.getParent().getContextPointer(), this.getRef(), this.getParent(), (String) key);
     }
 
 
@@ -134,7 +134,7 @@ public final class DukObject extends AbstractDukReferencedValue implements Map<S
         if (oldValue == null) {
             return new DukUndefined(this.getParent());
         } else {
-            this._remove((String) key);
+            _remove(this.getParent().getContextPointer(), this.getRef(), (String) key);
             return oldValue;
         }
     }
@@ -169,31 +169,46 @@ public final class DukObject extends AbstractDukReferencedValue implements Map<S
     }
 
     @Override
-    public native int size();
+    public int size() {
+        return _size(this.getParent().getContextPointer(), this.getRef());
+    }
+
 
     @Override
-    public native void clear();
+    public void clear() {
+        _clear(this.getParent().getContextPointer(), this.getRef());
+    }
 
-    public native String toJSON();
 
-    private native boolean _containsKey(String key);
+    public String toJSON() {
+        return _toJSON(this.getParent().getContextPointer(), this.getRef());
+    }
 
-    private native DukValue _get(String key);
+    private static native int createObject(long contextPointer);
 
-    private native void _remove(String key);
+    private static native int _size(long contextPointer, int objectRef);
 
-    private native void _putDouble(String key, double value);
+    private static native void _clear(long contextPointer, int objectRef);
 
-    private native void _putBoolean(String key, boolean value);
+    private static native String _toJSON(long contextPointer, int objectRef);
 
-    private native void _putString(String key, String value);
+    private static native boolean _containsKey(long contextPointer, int objectRef, String key);
 
-    private native void _putUndefined(String key);
+    private static native DukValue _get(long contextPointer, int objectRef, Duktape duktape, String key);
 
-    private native void _putNull(String key);
+    private static native void _remove(long contextPointer, int objectRef, String key);
 
-    private native void _putReference(String key, int ref);
+    private static native void _putDouble(long contextPointer, int objectRef, String key, double value);
 
-    private native static int createEmptyObject(Duktape parent);
+    private static native void _putBoolean(long contextPointer, int objectRef, String key, boolean value);
+
+    private static native void _putString(long contextPointer, int objectRef, String key, String value);
+
+    private static native void _putUndefined(long contextPointer, int objectRef, String key);
+
+    private static native void _putNull(long contextPointer, int objectRef, String key);
+
+    private static native void _putReference(long contextPointer, int objectRef, String key, int ref);
+
 
 }

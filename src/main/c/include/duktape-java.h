@@ -9,67 +9,59 @@ extern "C" {
 #endif
 /*
  * Class:     at_renehollander_duktape_Duktape
- * Method:    createContext
- * Signature: ()V
+ * Method:    _createContext
+ * Signature: (Lat/renehollander/duktape/Duktape;)J
  */
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_createContext
-        (JNIEnv *, jobject);
+JNIEXPORT jlong JNICALL Java_at_renehollander_duktape_Duktape__1createContext
+  (JNIEnv *, jclass, jobject);
 
 /*
  * Class:     at_renehollander_duktape_Duktape
- * Method:    destroyContext
- * Signature: ()V
+ * Method:    _destroyContext
+ * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_destroyContext
-        (JNIEnv *, jobject);
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1destroyContext
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     at_renehollander_duktape_Duktape
- * Method:    put
- * Signature: (Ljava/lang/String;Ljava/lang/String;)V
+ * Method:    _getRefCount
+ * Signature: (J)I
  */
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_put
-        (JNIEnv *, jobject, jstring, jstring);
+JNIEXPORT jint JNICALL Java_at_renehollander_duktape_Duktape__1getRefCount
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     at_renehollander_duktape_Duktape
- * Method:    registerMethod
- * Signature: (Ljava/lang/String;Ljava/lang/Object;Ljava/lang/reflect/Method;I)V
+ * Method:    _gc
+ * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_registerMethod
-        (JNIEnv *, jobject, jstring, jobject, jobject, jint);
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1gc
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     at_renehollander_duktape_Duktape
- * Method:    execute
- * Signature: (Ljava/lang/String;)V
+ * Method:    _getHeapUsage
+ * Signature: (J)J
  */
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_execute
-        (JNIEnv *, jobject, jstring);
+JNIEXPORT jlong JNICALL Java_at_renehollander_duktape_Duktape__1getHeapUsage
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     at_renehollander_duktape_Duktape
- * Method:    getHeapUsage
- * Signature: ()J
+ * Method:    _execute
+ * Signature: (JLjava/lang/String;)V
  */
-JNIEXPORT jlong JNICALL Java_at_renehollander_duktape_Duktape_getHeapUsage
-        (JNIEnv *, jobject);
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1execute
+  (JNIEnv *, jclass, jlong, jstring);
 
 /*
  * Class:     at_renehollander_duktape_Duktape
- * Method:    gc
- * Signature: ()V
+ * Method:    _registerMethod
+ * Signature: (JLjava/lang/String;Ljava/lang/Object;Ljava/lang/reflect/Method;I)V
  */
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_gc
-        (JNIEnv *, jobject);
-
-/*
- * Class:     at_renehollander_duktape_Duktape
- * Method:    getRefCount
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_at_renehollander_duktape_Duktape_getRefCount
-        (JNIEnv *, jobject);
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1registerMethod
+  (JNIEnv *, jclass, jlong, jstring, jobject, jobject, jint);
 
 #ifdef __cplusplus
 }

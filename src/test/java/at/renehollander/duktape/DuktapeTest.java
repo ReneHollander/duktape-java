@@ -9,7 +9,7 @@ public class DuktapeTest {
     @Test
     public void createAndDestroyDuktape() {
         Duktape duktape = new Duktape();
-        assertEquals(true, duktape.getContextPtr() != 0);
+        assertEquals(true, duktape.getContextPointer() != 0);
         duktape.destroy();
     }
 

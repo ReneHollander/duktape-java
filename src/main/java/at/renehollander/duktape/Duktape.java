@@ -14,33 +14,35 @@ public class Duktape {
 
     private FatalErrorHandler fatalErrorHandler;
 
-    private long contextPtr;
+    private long contextPointer;
 
     public Duktape() {
-        createContext();
+        this.contextPointer = _createContext(this);
     }
 
     public void destroy() {
-        this.destroyContext();
+        _destroyContext(this.getContextPointer());
     }
 
-    public long getContextPtr() {
-        return contextPtr;
+    public long getContextPointer() {
+        return contextPointer;
     }
 
-    private native void createContext();
+    public void registerMethod(String name, Object callerObject, Method method, int paramCount) {
+        _registerMethod(this.getContextPointer(), name, callerObject, method, paramCount);
+    }
 
-    private native void destroyContext();
+    public void execute(String script) {
+        _execute(this.getContextPointer(), script);
+    }
 
-    public native void put(String name, String value);
+    public long getHeapUsage() {
+        return _getHeapUsage(this.getContextPointer());
+    }
 
-    public native void registerMethod(String name, Object callerObject, Method method, int paramCount);
-
-    public native void execute(String script);
-
-    public native long getHeapUsage();
-
-    public native void gc();
+    public void gc() {
+        _gc(this.getContextPointer());
+    }
 
     private void fatalErrorHandler(int code, String msg) {
         if (this.fatalErrorHandler != null) {
@@ -48,10 +50,34 @@ public class Duktape {
         }
     }
 
-    public native int getRefCount();
+    public int getRefCount() {
+        return _getRefCount(this.getContextPointer());
+    }
 
     public void setFatalErrorHandler(FatalErrorHandler handler) {
         this.fatalErrorHandler = handler;
     }
+
+    /* ==================================================================== */
+    /* ======================== START native calls ======================== */
+    /* ==================================================================== */
+
+    private static native long _createContext(Duktape duktape);
+
+    private static native void _destroyContext(long contextPointer);
+
+    private static native int _getRefCount(long contextPointer);
+
+    private static native void _gc(long contextPointer);
+
+    private static native long _getHeapUsage(long contextPointer);
+
+    private static native void _execute(long contextPointer, String script);
+
+    private static native void _registerMethod(long contextPointer, String name, Object callerObject, Method method, int paramCount);
+
+    /* ==================================================================== */
+    /* ========================= END native calls ========================= */
+    /* ==================================================================== */
 
 }

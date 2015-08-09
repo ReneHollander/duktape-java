@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     at_renehollander_duktape_NativeHelper
  * Method:    unref
- * Signature: (Lat/renehollander/duktape/Duktape;I)V
+ * Signature: (JI)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_NativeHelper_unref
-        (JNIEnv *, jclass, jobject, jint);
+  (JNIEnv *, jclass, jlong, jint);
 
 #ifdef __cplusplus
 }
