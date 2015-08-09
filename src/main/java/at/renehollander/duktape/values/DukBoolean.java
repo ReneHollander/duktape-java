@@ -2,7 +2,7 @@ package at.renehollander.duktape.values;
 
 import at.renehollander.duktape.Duktape;
 
-public final class DukBoolean extends DukValue {
+public final class DukBoolean extends AbstractDukValue {
 
     private boolean value;
 

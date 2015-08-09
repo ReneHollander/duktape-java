@@ -24,11 +24,11 @@ duk_context *getContextFromDukValue(JNIEnv *env, jobject dukValue) {
 }
 
 jobject getParentDuktapeFromDukValue(JNIEnv *env, jobject dukValue) {
-    return env->GetObjectField(dukValue, fieldIdCache.AtReneHollanderDuktapeValuesDukValueParent);
+    return env->CallObjectMethod(dukValue, methodIdCache.AtReneHollanderDuktapeValuesDukValueGetParent);
 }
 
 jint getRefFromDukReferencedValue(JNIEnv *env, jobject obj) {
-    return env->GetIntField(obj, fieldIdCache.AtReneHollanderDuktapeValuesDukReferencedValueRef);
+    return env->CallIntMethod(obj, methodIdCache.AtReneHollanderDuktapeValuesDukReferencedValueGetRef);
 }
 
 DuktapeUserData *getDuktapeUserData(duk_context *ctx) {

@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public final class DukObject extends DukReferencedValue implements Map<String, DukValue> {
+public final class DukObject extends AbstractDukReferencedValue implements Map<String, DukValue> {
 
     public DukObject(Duktape parent) {
         super(parent, createEmptyObject(parent));
@@ -93,7 +93,7 @@ public final class DukObject extends DukReferencedValue implements Map<String, D
         return old;
     }
 
-    public DukValue put(String key, DukReferencedValue value) {
+    public DukValue put(String key, AbstractDukReferencedValue value) {
         DukValue old = this.get(key);
         this._putReference(key, value.getRef());
         return old;

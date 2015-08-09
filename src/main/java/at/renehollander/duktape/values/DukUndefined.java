@@ -2,7 +2,7 @@ package at.renehollander.duktape.values;
 
 import at.renehollander.duktape.Duktape;
 
-public final class DukUndefined extends DukValue {
+public final class DukUndefined extends AbstractDukValue {
 
     public DukUndefined(Duktape parent) {
         super(parent);

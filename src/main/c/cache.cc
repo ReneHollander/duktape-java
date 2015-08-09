@@ -7,13 +7,13 @@ FieldIDCache fieldIdCache;
 
 void populateCache() {
     JNIEnv *env = getJNIEnv();
+
     classCache.JavaLangObject = env->FindClass("java/lang/Object");
     classCache.JavaLangInteger = env->FindClass("java/lang/Integer");
     classCache.JavaLangLong = env->FindClass("java/lang/Long");
     classCache.AtReneHollanderDuktapeDuktape = env->FindClass("at/renehollander/duktape/Duktape");
     classCache.AtReneHollanderDuktapeValuesDukValue = env->FindClass("at/renehollander/duktape/values/DukValue");
     classCache.AtReneHollanderDuktapeValuesDukReferencedValue = env->FindClass("at/renehollander/duktape/values/DukReferencedValue");
-
     classCache.AtReneHollanderDuktapeValuesDukArray = env->FindClass("at/renehollander/duktape/values/DukArray");
     classCache.AtReneHollanderDuktapeValuesDukFunction = env->FindClass("at/renehollander/duktape/values/DukFunction");
     classCache.AtReneHollanderDuktapeValuesDukNull = env->FindClass("at/renehollander/duktape/values/DukNull");
@@ -25,9 +25,9 @@ void populateCache() {
 
     methodIdCache.JavaLangIntegerInit = env->GetMethodID(classCache.JavaLangInteger, "<init>", "(I)V");
     methodIdCache.JavaLangLongInit = env->GetMethodID(classCache.JavaLangLong, "<init>", "(J)V");
-
     methodIdCache.AtReneHollanderDuktapeDuktapeFatalErrorHandler = env->GetMethodID(classCache.AtReneHollanderDuktapeDuktape, "fatalErrorHandler", "(ILjava/lang/String;)V");
-
+    methodIdCache.AtReneHollanderDuktapeValuesDukValueGetParent = env->GetMethodID(classCache.AtReneHollanderDuktapeValuesDukValue, "getParent", "()Lat/renehollander/duktape/Duktape;");
+    methodIdCache.AtReneHollanderDuktapeValuesDukReferencedValueGetRef = env->GetMethodID(classCache.AtReneHollanderDuktapeValuesDukReferencedValue, "getRef", "()I");
     methodIdCache.AtReneHollanderDuktapeValuesDukArrayInit = env->GetMethodID(classCache.AtReneHollanderDuktapeValuesDukArray, "<init>", "(Lat/renehollander/duktape/Duktape;I)V");
     methodIdCache.AtReneHollanderDuktapeValuesDukFunctionInit = env->GetMethodID(classCache.AtReneHollanderDuktapeValuesDukFunction, "<init>", "(Lat/renehollander/duktape/Duktape;I)V");
     methodIdCache.AtReneHollanderDuktapeValuesDukNullInit = env->GetMethodID(classCache.AtReneHollanderDuktapeValuesDukNull, "<init>", "(Lat/renehollander/duktape/Duktape;)V");
@@ -38,6 +38,4 @@ void populateCache() {
     methodIdCache.AtReneHollanderDuktapeValuesDukBooleanInit = env->GetMethodID(classCache.AtReneHollanderDuktapeValuesDukBoolean, "<init>", "(Lat/renehollander/duktape/Duktape;Z)V");
 
     fieldIdCache.AtReneHollanderDuktapeDuktapeContextPtr = env->GetFieldID(classCache.AtReneHollanderDuktapeDuktape, "contextPtr", "J");
-    fieldIdCache.AtReneHollanderDuktapeValuesDukValueParent = env->GetFieldID(classCache.AtReneHollanderDuktapeValuesDukValue, "parent", "Lat/renehollander/duktape/Duktape;");
-    fieldIdCache.AtReneHollanderDuktapeValuesDukReferencedValueRef = env->GetFieldID(classCache.AtReneHollanderDuktapeValuesDukReferencedValue, "ref", "I");
 }

@@ -2,7 +2,7 @@ package at.renehollander.duktape.values;
 
 import at.renehollander.duktape.Duktape;
 
-public final class DukString extends DukValue {
+public final class DukString extends AbstractDukValue {
 
     private String value;
 

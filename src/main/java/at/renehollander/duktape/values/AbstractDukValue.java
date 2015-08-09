@@ -2,83 +2,91 @@ package at.renehollander.duktape.values;
 
 import at.renehollander.duktape.Duktape;
 
-public interface DukValue {
+public abstract class AbstractDukValue implements DukValue {
 
-    public Duktape getParent();
+    private Duktape parent;
 
-    public default boolean isNumber() {
+    protected AbstractDukValue(Duktape parent) {
+        this.parent = parent;
+    }
+
+    public Duktape getParent() {
+        return parent;
+    }
+
+    public boolean isNumber() {
         return false;
     }
 
-    public default double asNumber() {
+    public double asNumber() {
         throw new WrongValueTypeException("Number");
     }
 
-    public default boolean isBoolean() {
+    public boolean isBoolean() {
         return false;
     }
 
-    public default boolean asBoolean() {
+    public boolean asBoolean() {
         throw new WrongValueTypeException("Boolean");
     }
 
-    public default boolean isString() {
+    public boolean isString() {
         return false;
     }
 
-    public default String asString() {
+    public String asString() {
         throw new WrongValueTypeException("String");
     }
 
-    public default boolean isObject() {
+    public boolean isObject() {
         return false;
     }
 
-    public default DukObject asObject() {
+    public DukObject asObject() {
         throw new WrongValueTypeException("Object");
     }
 
-    public default boolean isArray() {
+    public boolean isArray() {
         return false;
     }
 
-    public default DukArray asArray() {
+    public DukArray asArray() {
         throw new WrongValueTypeException("Array");
     }
 
-    public default boolean isFunction() {
+    public boolean isFunction() {
         return false;
     }
 
-    public default DukFunction asFunction() {
+    public DukFunction asFunction() {
         throw new WrongValueTypeException("Function");
     }
 
-    public default boolean isUndefined() {
+    public boolean isUndefined() {
         return false;
     }
 
-    public default DukUndefined asUndefined() {
+    public DukUndefined asUndefined() {
         throw new WrongValueTypeException("Undefined");
     }
 
-    public default boolean isNull() {
+    public boolean isNull() {
         return false;
     }
 
-    public default DukNull asNull() {
+    public DukNull asNull() {
         throw new WrongValueTypeException("Null");
     }
 
-    public default boolean isReferenceValue() {
+    public boolean isReferenceValue() {
         return false;
     }
 
-    public default AbstractDukReferencedValue asReferencedValue() {
+    public AbstractDukReferencedValue asReferencedValue() {
         throw new WrongValueTypeException("ReferencedValue");
     }
 
-    public default <T> T as() {
+    public <T> T as() {
         return (T) this;
     }
 

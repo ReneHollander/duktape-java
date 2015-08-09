@@ -29,10 +29,10 @@ add_library(duktape-java SHARED
     ${C_SRC_PATH}/cache.cc
     ${C_SRC_PATH}/helper.cc
     ${C_SRC_PATH}/objectwrapper.cc
+    ${C_SRC_PATH}/native-helper.cc
     ${C_SRC_PATH}/duktape-java.cc
     ${C_SRC_PATH}/duk-array.cc
     ${C_SRC_PATH}/duk-object.cc
     ${C_SRC_PATH}/duk-function.cc
-    ${C_SRC_PATH}/duk-referenced-value.cc
 )
 target_link_libraries(duktape-java -lm)

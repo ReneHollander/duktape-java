@@ -2,7 +2,7 @@ package at.renehollander.duktape.values;
 
 import at.renehollander.duktape.Duktape;
 
-public final class DukFunction extends DukReferencedValue {
+public final class DukFunction extends AbstractDukReferencedValue {
 
     protected DukFunction(Duktape parent, int ref) {
         super(parent, ref);
