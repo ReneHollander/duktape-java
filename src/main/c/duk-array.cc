@@ -1,7 +1,6 @@
 #include <iosfwd>
 #include <sstream>
 #include "duk-array.h"
-#include "duktape.h"
 #include "cache.h"
 #include "refs.h"
 

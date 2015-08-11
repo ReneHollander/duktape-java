@@ -15,7 +15,7 @@ extern "C" {
  * Signature: (J)I
  */
 JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukArray__1createArray
-  (JNIEnv *, jclass, jlong);
+        (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -23,7 +23,7 @@ JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukArray__1createArr
  * Signature: (JI)I
  */
 JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukArray__1size
-  (JNIEnv *, jclass, jlong, jint);
+        (JNIEnv *, jclass, jlong, jint);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -31,7 +31,7 @@ JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukArray__1size
  * Signature: (JI)Ljava/lang/String;
  */
 JNIEXPORT jstring JNICALL Java_at_renehollander_duktape_values_DukArray__1toJSON
-  (JNIEnv *, jclass, jlong, jint);
+        (JNIEnv *, jclass, jlong, jint);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -39,7 +39,7 @@ JNIEXPORT jstring JNICALL Java_at_renehollander_duktape_values_DukArray__1toJSON
  * Signature: (JILat/renehollander/duktape/Duktape;I)Lat/renehollander/duktape/values/DukValue;
  */
 JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukArray__1get
-  (JNIEnv *, jclass, jlong, jint, jobject, jint);
+        (JNIEnv *, jclass, jlong, jint, jobject, jint);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -47,7 +47,7 @@ JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukArray__1get
  * Signature: (JII)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1remove
-  (JNIEnv *, jclass, jlong, jint, jint);
+        (JNIEnv *, jclass, jlong, jint, jint);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -55,7 +55,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1remove
  * Signature: (JID)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addDouble__JID
-  (JNIEnv *, jclass, jlong, jint, jdouble);
+        (JNIEnv *, jclass, jlong, jint, jdouble);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -63,7 +63,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addDouble
  * Signature: (JIZ)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addBoolean__JIZ
-  (JNIEnv *, jclass, jlong, jint, jboolean);
+        (JNIEnv *, jclass, jlong, jint, jboolean);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -71,7 +71,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addBoolea
  * Signature: (JILjava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addString__JILjava_lang_String_2
-  (JNIEnv *, jclass, jlong, jint, jstring);
+        (JNIEnv *, jclass, jlong, jint, jstring);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -79,7 +79,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addString
  * Signature: (JI)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addUndefined__JI
-  (JNIEnv *, jclass, jlong, jint);
+        (JNIEnv *, jclass, jlong, jint);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -87,7 +87,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addUndefi
  * Signature: (JI)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addNull__JI
-  (JNIEnv *, jclass, jlong, jint);
+        (JNIEnv *, jclass, jlong, jint);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -95,7 +95,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addNull__
  * Signature: (JII)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addReference__JII
-  (JNIEnv *, jclass, jlong, jint, jint);
+        (JNIEnv *, jclass, jlong, jint, jint);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -103,7 +103,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addRefere
  * Signature: (JIID)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addDouble__JIID
-  (JNIEnv *, jclass, jlong, jint, jint, jdouble);
+        (JNIEnv *, jclass, jlong, jint, jint, jdouble);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -111,7 +111,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addDouble
  * Signature: (JIIZ)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addBoolean__JIIZ
-  (JNIEnv *, jclass, jlong, jint, jint, jboolean);
+        (JNIEnv *, jclass, jlong, jint, jint, jboolean);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -119,7 +119,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addBoolea
  * Signature: (JIILjava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addString__JIILjava_lang_String_2
-  (JNIEnv *, jclass, jlong, jint, jint, jstring);
+        (JNIEnv *, jclass, jlong, jint, jint, jstring);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -127,7 +127,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addString
  * Signature: (JII)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addUndefined__JII
-  (JNIEnv *, jclass, jlong, jint, jint);
+        (JNIEnv *, jclass, jlong, jint, jint);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -135,7 +135,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addUndefi
  * Signature: (JII)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addNull__JII
-  (JNIEnv *, jclass, jlong, jint, jint);
+        (JNIEnv *, jclass, jlong, jint, jint);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -143,7 +143,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addNull__
  * Signature: (JIII)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addReference__JIII
-  (JNIEnv *, jclass, jlong, jint, jint, jint);
+        (JNIEnv *, jclass, jlong, jint, jint, jint);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -151,7 +151,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addRefere
  * Signature: (JIID)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1setDouble
-  (JNIEnv *, jclass, jlong, jint, jint, jdouble);
+        (JNIEnv *, jclass, jlong, jint, jint, jdouble);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -159,7 +159,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1setDouble
  * Signature: (JIIZ)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1setBoolean
-  (JNIEnv *, jclass, jlong, jint, jint, jboolean);
+        (JNIEnv *, jclass, jlong, jint, jint, jboolean);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -167,7 +167,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1setBoolea
  * Signature: (JIILjava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1setString
-  (JNIEnv *, jclass, jlong, jint, jint, jstring);
+        (JNIEnv *, jclass, jlong, jint, jint, jstring);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -175,7 +175,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1setString
  * Signature: (JII)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1setUndefined
-  (JNIEnv *, jclass, jlong, jint, jint);
+        (JNIEnv *, jclass, jlong, jint, jint);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -183,7 +183,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1setUndefi
  * Signature: (JII)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1setNull
-  (JNIEnv *, jclass, jlong, jint, jint);
+        (JNIEnv *, jclass, jlong, jint, jint);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray
@@ -191,7 +191,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1setNull
  * Signature: (JIII)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1setReference
-  (JNIEnv *, jclass, jlong, jint, jint, jint);
+        (JNIEnv *, jclass, jlong, jint, jint, jint);
 
 #ifdef __cplusplus
 }

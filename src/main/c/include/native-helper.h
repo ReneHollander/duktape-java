@@ -13,7 +13,7 @@ extern "C" {
  * Signature: (JI)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_NativeHelper_unref
-  (JNIEnv *, jclass, jlong, jint);
+        (JNIEnv *, jclass, jlong, jint);
 
 #ifdef __cplusplus
 }

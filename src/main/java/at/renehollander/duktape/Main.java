@@ -5,6 +5,9 @@ import at.renehollander.duktape.values.DukArray;
 public class Main {
 
     public static void main(String[] args) {
+
+        System.out.println("Duktape Version " + Duktape.getVersion());
+
         Duktape duktape = new Duktape();
 
         DukArray array = new DukArray(duktape);

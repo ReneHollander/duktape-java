@@ -9,11 +9,19 @@ extern "C" {
 #endif
 /*
  * Class:     at_renehollander_duktape_Duktape
+ * Method:    _getVersion
+ * Signature: ()Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_at_renehollander_duktape_Duktape__1getVersion
+        (JNIEnv *, jclass);
+
+/*
+ * Class:     at_renehollander_duktape_Duktape
  * Method:    _createContext
  * Signature: (Lat/renehollander/duktape/Duktape;)J
  */
 JNIEXPORT jlong JNICALL Java_at_renehollander_duktape_Duktape__1createContext
-  (JNIEnv *, jclass, jobject);
+        (JNIEnv *, jclass, jobject);
 
 /*
  * Class:     at_renehollander_duktape_Duktape
@@ -21,7 +29,7 @@ JNIEXPORT jlong JNICALL Java_at_renehollander_duktape_Duktape__1createContext
  * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1destroyContext
-  (JNIEnv *, jclass, jlong);
+        (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     at_renehollander_duktape_Duktape
@@ -29,7 +37,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1destroyContext
  * Signature: (J)I
  */
 JNIEXPORT jint JNICALL Java_at_renehollander_duktape_Duktape__1getRefCount
-  (JNIEnv *, jclass, jlong);
+        (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     at_renehollander_duktape_Duktape
@@ -37,7 +45,7 @@ JNIEXPORT jint JNICALL Java_at_renehollander_duktape_Duktape__1getRefCount
  * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1gc
-  (JNIEnv *, jclass, jlong);
+        (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     at_renehollander_duktape_Duktape
@@ -45,7 +53,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1gc
  * Signature: (J)J
  */
 JNIEXPORT jlong JNICALL Java_at_renehollander_duktape_Duktape__1getHeapUsage
-  (JNIEnv *, jclass, jlong);
+        (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     at_renehollander_duktape_Duktape
@@ -53,7 +61,7 @@ JNIEXPORT jlong JNICALL Java_at_renehollander_duktape_Duktape__1getHeapUsage
  * Signature: (JLjava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1execute
-  (JNIEnv *, jclass, jlong, jstring);
+        (JNIEnv *, jclass, jlong, jstring);
 
 /*
  * Class:     at_renehollander_duktape_Duktape
@@ -61,7 +69,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1execute
  * Signature: (JLjava/lang/String;Ljava/lang/Object;Ljava/lang/reflect/Method;I)V
  */
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1registerMethod
-  (JNIEnv *, jclass, jlong, jstring, jobject, jobject, jint);
+        (JNIEnv *, jclass, jlong, jstring, jobject, jobject, jint);
 
 #ifdef __cplusplus
 }

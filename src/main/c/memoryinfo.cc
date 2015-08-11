@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <duktape.h>
 #include "memoryinfo.h"
 #include "duktape_user_data.h"
 

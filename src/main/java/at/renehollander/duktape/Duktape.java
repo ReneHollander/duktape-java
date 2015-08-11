@@ -58,9 +58,15 @@ public class Duktape {
         this.fatalErrorHandler = handler;
     }
 
+    public static String getVersion() {
+        return _getVersion();
+    }
+
     /* ==================================================================== */
     /* ======================== START native calls ======================== */
     /* ==================================================================== */
+
+    private static native String _getVersion();
 
     private static native long _createContext(Duktape duktape);
 

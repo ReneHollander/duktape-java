@@ -1,14 +1,22 @@
-#include "duktape.h"
+#include <iosfwd>
+#include <sstream>
 #include "duktape-java.h"
-
 #include "cache.h"
 #include "helper.h"
 #include "refs.h"
+
+using namespace std;
 
 jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     jvm = vm;
     populateCache();
     return JNI_VERSION_1_6;
+}
+
+JNIEXPORT jstring JNICALL Java_at_renehollander_duktape_Duktape__1getVersion(JNIEnv *env, jclass cls) {
+    stringstream version;
+    version << DUK_VERSION / 10000 << "." << DUK_VERSION % 10000 / 100 << "." << DUK_VERSION % 10000 % 100;
+    return env->NewStringUTF(version.str().c_str());
 }
 
 void duj_fatal_handler(duk_context *ctx, duk_errcode_t code, const char *msg) {
