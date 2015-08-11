@@ -1,20 +1,29 @@
 package at.renehollander.duktape.values;
 
+import at.renehollander.duktape.Destroyable;
 import at.renehollander.duktape.Duktape;
+import at.renehollander.duktape.NativeHelper;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.AbstractMap;
 import java.util.Set;
 
-public final class DukObject extends AbstractDukReferencedValue implements Map<String, DukValue> {
+public final class DukObject extends AbstractMap<String, DukValue> implements DukReferencedValue, Destroyable {
+
+    private Duktape parent;
+    private int ref;
 
     public DukObject(Duktape parent) {
-        super(parent, createObject(parent.getContextPointer()));
+        this(parent, createObject(parent.getContextPointer()));
     }
 
     protected DukObject(Duktape parent, int ref) {
-        super(parent, ref);
+        this.parent = parent;
+        this.ref = ref;
+    }
+
+    @Override
+    public Duktape getParent() {
+        return this.parent;
     }
 
     @Override
@@ -100,22 +109,8 @@ public final class DukObject extends AbstractDukReferencedValue implements Map<S
     }
 
     @Override
-    public boolean isEmpty() {
-        return size() == 0;
-    }
-
-    @Override
     public boolean containsKey(Object key) {
         return key instanceof String && _containsKey(this.getParent().getContextPointer(), this.getRef(), (String) key);
-    }
-
-    @Override
-    public boolean containsValue(Object value) {
-        if (!(value instanceof DukValue)) {
-            return false;
-        }
-        // TODO needs implementation
-        return false;
     }
 
     @Override
@@ -140,30 +135,6 @@ public final class DukObject extends AbstractDukReferencedValue implements Map<S
     }
 
     @Override
-    public void putAll(Map<? extends String, ? extends DukValue> m) {
-        m.forEach(this::put);
-    }
-
-    @Override
-    public Set<String> keySet() {
-        // TODO needs implementation
-        new HashSet<String>();
-        return null;
-    }
-
-    @Override
-    public Collection<DukValue> values() {
-        // TODO needs implementation
-        return null;
-    }
-
-    @Override
-    public Set<Entry<String, DukValue>> entrySet() {
-        // TODO needs implementation
-        return null;
-    }
-
-    @Override
     public String toString() {
         return this.toJSON();
     }
@@ -179,9 +150,25 @@ public final class DukObject extends AbstractDukReferencedValue implements Map<S
         _clear(this.getParent().getContextPointer(), this.getRef());
     }
 
+    @Override
+    public Set<Entry<String, DukValue>> entrySet() {
+        // TODO needs impl
+        return null;
+    }
+
 
     public String toJSON() {
         return _toJSON(this.getParent().getContextPointer(), this.getRef());
+    }
+
+    @Override
+    public int getRef() {
+        return this.ref;
+    }
+
+    @Override
+    public void destroy() {
+        NativeHelper.unref(this.getParent().getContextPointer(), this.getRef());
     }
 
     private static native int createObject(long contextPointer);
@@ -209,6 +196,5 @@ public final class DukObject extends AbstractDukReferencedValue implements Map<S
     private static native void _putNull(long contextPointer, int objectRef, String key);
 
     private static native void _putReference(long contextPointer, int objectRef, String key, int ref);
-
 
 }
