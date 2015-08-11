@@ -4,13 +4,14 @@ import at.renehollander.duktape.Destroyable;
 import at.renehollander.duktape.Duktape;
 import at.renehollander.duktape.NativeHelper;
 
-import java.util.AbstractMap;
-import java.util.Set;
+import java.util.*;
 
 public final class DukObject extends AbstractMap<String, DukValue> implements DukReferencedValue, Destroyable {
 
     private Duktape parent;
     private int ref;
+
+    private Set<Map.Entry<String, DukValue>> entrySet;
 
     public DukObject(Duktape parent) {
         this(parent, createObject(parent.getContextPointer()));
@@ -84,25 +85,7 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
         return old;
     }
 
-    public DukValue put(String key, DukArray value) {
-        DukValue old = this.get(key);
-        _putReference(this.getParent().getContextPointer(), this.getRef(), key, value.getRef());
-        return old;
-    }
-
-    public DukValue put(String key, DukObject value) {
-        DukValue old = this.get(key);
-        _putReference(this.getParent().getContextPointer(), this.getRef(), key, value.getRef());
-        return old;
-    }
-
-    public DukValue put(String key, DukFunction value) {
-        DukValue old = this.get(key);
-        _putReference(this.getParent().getContextPointer(), this.getRef(), key, value.getRef());
-        return old;
-    }
-
-    public DukValue put(String key, AbstractDukReferencedValue value) {
+    public DukValue put(String key, DukReferencedValue value) {
         DukValue old = this.get(key);
         _putReference(this.getParent().getContextPointer(), this.getRef(), key, value.getRef());
         return old;
@@ -152,8 +135,8 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
 
     @Override
     public Set<Entry<String, DukValue>> entrySet() {
-        // TODO needs impl
-        return null;
+        if (entrySet == null) entrySet = new DukObjectEntrySet();
+        return this.entrySet;
     }
 
 
@@ -170,6 +153,45 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
     public void destroy() {
         NativeHelper.unref(this.getParent().getContextPointer(), this.getRef());
     }
+
+    public class DukObjectEntrySet extends AbstractSet<Map.Entry<String, DukValue>> {
+
+        @Override
+        public boolean add(Entry<String, DukValue> stringDukValueEntry) {
+            return DukObject.this.put(stringDukValueEntry.getKey(), stringDukValueEntry.getValue()) == null;
+        }
+
+        @Override
+        public Iterator<Entry<String, DukValue>> iterator() {
+            return new DukObjectEntrySetIterator();
+        }
+
+        @Override
+        public int size() {
+            return DukObject.this.size();
+        }
+
+        public class DukObjectEntrySetIterator implements Iterator<Map.Entry<String, DukValue>> {
+
+            @Override
+            public boolean hasNext() {
+                //TODO needs impl
+                return false;
+            }
+
+            @Override
+            public Entry<String, DukValue> next() {
+                //TODO needs impl
+                return null;
+            }
+
+            @Override
+            public void remove() {
+                //TODO needs impl
+            }
+        }
+    }
+
 
     private static native int createObject(long contextPointer);
 

@@ -115,3 +115,27 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putRefer
 }
 #endif
 #endif
+/* Header for class at_renehollander_duktape_values_DukObject_DukObjectEntrySet */
+
+#ifndef _Included_at_renehollander_duktape_values_DukObject_DukObjectEntrySet
+#define _Included_at_renehollander_duktape_values_DukObject_DukObjectEntrySet
+#ifdef __cplusplus
+extern "C" {
+#endif
+#undef at_renehollander_duktape_values_DukObject_DukObjectEntrySet_MAX_ARRAY_SIZE
+#define at_renehollander_duktape_values_DukObject_DukObjectEntrySet_MAX_ARRAY_SIZE 2147483639L
+#ifdef __cplusplus
+}
+#endif
+#endif
+/* Header for class at_renehollander_duktape_values_DukObject_DukObjectEntrySet_DukObjectEntrySetIterator */
+
+#ifndef _Included_at_renehollander_duktape_values_DukObject_DukObjectEntrySet_DukObjectEntrySetIterator
+#define _Included_at_renehollander_duktape_values_DukObject_DukObjectEntrySet_DukObjectEntrySetIterator
+#ifdef __cplusplus
+extern "C" {
+#endif
+#ifdef __cplusplus
+}
+#endif
+#endif
