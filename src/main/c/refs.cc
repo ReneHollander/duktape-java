@@ -113,7 +113,7 @@ void duj_unref(duk_context *ctx, int ref) {
 
     // Get the "refs" array in the heap stash
     duk_push_heap_stash(ctx);
-    duk_get_prop_string(ctx, -1, "refs");
+    duk_get_prop_string(ctx, -1, DUJ_INDEXED_REFSTORE_NAME);
     duk_remove(ctx, -2);
 
     // Insert a new link in the freelist
