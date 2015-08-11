@@ -1,10 +1,6 @@
-#include <iosfwd>
-#include <sstream>
 #include "duk-object.h"
 #include "cache.h"
 #include "refs.h"
-
-using namespace std;
 
 JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukObject_createObject(JNIEnv *env, jclass cls, jlong contextPointer) {
     duk_context *ctx = (void *) contextPointer;
@@ -97,11 +93,9 @@ JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukObject__1get(J
                 duktape
         );
     } else if (type == DUK_TYPE_OBJECT) {
-        stringstream hiddenName;
-        hiddenName << "\xff" << key;
-        duk_get_prop_string(ctx, -2, hiddenName.str().c_str());
-        int ref = duk_get_int(ctx, -1);
-        duk_pop(ctx);
+
+        duk_dup(ctx, -1);
+        int ref = duj_ref(ctx);
 
         if (duk_is_array(ctx, -1)) {
             retVal = env->NewObject(
@@ -208,17 +202,9 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putNull(
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putReference(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey, jint value) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
-
-    const char *key = env->GetStringUTFChars(jKey, 0);
-    stringstream hiddenName;
-    hiddenName << "\xff" << key;
-
     duj_push_ref(ctx, value);
+    const char *key = env->GetStringUTFChars(jKey, 0);
     duk_put_prop_string(ctx, -2, key);
-
-    duk_push_int(ctx, value);
-    duk_put_prop_string(ctx, -2, hiddenName.str().c_str());
-
-    duk_pop(ctx);
     env->ReleaseStringUTFChars(jKey, key);
+    duk_pop(ctx);
 }

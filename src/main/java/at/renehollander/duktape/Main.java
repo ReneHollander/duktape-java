@@ -15,7 +15,11 @@ public class Main {
         array.add(7);
         array.add(9);
 
-        //array.add(1, 8);
+        array.add(1, 8);
+
+        System.out.println(array.toJSON());
+
+        array.set(1, 10);
 
         System.out.println(array.toJSON());
 

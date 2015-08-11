@@ -1,10 +1,6 @@
-#include <iosfwd>
-#include <sstream>
 #include "duk-array.h"
 #include "cache.h"
 #include "refs.h"
-
-using namespace std;
 
 JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukArray__1createArray(JNIEnv *env, jclass cls, jlong contextPointer) {
     duk_context *ctx = (void *) contextPointer;
@@ -68,11 +64,8 @@ JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukArray__1get(JN
                 duktape
         );
     } else if (type == DUK_TYPE_OBJECT) {
-        stringstream hiddenName;
-        hiddenName << "\xff" << (duk_uarridx_t) index;
-        duk_get_prop_string(ctx, -2, hiddenName.str().c_str());
-        int ref = duk_get_int(ctx, -1);
-        duk_pop(ctx);
+        duk_dup(ctx, -1);
+        int ref = duj_ref(ctx);
 
         if (duk_is_array(ctx, -1)) {
             retVal = env->NewObject(
@@ -108,6 +101,21 @@ JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukArray__1get(JN
         );
     }
     return retVal;
+}
+
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1remove(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jint index) {
+    duk_context *ctx = (void *) contextPointer;
+    duj_push_ref(ctx, objectRef);
+
+    // Workaround thanks to fatcerberus for Duktape #266
+    duj_push_ref(ctx, "Array.splice");
+    duk_dup(ctx, -2);
+    duk_push_int(ctx, index);
+    duk_push_int(ctx, 1);
+    duk_call_method(ctx, 2);
+    duk_pop(ctx);
+
+    duk_pop(ctx);
 }
 
 /* ======================================================================== */
@@ -162,14 +170,8 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addRefere
 
     duk_uarridx_t newPos = (duk_uarridx_t) duk_get_length(ctx, -1);
 
-    stringstream hiddenName;
-    hiddenName << "\xff" << newPos;
-
     duj_push_ref(ctx, value);
     duk_put_prop_index(ctx, -2, newPos);
-
-    duk_push_int(ctx, value);
-    duk_put_prop_string(ctx, -2, hiddenName.str().c_str());
 
     duk_pop(ctx);
 }
@@ -182,30 +184,12 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addRefere
 /* ======================== START add(index value) ======================== */
 /* ======================================================================== */
 
-/*
- // TODO figure out on how to dont destroy the references to the hidden arrays
-
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1remove(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jint index) {
-    duk_context *ctx = (void *) contextPointer;
-    duj_push_ref(ctx, objectRef);
-
-    // Workaround thanks to fatcerberus for Duktape #266
-    duk_get_prop_string(ctx, -1, "splice");
-    duk_dup(ctx, -2);
-    duk_push_int(ctx, index);
-    duk_push_int(ctx, 1);
-    duk_call_method(ctx, 2);
-    duk_pop(ctx);
-
-    duk_pop(ctx);
-}
-
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addDouble__JIID(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jint index, jdouble value) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
 
     // Workaround thanks to fatcerberus for Duktape #266
-    duk_get_prop_string(ctx, -1, "splice");
+    duj_push_ref(ctx, "Array.splice");
     duk_dup(ctx, -2);
     duk_push_int(ctx, index);
     duk_push_int(ctx, 0);
@@ -221,7 +205,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addBoolea
     duj_push_ref(ctx, objectRef);
 
     // Workaround thanks to fatcerberus for Duktape #266
-    duk_get_prop_string(ctx, -1, "splice");
+    duj_push_ref(ctx, "Array.splice");
     duk_dup(ctx, -2);
     duk_push_int(ctx, index);
     duk_push_int(ctx, 0);
@@ -237,7 +221,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addString
     duj_push_ref(ctx, objectRef);
 
     // Workaround thanks to fatcerberus for Duktape #266
-    duk_get_prop_string(ctx, -1, "splice");
+    duj_push_ref(ctx, "Array.splice");
     duk_dup(ctx, -2);
     duk_push_int(ctx, index);
     duk_push_int(ctx, 0);
@@ -255,7 +239,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addUndefi
     duj_push_ref(ctx, objectRef);
 
     // Workaround thanks to fatcerberus for Duktape #266
-    duk_get_prop_string(ctx, -1, "splice");
+    duj_push_ref(ctx, "Array.splice");
     duk_dup(ctx, -2);
     duk_push_int(ctx, index);
     duk_push_int(ctx, 0);
@@ -291,22 +275,12 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1addRefere
     duk_dup(ctx, -2);
     duk_push_int(ctx, index);
     duk_push_int(ctx, 0);
-    duk_push_null(ctx);
+    duj_push_ref(ctx, value);
     duk_call_method(ctx, 3);
     duk_pop(ctx);
 
-    stringstream hiddenName;
-    hiddenName << "\xff" << (duk_uarridx_t) index;
-
-    duj_push_ref(ctx, value);
-    duk_put_prop_index(ctx, -2, (duk_uarridx_t) index);
-
-    duk_push_int(ctx, value);
-    duk_put_prop_string(ctx, -2, hiddenName.str().c_str());
-
     duk_pop(ctx);
 }
-*/
 
 /* ======================================================================== */
 /* ========================= END add(index value) ========================= */
@@ -362,14 +336,8 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukArray__1setRefere
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
 
-    stringstream hiddenName;
-    hiddenName << "\xff" << (duk_uarridx_t) index;
-
     duj_push_ref(ctx, value);
     duk_put_prop_index(ctx, -2, (duk_uarridx_t) index);
-
-    duk_push_int(ctx, value);
-    duk_put_prop_string(ctx, -2, hiddenName.str().c_str());
 
     duk_pop(ctx);
 }
