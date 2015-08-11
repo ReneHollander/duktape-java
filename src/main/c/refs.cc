@@ -1,5 +1,34 @@
 #include "refs.h"
 
+/*
+Borrowed from https://github.com/creationix/dukluv/blob/master/src/refs.c
+
+The MIT License (MIT)
+
+Copyright (c) 2014 Tim Caswell
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+#define DUJ_INDEXED_REFSTORE_NAME "indexed_refstore"
+#define DUJ_NAMED_REFSTORE_NAME "named_refstore"
+
 // Create a global array refs in the heap stash.
 void duj_ref_setup(duk_context *ctx) {
     duk_push_heap_stash(ctx);
@@ -9,7 +38,10 @@ void duj_ref_setup(duk_context *ctx) {
     duk_push_int(ctx, 0);
     duk_put_prop_index(ctx, -2, 0);
     // Store it as "refs" in the heap stash
-    duk_put_prop_string(ctx, -2, "refs");
+    duk_put_prop_string(ctx, -2, DUJ_INDEXED_REFSTORE_NAME);
+
+    duk_push_object(ctx);
+    duk_put_prop_string(ctx, -2, DUJ_NAMED_REFSTORE_NAME);
 
     duk_pop(ctx);
 }
@@ -28,7 +60,7 @@ int duj_ref(duk_context *ctx) {
     }
     // Get the "refs" array in the heap stash
     duk_push_heap_stash(ctx);
-    duk_get_prop_string(ctx, -1, "refs");
+    duk_get_prop_string(ctx, -1, DUJ_INDEXED_REFSTORE_NAME);
     duk_remove(ctx, -2);
 
     // ref = refs[0]
@@ -67,7 +99,7 @@ void duj_push_ref(duk_context *ctx, int ref) {
     }
     // Get the "refs" array in the heap stash
     duk_push_heap_stash(ctx);
-    duk_get_prop_string(ctx, -1, "refs");
+    duk_get_prop_string(ctx, -1, DUJ_INDEXED_REFSTORE_NAME);
     duk_remove(ctx, -2);
 
     duk_get_prop_index(ctx, -1, (duk_uarridx_t) ref);
@@ -100,7 +132,7 @@ int duj_get_ref_count(duk_context *ctx) {
     // Get the "refs" array in the heap stash
     duk_push_heap_stash(ctx);
 
-    duk_get_prop_string(ctx, -1, "refs");
+    duk_get_prop_string(ctx, -1, DUJ_INDEXED_REFSTORE_NAME);
 
     int count = 0;
 
@@ -117,4 +149,36 @@ int duj_get_ref_count(duk_context *ctx) {
     duk_pop(ctx);
 
     return count;
+}
+
+void duj_ref(duk_context *ctx, const char *name) {
+    duk_push_heap_stash(ctx);
+    duk_get_prop_string(ctx, -1, DUJ_NAMED_REFSTORE_NAME);
+    duk_remove(ctx, -2);
+    // swap the object and the user value in the stack
+    duk_insert(ctx, -2);
+    duk_put_prop_string(ctx, -2, name);
+    duk_pop(ctx);
+}
+
+void duj_push_ref(duk_context *ctx, const char *name) {
+    duk_push_heap_stash(ctx);
+    duk_get_prop_string(ctx, -1, DUJ_NAMED_REFSTORE_NAME);
+    duk_remove(ctx, -2);
+    duk_get_prop_string(ctx, -1, name);
+    duk_remove(ctx, -2);
+}
+
+void duj_unref(duk_context *ctx, const char *name) {
+    duk_push_heap_stash(ctx);
+    duk_get_prop_string(ctx, -1, DUJ_NAMED_REFSTORE_NAME);
+    duk_del_prop_string(ctx, -1, name);
+    duk_pop_2(ctx);
+}
+
+const char *duj_get_heap_stash_json(duk_context *ctx, const char *name) {
+    duk_push_heap_stash(ctx);
+    const char *json = duk_json_encode(ctx, 0);
+    duk_pop(ctx);
+    return json;
 }

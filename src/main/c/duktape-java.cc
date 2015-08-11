@@ -31,6 +31,12 @@ JNIEXPORT jlong JNICALL Java_at_renehollander_duktape_Duktape__1createContext(JN
     duk_context *ctx = duk_create_heap(counting_alloc_function, counting_realloc_function, counting_free_function, userData, duj_fatal_handler);
     duj_ref_setup(ctx);
 
+    // Store Array.splice on heap stash to protect it from modification with prototyping
+    duk_push_array(ctx);
+    duk_get_prop_string(ctx, -1, "splice");
+    duj_ref(ctx, "Array.splice");
+    duk_pop(ctx);
+
     userData->duktape = env->NewGlobalRef(duktape);
 
     return (jlong) ctx;
