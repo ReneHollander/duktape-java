@@ -1,10 +1,12 @@
 duktape-java - A Java binding for [Duktape](http://duktape.org/)
 ================================================================
 
+Work in progress
+
 # Featurs
 - Spawn multiple duktape contexts that are isolated from each other
-- Put java values into global context
-- Register java methods in duktape to be used from javascript
+- Access Javascript objects and arrays through Java maps and lists
+- Execute Javascript from Java
 
 # Building
 ### Native
