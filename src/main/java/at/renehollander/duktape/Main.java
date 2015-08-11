@@ -1,6 +1,10 @@
 package at.renehollander.duktape;
 
-import at.renehollander.duktape.values.DukArray;
+import at.renehollander.duktape.values.DukObject;
+import at.renehollander.duktape.values.DukString;
+import at.renehollander.duktape.values.DukValue;
+
+import java.util.Map;
 
 public class Main {
 
@@ -10,18 +14,19 @@ public class Main {
 
         Duktape duktape = new Duktape();
 
-        DukArray array = new DukArray(duktape);
+        DukObject dukObject = new DukObject(duktape);
+        DukObject inner = new DukObject(duktape);
+        dukObject.put("key", "value");
+        dukObject.put("inner", inner);
 
-        array.add(7);
-        array.add(9);
+        for (Map.Entry<String, DukValue> entry : dukObject.entrySet()) {
+            System.out.println(entry);
+            if (entry.getValue().isReferenceValue()) entry.getValue().asReferencedValue().destroy();
+        }
 
-        array.add(1, 8);
+        System.out.println(dukObject.containsValue(new DukString(duktape, "value")));
 
-        System.out.println(array.toJSON());
-
-        array.set(1, 10);
-
-        System.out.println(array.toJSON());
+        System.out.println(duktape.getRefCount());
 
         duktape.destroy();
     }

@@ -11,6 +11,7 @@ void populateCache() {
     classCache.JavaLangObject = env->FindClass("java/lang/Object");
     classCache.JavaLangInteger = env->FindClass("java/lang/Integer");
     classCache.JavaLangLong = env->FindClass("java/lang/Long");
+    classCache.JavaLangString = env->FindClass("java/lang/String");
     classCache.AtReneHollanderDuktapeDuktape = env->FindClass("at/renehollander/duktape/Duktape");
     classCache.AtReneHollanderDuktapeValuesDukValue = env->FindClass("at/renehollander/duktape/values/DukValue");
     classCache.AtReneHollanderDuktapeValuesDukReferencedValue = env->FindClass("at/renehollander/duktape/values/DukReferencedValue");

@@ -8,18 +8,41 @@ JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukObject_createObje
     return duj_ref(ctx);
 }
 
-JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukObject__1size(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef) {
-    duk_context *ctx = (void *) contextPointer;
-    duj_push_ref(ctx, objectRef);
+static int getObjectSize(duk_context *ctx, duk_idx_t index) {
     int count = 0;
-    duk_enum(ctx, -1, 0);
+    duk_enum(ctx, index, 0);
     while (duk_next(ctx, -1, 0)) {
         count++;
         duk_pop(ctx);
     }
     duk_pop(ctx);
-    duk_pop(ctx);
     return count;
+}
+
+JNIEXPORT jobjectArray JNICALL Java_at_renehollander_duktape_values_DukObject__1getKeys(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef) {
+    duk_context *ctx = (void *) contextPointer;
+    duj_push_ref(ctx, objectRef);
+    int size = getObjectSize(ctx, -1);
+
+    jobjectArray ret = (jobjectArray) env->NewObjectArray(size, classCache.JavaLangString, env->NewStringUTF(""));
+    duk_enum(ctx, -1, 0);
+    int count = 0;
+    while (duk_next(ctx, -1, 0)) {
+        env->SetObjectArrayElement(ret, count, env->NewStringUTF(duk_get_string(ctx, -1)));
+        duk_pop(ctx);
+        count++;
+    }
+    duk_pop(ctx);
+    duk_pop(ctx);
+    return ret;
+}
+
+JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukObject__1size(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef) {
+    duk_context *ctx = (void *) contextPointer;
+    duj_push_ref(ctx, objectRef);
+    int size = getObjectSize(ctx, -1);
+    duk_pop(ctx);
+    return size;
 }
 
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1clear(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef) {

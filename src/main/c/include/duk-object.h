@@ -17,6 +17,14 @@ JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukObject_createObje
 
 /*
  * Class:     at_renehollander_duktape_values_DukObject
+ * Method:    _getKeys
+ * Signature: (JI)[Ljava/lang/String;
+ */
+JNIEXPORT jobjectArray JNICALL Java_at_renehollander_duktape_values_DukObject__1getKeys
+        (JNIEnv *, jclass, jlong, jint);
+
+/*
+ * Class:     at_renehollander_duktape_values_DukObject
  * Method:    _size
  * Signature: (JI)I
  */

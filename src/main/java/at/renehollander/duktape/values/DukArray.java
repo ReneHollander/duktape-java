@@ -35,6 +35,16 @@ public final class DukArray extends AbstractList<DukValue> implements DukReferen
     }
 
     @Override
+    public boolean isReferenceValue() {
+        return true;
+    }
+
+    @Override
+    public DukReferencedValue asReferencedValue() {
+        return this;
+    }
+
+    @Override
     public DukValue get(int index) {
         return _get(this.getParent().getContextPointer(), this.getRef(), this.getParent(), index);
     }

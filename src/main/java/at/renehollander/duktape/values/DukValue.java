@@ -74,7 +74,7 @@ public interface DukValue {
         return false;
     }
 
-    public default AbstractDukReferencedValue asReferencedValue() {
+    public default DukReferencedValue asReferencedValue() {
         throw new WrongValueTypeException("ReferencedValue");
     }
 

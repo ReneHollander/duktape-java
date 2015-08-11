@@ -82,7 +82,7 @@ public abstract class AbstractDukValue implements DukValue {
         return false;
     }
 
-    public AbstractDukReferencedValue asReferencedValue() {
+    public DukReferencedValue asReferencedValue() {
         throw new WrongValueTypeException("ReferencedValue");
     }
 

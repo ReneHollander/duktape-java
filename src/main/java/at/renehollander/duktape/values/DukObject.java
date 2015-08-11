@@ -37,6 +37,16 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
         return this;
     }
 
+    @Override
+    public boolean isReferenceValue() {
+        return true;
+    }
+
+    @Override
+    public DukReferencedValue asReferencedValue() {
+        return this;
+    }
+
     public DukValue put(String key, DukValue value) {
         if (value.isNumber()) {
             return put(key, value.asNumber());
@@ -173,27 +183,50 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
 
         public class DukObjectEntrySetIterator implements Iterator<Map.Entry<String, DukValue>> {
 
+            // TODO fix destroy issue
+
+            private String[] keys;
+            private Entry<String, DukValue> last;
+
+            private int cursor;
+
+            public DukObjectEntrySetIterator() {
+                cursor = -1;
+                System.out.println(Arrays.toString(getKeys()));
+            }
+
             @Override
             public boolean hasNext() {
-                //TODO needs impl
-                return false;
+                return cursor + 1 < keys.length;
             }
 
             @Override
             public Entry<String, DukValue> next() {
-                //TODO needs impl
-                return null;
+                cursor++;
+                String key = keys[cursor];
+                last = new SimpleEntry<String, DukValue>(key, get(key));
+                return last;
             }
 
             @Override
             public void remove() {
-                //TODO needs impl
+                DukObject.this.remove(last.getKey());
             }
+
+            private String[] getKeys() {
+                if (keys == null) {
+                    keys = _getKeys(getParent().getContextPointer(), getRef());
+                }
+                return keys;
+            }
+
         }
     }
 
 
     private static native int createObject(long contextPointer);
+
+    private static native String[] _getKeys(long contextPointer, int objectRef);
 
     private static native int _size(long contextPointer, int objectRef);
 

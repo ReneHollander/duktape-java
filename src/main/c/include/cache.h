@@ -6,6 +6,7 @@ struct ClassCache {
     jclass JavaLangObject;
     jclass JavaLangInteger;
     jclass JavaLangLong;
+    jclass JavaLangString;
     jclass AtReneHollanderDuktapeDuktape;
     jclass AtReneHollanderDuktapeValuesDukValue;
     jclass AtReneHollanderDuktapeValuesDukReferencedValue;

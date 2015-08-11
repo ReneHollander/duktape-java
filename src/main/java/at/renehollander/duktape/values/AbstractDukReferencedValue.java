@@ -27,7 +27,7 @@ public abstract class AbstractDukReferencedValue extends AbstractDukValue implem
     }
 
     @Override
-    public AbstractDukReferencedValue asReferencedValue() {
+    public DukReferencedValue asReferencedValue() {
         return this;
     }
 }
