@@ -6,6 +6,8 @@ public interface DukReferencedValue extends DukValue, Destroyable {
 
     public int getRef();
 
+    public boolean isAlive();
+
     public void destroy();
 
 }

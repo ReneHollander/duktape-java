@@ -9,6 +9,7 @@ public final class DukArray extends AbstractList<DukValue> implements DukReferen
 
     private Duktape parent;
     private int ref;
+    private boolean alive;
 
     public DukArray(Duktape parent) {
         this(parent, _createArray(parent.getContextPointer()));
@@ -70,8 +71,22 @@ public final class DukArray extends AbstractList<DukValue> implements DukReferen
     }
 
     @Override
+    public boolean isAlive() {
+        return alive;
+    }
+
+    @Override
     public void destroy() {
-        NativeHelper.unref(this.getParent().getContextPointer(), this.getRef());
+        if (isAlive()) {
+            NativeHelper.unref(this.getParent().getContextPointer(), this.getRef());
+            alive = false;
+        }
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        this.destroy();
     }
 
     @Override

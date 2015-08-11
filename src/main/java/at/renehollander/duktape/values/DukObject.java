@@ -10,6 +10,7 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
 
     private Duktape parent;
     private int ref;
+    private boolean alive;
 
     private Set<Map.Entry<String, DukValue>> entrySet;
 
@@ -160,8 +161,22 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
     }
 
     @Override
+    public boolean isAlive() {
+        return alive;
+    }
+
+    @Override
     public void destroy() {
-        NativeHelper.unref(this.getParent().getContextPointer(), this.getRef());
+        if (isAlive()) {
+            NativeHelper.unref(this.getParent().getContextPointer(), this.getRef());
+            alive = false;
+        }
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        this.destroy();
     }
 
     public class DukObjectEntrySet extends AbstractSet<Map.Entry<String, DukValue>> {
@@ -182,8 +197,6 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
         }
 
         public class DukObjectEntrySetIterator implements Iterator<Map.Entry<String, DukValue>> {
-
-            // TODO fix destroy issue
 
             private String[] keys;
             private Entry<String, DukValue> last;
@@ -223,7 +236,6 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
         }
     }
 
-
     private static native int createObject(long contextPointer);
 
     private static native String[] _getKeys(long contextPointer, int objectRef);
@@ -251,5 +263,6 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
     private static native void _putNull(long contextPointer, int objectRef, String key);
 
     private static native void _putReference(long contextPointer, int objectRef, String key, int ref);
+
 
 }
