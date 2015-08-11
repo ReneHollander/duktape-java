@@ -21,6 +21,7 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
     protected DukObject(Duktape parent, int ref) {
         this.parent = parent;
         this.ref = ref;
+        this.alive = true;
     }
 
     @Override
@@ -168,15 +169,16 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
     @Override
     public void destroy() {
         if (isAlive()) {
-            NativeHelper.unref(this.getParent().getContextPointer(), this.getRef());
             alive = false;
+            NativeHelper.unref(this.getParent().getContextPointer(), this.getRef());
         }
     }
 
     @Override
     protected void finalize() throws Throwable {
-        super.finalize();
-        this.destroy();
+        synchronized (getParent()) {
+            this.destroy();
+        }
     }
 
     public class DukObjectEntrySet extends AbstractSet<Map.Entry<String, DukValue>> {
@@ -205,7 +207,6 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
 
             public DukObjectEntrySetIterator() {
                 cursor = -1;
-                System.out.println(Arrays.toString(getKeys()));
             }
 
             @Override
@@ -234,6 +235,7 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
             }
 
         }
+
     }
 
     private static native int createObject(long contextPointer);

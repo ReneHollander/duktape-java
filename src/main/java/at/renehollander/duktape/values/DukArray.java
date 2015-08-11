@@ -18,6 +18,7 @@ public final class DukArray extends AbstractList<DukValue> implements DukReferen
     protected DukArray(Duktape parent, int ref) {
         this.parent = parent;
         this.ref = ref;
+        this.alive = true;
     }
 
     @Override
@@ -78,15 +79,16 @@ public final class DukArray extends AbstractList<DukValue> implements DukReferen
     @Override
     public void destroy() {
         if (isAlive()) {
-            NativeHelper.unref(this.getParent().getContextPointer(), this.getRef());
             alive = false;
+            NativeHelper.unref(this.getParent().getContextPointer(), this.getRef());
         }
     }
 
     @Override
     protected void finalize() throws Throwable {
-        super.finalize();
-        this.destroy();
+        synchronized (getParent()) {
+            this.destroy();
+        }
     }
 
     @Override

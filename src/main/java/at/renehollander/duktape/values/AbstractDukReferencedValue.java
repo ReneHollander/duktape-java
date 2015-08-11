@@ -12,6 +12,7 @@ public abstract class AbstractDukReferencedValue extends AbstractDukValue implem
     protected AbstractDukReferencedValue(Duktape parent, int ref) {
         super(parent);
         this.ref = ref;
+        alive = true;
     }
 
     public int getRef() {
@@ -26,15 +27,16 @@ public abstract class AbstractDukReferencedValue extends AbstractDukValue implem
     @Override
     public void destroy() {
         if (isAlive()) {
-            NativeHelper.unref(this.getParent().getContextPointer(), this.getRef());
             alive = false;
+            NativeHelper.unref(this.getParent().getContextPointer(), this.getRef());
         }
     }
 
     @Override
     protected void finalize() throws Throwable {
-        super.finalize();
-        this.destroy();
+        synchronized (getParent()) {
+            this.destroy();
+        }
     }
 
     @Override
