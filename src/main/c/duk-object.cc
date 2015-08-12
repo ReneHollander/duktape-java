@@ -125,21 +125,21 @@ JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukObject__1get(J
                     classCache.AtReneHollanderDuktapeValuesDukArray,
                     methodIdCache.AtReneHollanderDuktapeValuesDukArrayInit,
                     duktape,
-                    ref
-            );
-        } else if (duk_is_object(ctx, -1)) {
-            retVal = env->NewObject(
-                    classCache.AtReneHollanderDuktapeValuesDukObject,
-                    methodIdCache.AtReneHollanderDuktapeValuesDukObjectInit,
-                    duktape,
-                    ref
+                    objectRef
             );
         } else if (duk_is_function(ctx, -1)) {
             retVal = env->NewObject(
                     classCache.AtReneHollanderDuktapeValuesDukFunction,
                     methodIdCache.AtReneHollanderDuktapeValuesDukFunctionInit,
                     duktape,
-                    ref
+                    objectRef
+            );
+        } else {
+            retVal = env->NewObject(
+                    classCache.AtReneHollanderDuktapeValuesDukObject,
+                    methodIdCache.AtReneHollanderDuktapeValuesDukObjectInit,
+                    duktape,
+                    objectRef
             );
         }
     }

@@ -151,17 +151,17 @@ int methodExecutor(duk_context *ctx) {
                         userData->duktape,
                         objectRef
                 );
-            } else if (duk_is_object(ctx, -1)) {
-                argVal = env->NewObject(
-                        classCache.AtReneHollanderDuktapeValuesDukObject,
-                        methodIdCache.AtReneHollanderDuktapeValuesDukObjectInit,
-                        userData->duktape,
-                        objectRef
-                );
             } else if (duk_is_function(ctx, -1)) {
                 argVal = env->NewObject(
                         classCache.AtReneHollanderDuktapeValuesDukFunction,
                         methodIdCache.AtReneHollanderDuktapeValuesDukFunctionInit,
+                        userData->duktape,
+                        objectRef
+                );
+            } else {
+                argVal = env->NewObject(
+                        classCache.AtReneHollanderDuktapeValuesDukObject,
+                        methodIdCache.AtReneHollanderDuktapeValuesDukObjectInit,
                         userData->duktape,
                         objectRef
                 );
