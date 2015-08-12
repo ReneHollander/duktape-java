@@ -89,26 +89,96 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1execute(JNIEnv *e
 
 int methodExecutor(duk_context *ctx) {
     JNIEnv *env = setupJNIEnv();
+    DuktapeUserData *userData = getDuktapeUserData(ctx);
+
+    duk_dump_context_stdout(ctx);
 
     duk_push_current_function(ctx);
     duk_get_prop_index(ctx, -1, 0);
     int ref = duk_get_int(ctx, -1);
+    duk_pop(ctx);
+    duk_pop(ctx);
 
     duk_size_t size;
     duj_push_ref(ctx, ref);
     MethodData *methodData = (MethodData *) duk_get_buffer(ctx, -1, &size);
+    duk_pop(ctx);
 
-    // just testing if I can call something from c++
+    int argc = duk_get_top(ctx);
+    jvalue args[argc];
+    for (int i = 0; i < argc; i++) {
+        int type = duk_get_type(ctx, -1);
+        jobject argVal = NULL;
+        if (type == DUK_TYPE_NUMBER) {
+            argVal = env->NewObject(
+                    classCache.AtReneHollanderDuktapeValuesDukNumber,
+                    methodIdCache.AtReneHollanderDuktapeValuesDukNumberInit,
+                    userData->duktape,
+                    duk_get_number(ctx, -1)
+            );
+        } else if (type == DUK_TYPE_BOOLEAN) {
+            argVal = env->NewObject(
+                    classCache.AtReneHollanderDuktapeValuesDukBoolean,
+                    methodIdCache.AtReneHollanderDuktapeValuesDukBooleanInit,
+                    userData->duktape,
+                    duk_get_boolean(ctx, -1)
+            );
+        } else if (type == DUK_TYPE_STRING) {
+            argVal = env->NewObject(
+                    classCache.AtReneHollanderDuktapeValuesDukString,
+                    methodIdCache.AtReneHollanderDuktapeValuesDukStringInit,
+                    userData->duktape,
+                    env->NewStringUTF(duk_get_string(ctx, -1))
+            );
+        } else if (type == DUK_TYPE_UNDEFINED) {
+            argVal = env->NewObject(
+                    classCache.AtReneHollanderDuktapeValuesDukUndefined,
+                    methodIdCache.AtReneHollanderDuktapeValuesDukUndefinedInit,
+                    userData->duktape
+            );
+        } else if (type == DUK_TYPE_NULL) {
+            argVal = env->NewObject(
+                    classCache.AtReneHollanderDuktapeValuesDukNull,
+                    methodIdCache.AtReneHollanderDuktapeValuesDukNullInit,
+                    userData->duktape
+            );
+        } else if (type == DUK_TYPE_OBJECT) {
+            int objectRef = duj_ref(ctx);
 
-    /*
-    jvalue args[2];
-    args[0].i = (jint) 5;
-    args[1].j = (jlong) 7;
-    */
+            if (duk_is_array(ctx, -1)) {
+                argVal = env->NewObject(
+                        classCache.AtReneHollanderDuktapeValuesDukArray,
+                        methodIdCache.AtReneHollanderDuktapeValuesDukArrayInit,
+                        userData->duktape,
+                        objectRef
+                );
+            } else if (duk_is_object(ctx, -1)) {
+                argVal = env->NewObject(
+                        classCache.AtReneHollanderDuktapeValuesDukObject,
+                        methodIdCache.AtReneHollanderDuktapeValuesDukObjectInit,
+                        userData->duktape,
+                        objectRef
+                );
+            } else if (duk_is_function(ctx, -1)) {
+                argVal = env->NewObject(
+                        classCache.AtReneHollanderDuktapeValuesDukFunction,
+                        methodIdCache.AtReneHollanderDuktapeValuesDukFunctionInit,
+                        userData->duktape,
+                        objectRef
+                );
+            }
+        }
 
-    jvalue args[2];
-    args[0].l = wrapInteger(env, 5);
-    args[1].l = wrapLong(env, 7);
+        if (argVal == NULL) {
+            argVal = env->NewObject(
+                    classCache.AtReneHollanderDuktapeValuesDukUndefined,
+                    methodIdCache.AtReneHollanderDuktapeValuesDukUndefinedInit,
+                    userData->duktape
+            );
+        }
+        args[i].l = argVal;
+        duk_pop(ctx);
+    }
 
     env->CallObjectMethodA(methodData->callerObject, methodData->methodID, args);
 

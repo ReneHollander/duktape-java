@@ -1,6 +1,6 @@
 package at.renehollander.duktape;
 
-import at.renehollander.duktape.values.DukObject;
+import at.renehollander.duktape.values.DukValue;
 
 import java.lang.reflect.Method;
 
@@ -11,38 +11,12 @@ public class Main {
 
         Duktape duktape = new Duktape();
 
-        DukObject dukObject = new DukObject(duktape);
-        DukObject inner = new DukObject(duktape);
-        dukObject.put("inner", inner);
-
-        System.out.println(duktape.getRefCount());
-
-        //inner.destroy();
-        //dukObject.destroy();
-
-        inner = null;
-        dukObject = null;
-
-        System.gc();
-        System.gc();
-        System.gc();
-        System.gc();
-        System.gc();
-        System.gc();
-
-        Thread.sleep(1000);
-        duktape.gc();
-        Thread.sleep(1000);
-        duktape.gc();
-        System.out.println(duktape.getRefCount());
-        System.out.println(duktape.getRefCount());
-
-        Object method = (Function.TwoArg.WithoutReturn<Integer, Long>) this::lol;
+        Object method = (Function.TwoArg.WithoutReturn<DukValue, DukValue>) this::lol;
         Class<?> clazz = method.getClass();
         Method invokeMethod = clazz.getMethods()[0];
 
         duktape.registerMethod("testMethod", method, invokeMethod, invokeMethod.getParameterCount());
-        duktape.execute("testMethod();");
+        duktape.execute("testMethod(4, 3);");
 
 
         /*
@@ -56,8 +30,8 @@ public class Main {
         */
     }
 
-    public void lol(int i, long l) {
-        System.out.println("i=" + i + ", l=" + l);
+    public void lol(DukValue v1, DukValue v2) {
+        System.out.println("v1=" + v1 + ", v2=" + v2);
     }
 
     public static void main(String[] args) throws Exception {
