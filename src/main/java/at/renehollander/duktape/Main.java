@@ -17,13 +17,12 @@ public class Main {
         Class<?> clazz = method.getClass();
         Method invokeMethod = clazz.getMethods()[0];
 
-        duktape.registerMethod("testMethod", method, invokeMethod, invokeMethod.getParameterCount());
-        duktape.execute("testMethod(4, function(v1, v2) { testMethod(v1, v2); });");
-
         DukObject global = duktape.getGlobal();
+        DukJavaFunction testMethod = new DukJavaFunction(this.duktape, invokeMethod, method);
+        global.put("testMethod", testMethod.getDukFunction());
         global.put("key", "value");
         System.out.println(duktape.getGlobal());
-
+        duktape.execute("testMethod(4, function(v1, v2) { testMethod(v1, key); });");
 
         /*
         Class<?> clazz = Main.class;

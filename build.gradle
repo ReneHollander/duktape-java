@@ -34,7 +34,8 @@ task javah(dependsOn: [build]) {
                 'at.renehollander.duktape.values.DukReferencedValue': 'src/main/c/include/duk-referenced-value.h',
                 'at.renehollander.duktape.values.DukFunction'       : 'src/main/c/include/duk-function.h',
                 'at.renehollander.duktape.values.DukObject'         : 'src/main/c/include/duk-object.h',
-                'at.renehollander.duktape.values.DukArray'          : 'src/main/c/include/duk-array.h'
+                'at.renehollander.duktape.values.DukArray'          : 'src/main/c/include/duk-array.h',
+                'at.renehollander.duktape.values.DukJavaFunction'   : 'src/main/c/include/duk-java-function.h'
         ]
         classes.each { inputClass, outputFile ->
             // println inputClass + ": " + outputFile

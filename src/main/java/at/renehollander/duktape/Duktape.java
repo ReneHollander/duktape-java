@@ -4,7 +4,6 @@ import at.renehollander.duktape.error.FatalErrorHandler;
 import at.renehollander.duktape.values.DukObject;
 
 import java.io.File;
-import java.lang.reflect.Method;
 
 public class Duktape {
 
@@ -27,10 +26,6 @@ public class Duktape {
 
     public long getContextPointer() {
         return contextPointer;
-    }
-
-    public void registerMethod(String name, Object callerObject, Method method, int paramCount) {
-        _registerMethod(this.getContextPointer(), name, callerObject, method, paramCount);
     }
 
     public DukObject getGlobal() {
@@ -84,8 +79,6 @@ public class Duktape {
     private static native long _getHeapUsage(long contextPointer);
 
     private static native void _execute(long contextPointer, String script);
-
-    private static native void _registerMethod(long contextPointer, String name, Object callerObject, Method method, int paramCount);
 
     /* ==================================================================== */
     /* ========================= END native calls ========================= */
