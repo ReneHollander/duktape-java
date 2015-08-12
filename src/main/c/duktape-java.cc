@@ -1,8 +1,8 @@
 #include <iosfwd>
 #include <sstream>
+#include <method.h>
+#include <objectwrapper.h>
 #include "duktape-java.h"
-#include "cache.h"
-#include "helper.h"
 #include "refs.h"
 
 using namespace std;
@@ -20,9 +20,10 @@ JNIEXPORT jstring JNICALL Java_at_renehollander_duktape_Duktape__1getVersion(JNI
 }
 
 void duj_fatal_handler(duk_context *ctx, duk_errcode_t code, const char *msg) {
-    JNIEnv *env = getJNIEnv();
+    JNIEnv *env = setupJNIEnv();
     DuktapeUserData *userData = getDuktapeUserData(ctx);
     env->CallObjectMethod(userData->duktape, methodIdCache.AtReneHollanderDuktapeDuktapeFatalErrorHandler, code, env->NewStringUTF(msg));
+    resetJNIEnv(env);
 }
 
 JNIEXPORT jlong JNICALL Java_at_renehollander_duktape_Duktape__1createContext(JNIEnv *env, jclass cls, jobject duktape) {
@@ -81,13 +82,8 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1execute(JNIEnv *e
     env->ReleaseStringUTFChars(jScript, script);
 }
 
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1registerMethod(JNIEnv *env, jclass cls, jlong contextPointer, jstring, jobject, jobject, jint) {
-    //duk_context *ctx = (void *) contextPointer;
-}
-
-/*
 int methodExecutor(duk_context *ctx) {
-    JNIEnv *env = getJNIEnv();
+    JNIEnv *env = setupJNIEnv();
 
     duk_push_current_function(ctx);
     duk_get_prop_index(ctx, -1, 0);
@@ -98,20 +94,32 @@ int methodExecutor(duk_context *ctx) {
     MethodData *methodData = (MethodData *) duk_get_buffer(ctx, -1, &size);
 
     // just testing if I can call something from c++
-    env->CallObjectMethod(methodData->callerObject, methodData->methodID, wrapInteger(env, 5), wrapLong(env, 7));
+
+    /*
+    jvalue args[3];
+    args[0].i = (jint) 5;
+    args[1].j = (jlong) 7;
+     */
+
+    jvalue args[3];
+    args[0].l = wrapInteger(env, 5);
+    args[1].l = wrapLong(env, 7);
+
+    env->CallObjectMethodA(methodData->callerObject, methodData->methodID, args);
+
+    resetJNIEnv(env);
 
     return 0;
 }
 
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_registerMethod(JNIEnv *env, jobject obj, jstring jName, jobject jObject, jobject jMethod, jint paramCount) {
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1registerMethod(JNIEnv *env, jclass cls, jlong contextPointer, jstring jName, jobject callerObject, jobject method, jint paramCount) {
+    duk_context *ctx = (void *) contextPointer;
     const char *name = env->GetStringUTFChars(jName, 0);
-    duk_context *ctx = getContextFromObject(env, obj);
-
     MethodData *methodData = (MethodData *) duk_push_fixed_buffer(ctx, sizeof(MethodData));
     int ref = duj_ref(ctx);
 
-    methodData->callerObject = jObject;
-    methodData->methodID = env->FromReflectedMethod(jMethod);
+    methodData->callerObject = env->NewGlobalRef(callerObject);
+    methodData->methodID = env->FromReflectedMethod(method);
 
     duk_push_global_object(ctx);
     duk_push_c_function(ctx, methodExecutor, paramCount);
@@ -122,4 +130,3 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape_registerMethod(JNIE
 
     env->ReleaseStringUTFChars(jName, name);
 }
- */
