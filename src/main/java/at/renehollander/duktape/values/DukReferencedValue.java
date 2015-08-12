@@ -21,7 +21,6 @@ public interface DukReferencedValue extends DukValue, Destroyable {
     public default void markForDestroy() {
         if (isAlive()) {
             setAlive(false);
-            System.out.println("mark for destroy");
             NativeHelper.mark_for_unref(this);
         }
     }
