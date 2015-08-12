@@ -6,7 +6,7 @@ MethodIDCache methodIdCache;
 FieldIDCache fieldIdCache;
 
 void populateCache() {
-    JNIEnv *env = getJNIEnv();
+    JNIEnv *env = setupJNIEnv();
 
     classCache.JavaLangObject = (jclass) env->NewGlobalRef(env->FindClass("java/lang/Object"));
     classCache.JavaLangInteger = (jclass) env->NewGlobalRef(env->FindClass("java/lang/Integer"));
@@ -35,4 +35,6 @@ void populateCache() {
     methodIdCache.AtReneHollanderDuktapeValuesDukStringInit = env->GetMethodID(classCache.AtReneHollanderDuktapeValuesDukString, "<init>", "(Lat/renehollander/duktape/Duktape;Ljava/lang/String;)V");
     methodIdCache.AtReneHollanderDuktapeValuesDukUndefinedInit = env->GetMethodID(classCache.AtReneHollanderDuktapeValuesDukUndefined, "<init>", "(Lat/renehollander/duktape/Duktape;)V");
     methodIdCache.AtReneHollanderDuktapeValuesDukBooleanInit = env->GetMethodID(classCache.AtReneHollanderDuktapeValuesDukBoolean, "<init>", "(Lat/renehollander/duktape/Duktape;Z)V");
+
+    resetJNIEnv(env);
 }

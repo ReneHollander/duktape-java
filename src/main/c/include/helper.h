@@ -6,6 +6,8 @@
 
 extern JavaVM *jvm;
 
-JNIEnv *getJNIEnv();
+JNIEnv *setupJNIEnv();
+
+void resetJNIEnv(JNIEnv *env);
 
 DuktapeUserData *getDuktapeUserData(duk_context *ctx);
