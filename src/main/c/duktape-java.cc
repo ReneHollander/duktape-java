@@ -96,12 +96,12 @@ int methodExecutor(duk_context *ctx) {
     // just testing if I can call something from c++
 
     /*
-    jvalue args[3];
+    jvalue args[2];
     args[0].i = (jint) 5;
     args[1].j = (jlong) 7;
-     */
+    */
 
-    jvalue args[3];
+    jvalue args[2];
     args[0].l = wrapInteger(env, 5);
     args[1].l = wrapLong(env, 7);
 

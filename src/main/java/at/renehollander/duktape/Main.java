@@ -52,7 +52,7 @@ public class Main {
         */
     }
 
-    public void lol(Integer i, Long l) {
+    public void lol(int i, long l) {
         System.out.println("i=" + i + ", l=" + l);
     }
 
