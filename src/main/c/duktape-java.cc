@@ -91,8 +91,6 @@ int methodExecutor(duk_context *ctx) {
     JNIEnv *env = setupJNIEnv();
     DuktapeUserData *userData = getDuktapeUserData(ctx);
 
-    duk_dump_context_stdout(ctx);
-
     duk_push_current_function(ctx);
     duk_get_prop_index(ctx, -1, 0);
     int ref = duk_get_int(ctx, -1);
@@ -143,6 +141,7 @@ int methodExecutor(duk_context *ctx) {
                     userData->duktape
             );
         } else if (type == DUK_TYPE_OBJECT) {
+            duk_dup(ctx, -1);
             int objectRef = duj_ref(ctx);
 
             if (duk_is_array(ctx, -1)) {
@@ -176,7 +175,8 @@ int methodExecutor(duk_context *ctx) {
                     userData->duktape
             );
         }
-        args[i].l = argVal;
+        // fill from back to front to get correct order of arguments
+        args[argc - 1 - i].l = argVal;
         duk_pop(ctx);
     }
 

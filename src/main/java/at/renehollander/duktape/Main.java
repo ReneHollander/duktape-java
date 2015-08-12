@@ -16,7 +16,7 @@ public class Main {
         Method invokeMethod = clazz.getMethods()[0];
 
         duktape.registerMethod("testMethod", method, invokeMethod, invokeMethod.getParameterCount());
-        duktape.execute("testMethod(4, 3);");
+        duktape.execute("testMethod(4, { key: 'value' });");
 
 
         /*
