@@ -126,39 +126,41 @@ int duj_ref(duk_context *ctx) {
 }
 
 void duj_push_ref(duk_context *ctx, int ref) {
-    if (!ref) {
+    if (ref > 0) {
+        // Get the "refs" array in the heap stash
+        duk_push_heap_stash(ctx);
+        duk_get_prop_string(ctx, -1, DUJ_INDEXED_REFSTORE_NAME);
+        duk_remove(ctx, -2);
+
+        duk_get_prop_index(ctx, -1, (duk_uarridx_t) ref);
+
+        duk_remove(ctx, -2);
+    } else if (ref == -1) {
+        duk_push_global_object(ctx);
+    } else {
         duk_push_undefined(ctx);
         return;
     }
-    // Get the "refs" array in the heap stash
-    duk_push_heap_stash(ctx);
-    duk_get_prop_string(ctx, -1, DUJ_INDEXED_REFSTORE_NAME);
-    duk_remove(ctx, -2);
-
-    duk_get_prop_index(ctx, -1, (duk_uarridx_t) ref);
-
-    duk_remove(ctx, -2);
 }
 
 static void _duj_unref(duk_context *ctx, int ref) {
+    if (ref > 0) {
+        // Get the "refs" array in the heap stash
+        duk_push_heap_stash(ctx);
+        duk_get_prop_string(ctx, -1, DUJ_INDEXED_REFSTORE_NAME);
+        duk_remove(ctx, -2);
 
-    if (!ref) return;
+        // Insert a new link in the freelist
 
-    // Get the "refs" array in the heap stash
-    duk_push_heap_stash(ctx);
-    duk_get_prop_string(ctx, -1, DUJ_INDEXED_REFSTORE_NAME);
-    duk_remove(ctx, -2);
+        // refs[ref] = refs[0]
+        duk_get_prop_index(ctx, -1, 0);
+        duk_put_prop_index(ctx, -2, (duk_uarridx_t) ref);
+        // refs[0] = ref
+        duk_push_int(ctx, ref);
+        duk_put_prop_index(ctx, -2, 0);
 
-    // Insert a new link in the freelist
-
-    // refs[ref] = refs[0]
-    duk_get_prop_index(ctx, -1, 0);
-    duk_put_prop_index(ctx, -2, (duk_uarridx_t) ref);
-    // refs[0] = ref
-    duk_push_int(ctx, ref);
-    duk_put_prop_index(ctx, -2, 0);
-
-    duk_pop(ctx);
+        duk_pop(ctx);
+    }
 }
 
 void duj_unref(duk_context *ctx, int ref) {

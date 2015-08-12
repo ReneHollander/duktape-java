@@ -1,9 +1,6 @@
 package at.renehollander.duktape;
 
-import at.renehollander.duktape.values.DukFunction;
-import at.renehollander.duktape.values.DukNumber;
-import at.renehollander.duktape.values.DukString;
-import at.renehollander.duktape.values.DukValue;
+import at.renehollander.duktape.values.*;
 
 import java.lang.reflect.Method;
 
@@ -22,6 +19,10 @@ public class Main {
 
         duktape.registerMethod("testMethod", method, invokeMethod, invokeMethod.getParameterCount());
         duktape.execute("testMethod(4, function(v1, v2) { testMethod(v1, v2); });");
+
+        DukObject global = duktape.getGlobal();
+        global.put("key", "value");
+        System.out.println(duktape.getGlobal());
 
 
         /*

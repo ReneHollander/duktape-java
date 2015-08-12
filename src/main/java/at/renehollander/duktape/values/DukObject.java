@@ -232,6 +232,10 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
 
     }
 
+    public static DukObject getGlobal(Duktape duktape) {
+        return new DukObject(duktape, -1);
+    }
+
     private static native int createObject(long contextPointer);
 
     private static native String[] _getKeys(long contextPointer, int objectRef);

@@ -1,6 +1,7 @@
 package at.renehollander.duktape;
 
 import at.renehollander.duktape.error.FatalErrorHandler;
+import at.renehollander.duktape.values.DukObject;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -30,6 +31,10 @@ public class Duktape {
 
     public void registerMethod(String name, Object callerObject, Method method, int paramCount) {
         _registerMethod(this.getContextPointer(), name, callerObject, method, paramCount);
+    }
+
+    public DukObject getGlobal() {
+        return DukObject.getGlobal(this);
     }
 
     public void execute(String script) {
