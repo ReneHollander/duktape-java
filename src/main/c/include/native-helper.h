@@ -9,10 +9,18 @@ extern "C" {
 #endif
 /*
  * Class:     at_renehollander_duktape_NativeHelper
- * Method:    unref
+ * Method:    _unref
  * Signature: (JI)V
  */
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_NativeHelper_unref
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_NativeHelper__1unref
+        (JNIEnv *, jclass, jlong, jint);
+
+/*
+ * Class:     at_renehollander_duktape_NativeHelper
+ * Method:    _mark_for_unref
+ * Signature: (JI)V
+ */
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_NativeHelper__1mark_1for_1unref
         (JNIEnv *, jclass, jlong, jint);
 
 #ifdef __cplusplus

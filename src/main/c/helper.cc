@@ -10,13 +10,14 @@ JNIEnv *setupJNIEnv() {
     // double check it's all ok
     int getEnvStat = jvm->GetEnv((void **) &env, JNI_VERSION_1_6);
     if (getEnvStat == JNI_EDETACHED) {
-        std::cout << "GetEnv: not attached" << std::endl;
         if (jvm->AttachCurrentThread((void **) &env, NULL) != 0) {
             std::cout << "Failed to attach" << std::endl;
+            abort();
         }
     } else if (getEnvStat == JNI_OK) {
     } else if (getEnvStat == JNI_EVERSION) {
         std::cout << "GetEnv: version not supported" << std::endl;
+        abort();
     }
     return env;
 }

@@ -2,7 +2,6 @@ package at.renehollander.duktape.values;
 
 import at.renehollander.duktape.Destroyable;
 import at.renehollander.duktape.Duktape;
-import at.renehollander.duktape.NativeHelper;
 
 import java.util.*;
 
@@ -167,18 +166,13 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
     }
 
     @Override
-    public void destroy() {
-        if (isAlive()) {
-            alive = false;
-            NativeHelper.unref(this.getParent().getContextPointer(), this.getRef());
-        }
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 
     @Override
     protected void finalize() throws Throwable {
-        synchronized (getParent()) {
-            this.destroy();
-        }
+        this.markForDestroy();
     }
 
     public class DukObjectEntrySet extends AbstractSet<Map.Entry<String, DukValue>> {

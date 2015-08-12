@@ -28,17 +28,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-// Create a global array refs in the heap stash.
 void duj_ref_setup(duk_context *ctx);
 
-// like luaL_ref, but assumes storage in "refs" property of heap stash
+int duj_get_ref_count(duk_context *ctx);
+
+const char *duj_get_heap_stash_json(duk_context *ctx, const char *name);
+
 int duj_ref(duk_context *ctx);
 
 void duj_push_ref(duk_context *ctx, int ref);
 
 void duj_unref(duk_context *ctx, int ref);
 
-int duj_get_ref_count(duk_context *ctx);
+void duj_mark_for_unref(duk_context *ctx, int ref);
 
 void duj_ref(duk_context *ctx, const char *name);
 
@@ -46,4 +48,6 @@ void duj_push_ref(duk_context *ctx, const char *name);
 
 void duj_unref(duk_context *ctx, const char *name);
 
-const char *duj_get_heap_stash_json(duk_context *ctx, const char *name);
+void duj_mark_for_unref(duk_context *ctx, const char *name);
+
+void duj_check_marked_for_unref(duk_context *ctx);

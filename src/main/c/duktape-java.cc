@@ -39,19 +39,23 @@ JNIEXPORT jlong JNICALL Java_at_renehollander_duktape_Duktape__1createContext(JN
     duk_pop(ctx);
 
     userData->duktape = env->NewGlobalRef(duktape);
+    userData->unrefData.mark_for_unref_indexed = new std::vector<int>();
+    userData->unrefData.mark_for_unref_named = new std::vector<std::string>();
 
     return (jlong) ctx;
 }
 
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1destroyContext(JNIEnv *env, jclass cls, jlong contextPointer) {
     duk_context *ctx = (void *) contextPointer;
-    DuktapeUserData *duktapeUserData = getDuktapeUserData(ctx);
+    DuktapeUserData *userData = getDuktapeUserData(ctx);
 
     duk_destroy_heap(ctx);
 
-    env->DeleteGlobalRef(duktapeUserData->duktape);
+    env->DeleteGlobalRef(userData->duktape);
+    delete userData->unrefData.mark_for_unref_indexed;
+    delete userData->unrefData.mark_for_unref_named;
 
-    free(duktapeUserData);
+    free(userData);
 }
 
 JNIEXPORT jint JNICALL Java_at_renehollander_duktape_Duktape__1getRefCount(JNIEnv *env, jclass cls, jlong contextPointer) {
@@ -61,6 +65,7 @@ JNIEXPORT jint JNICALL Java_at_renehollander_duktape_Duktape__1getRefCount(JNIEn
 
 JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1gc(JNIEnv *env, jclass cls, jlong contextPointer) {
     duk_context *ctx = (void *) contextPointer;
+    duj_check_marked_for_unref(ctx);
     duk_gc(ctx, 0);
 }
 

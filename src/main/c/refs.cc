@@ -1,3 +1,5 @@
+#include <duktape_user_data.h>
+#include <helper.h>
 #include "refs.h"
 
 /*
@@ -45,6 +47,37 @@ void duj_ref_setup(duk_context *ctx) {
 
     duk_pop(ctx);
 }
+
+int duj_get_ref_count(duk_context *ctx) {
+    // Get the "refs" array in the heap stash
+    duk_push_heap_stash(ctx);
+
+    duk_get_prop_string(ctx, -1, DUJ_INDEXED_REFSTORE_NAME);
+
+    int count = 0;
+
+    duk_enum(ctx, -1, 0);
+    while (duk_next(ctx, -1, DUK_ENUM_INCLUDE_NONENUMERABLE)) {
+        if (duk_is_number(ctx, -1) == 0) {
+            count++;
+        }
+        duk_pop_2(ctx);
+    }
+
+    duk_pop(ctx);
+    duk_pop(ctx);
+    duk_pop(ctx);
+
+    return count;
+}
+
+const char *duj_get_heap_stash_json(duk_context *ctx, const char *name) {
+    duk_push_heap_stash(ctx);
+    const char *json = duk_json_encode(ctx, 0);
+    duk_pop(ctx);
+    return json;
+}
+
 
 // like luaL_ref, but assumes storage in "refs" property of heap stash
 int duj_ref(duk_context *ctx) {
@@ -107,7 +140,7 @@ void duj_push_ref(duk_context *ctx, int ref) {
     duk_remove(ctx, -2);
 }
 
-void duj_unref(duk_context *ctx, int ref) {
+static void _duj_unref(duk_context *ctx, int ref) {
 
     if (!ref) return;
 
@@ -128,27 +161,14 @@ void duj_unref(duk_context *ctx, int ref) {
     duk_pop(ctx);
 }
 
-int duj_get_ref_count(duk_context *ctx) {
-    // Get the "refs" array in the heap stash
-    duk_push_heap_stash(ctx);
+void duj_unref(duk_context *ctx, int ref) {
+    duj_check_marked_for_unref(ctx);
+    _duj_unref(ctx, ref);
+}
 
-    duk_get_prop_string(ctx, -1, DUJ_INDEXED_REFSTORE_NAME);
-
-    int count = 0;
-
-    duk_enum(ctx, -1, 0);
-    while (duk_next(ctx, -1, DUK_ENUM_INCLUDE_NONENUMERABLE)) {
-        if (duk_is_number(ctx, -1) == 0) {
-            count++;
-        }
-        duk_pop_2(ctx);
-    }
-
-    duk_pop(ctx);
-    duk_pop(ctx);
-    duk_pop(ctx);
-
-    return count;
+void duj_mark_for_unref(duk_context *ctx, int ref) {
+    DuktapeUserData *userData = getDuktapeUserData(ctx);
+    userData->unrefData.mark_for_unref_indexed->push_back(ref);
 }
 
 void duj_ref(duk_context *ctx, const char *name) {
@@ -169,16 +189,35 @@ void duj_push_ref(duk_context *ctx, const char *name) {
     duk_remove(ctx, -2);
 }
 
-void duj_unref(duk_context *ctx, const char *name) {
+static void _duj_unref(duk_context *ctx, const char *name) {
     duk_push_heap_stash(ctx);
     duk_get_prop_string(ctx, -1, DUJ_NAMED_REFSTORE_NAME);
     duk_del_prop_string(ctx, -1, name);
     duk_pop_2(ctx);
 }
 
-const char *duj_get_heap_stash_json(duk_context *ctx, const char *name) {
-    duk_push_heap_stash(ctx);
-    const char *json = duk_json_encode(ctx, 0);
-    duk_pop(ctx);
-    return json;
+void duj_unref(duk_context *ctx, const char *name) {
+    duj_check_marked_for_unref(ctx);
+    _duj_unref(ctx, name);
+}
+
+void duj_mark_for_unref(duk_context *ctx, const char *name) {
+    DuktapeUserData *userData = getDuktapeUserData(ctx);
+    userData->unrefData.mark_for_unref_named->push_back(std::string(name));
+}
+
+void duj_check_marked_for_unref(duk_context *ctx) {
+    DuktapeUserData *userData = getDuktapeUserData(ctx);
+
+    for (unsigned long i = 0; i < userData->unrefData.mark_for_unref_indexed->size(); i++) {
+        int ref = userData->unrefData.mark_for_unref_indexed->at(i);
+        _duj_unref(ctx, ref);
+    }
+    userData->unrefData.mark_for_unref_indexed->clear();
+
+    for (unsigned long i = 0; i < userData->unrefData.mark_for_unref_named->size(); i++) {
+        std::string ref = userData->unrefData.mark_for_unref_named->at(i);
+        _duj_unref(ctx, ref.c_str());
+    }
+    userData->unrefData.mark_for_unref_named->clear();
 }

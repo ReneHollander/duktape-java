@@ -17,8 +17,8 @@ public class Main {
 
         System.out.println(duktape.getRefCount());
 
-        inner.destroy();
-        dukObject.destroy();
+        //inner.destroy();
+        //dukObject.destroy();
 
         inner = null;
         dukObject = null;
@@ -30,8 +30,12 @@ public class Main {
         System.gc();
         System.gc();
 
+        Thread.sleep(1000);
+        duktape.gc();
+        Thread.sleep(1000);
+        duktape.gc();
         System.out.println(duktape.getRefCount());
-
+        System.out.println(duktape.getRefCount());
 
         Object method = (Function.TwoArg.WithoutReturn<Integer, Long>) this::lol;
         Class<?> clazz = method.getClass();
