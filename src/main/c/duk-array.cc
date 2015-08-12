@@ -89,7 +89,7 @@ JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukArray__1get(JN
                     ref
             );
         }
-    };
+    }
 
     duk_pop(ctx);
     duk_pop(ctx);
