@@ -10,6 +10,8 @@ struct ClassCache {
     jclass AtReneHollanderDuktapeDuktape;
     jclass AtReneHollanderDuktapeValuesDukValue;
     jclass AtReneHollanderDuktapeValuesDukReferencedValue;
+    jclass AtReneHollanderDuktapeValuesAbstractDukValue;
+    jclass AtReneHollanderDuktapeValuesAbstractDukReferencedValue;
     jclass AtReneHollanderDuktapeValuesDukArray;
     jclass AtReneHollanderDuktapeValuesDukFunction;
     jclass AtReneHollanderDuktapeValuesDukNull;
@@ -37,6 +39,13 @@ struct MethodIDCache {
 typedef struct MethodIDCache MethodIDCache;
 
 struct FieldIDCache {
+    jfieldID AtReneHollanderDuktapeValuesDukNumberValue;
+    jfieldID AtReneHollanderDuktapeValuesDukBooleanValue;
+    jfieldID AtReneHollanderDuktapeValuesDukStringValue;
+    jfieldID AtReneHollanderDuktapeValuesDukArrayReference;
+    jfieldID AtReneHollanderDuktapeValuesDukObjectReference;
+    jfieldID AtReneHollanderDuktapeValuesDukFunctionReference;
+    jfieldID AtReneHollanderDuktapeValuesAbstractDukReferencedValueReference;
 };
 typedef struct FieldIDCache FieldIDCache;
 

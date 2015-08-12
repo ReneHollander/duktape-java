@@ -7,6 +7,14 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+/*
+ * Class:     at_renehollander_duktape_values_DukFunction
+ * Method:    _invoke
+ * Signature: (JI[Lat/renehollander/duktape/values/DukValue;)Lat/renehollander/duktape/values/DukValue;
+ */
+JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukFunction__1invoke
+        (JNIEnv *, jclass, jlong, jint, jobjectArray);
+
 #ifdef __cplusplus
 }
 #endif

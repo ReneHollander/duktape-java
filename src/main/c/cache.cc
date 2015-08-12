@@ -15,6 +15,8 @@ void populateCache() {
     classCache.AtReneHollanderDuktapeDuktape = (jclass) env->NewGlobalRef(env->FindClass("at/renehollander/duktape/Duktape"));
     classCache.AtReneHollanderDuktapeValuesDukValue = (jclass) env->NewGlobalRef(env->FindClass("at/renehollander/duktape/values/DukValue"));
     classCache.AtReneHollanderDuktapeValuesDukReferencedValue = (jclass) env->NewGlobalRef(env->FindClass("at/renehollander/duktape/values/DukReferencedValue"));
+    classCache.AtReneHollanderDuktapeValuesAbstractDukValue = (jclass) env->NewGlobalRef(env->FindClass("at/renehollander/duktape/values/AbstractDukValue"));
+    classCache.AtReneHollanderDuktapeValuesAbstractDukReferencedValue = (jclass) env->NewGlobalRef(env->FindClass("at/renehollander/duktape/values/AbstractDukReferencedValue"));
     classCache.AtReneHollanderDuktapeValuesDukArray = (jclass) env->NewGlobalRef(env->FindClass("at/renehollander/duktape/values/DukArray"));
     classCache.AtReneHollanderDuktapeValuesDukFunction = (jclass) env->NewGlobalRef(env->FindClass("at/renehollander/duktape/values/DukFunction"));
     classCache.AtReneHollanderDuktapeValuesDukNull = (jclass) env->NewGlobalRef(env->FindClass("at/renehollander/duktape/values/DukNull"));
@@ -35,6 +37,13 @@ void populateCache() {
     methodIdCache.AtReneHollanderDuktapeValuesDukStringInit = env->GetMethodID(classCache.AtReneHollanderDuktapeValuesDukString, "<init>", "(Lat/renehollander/duktape/Duktape;Ljava/lang/String;)V");
     methodIdCache.AtReneHollanderDuktapeValuesDukUndefinedInit = env->GetMethodID(classCache.AtReneHollanderDuktapeValuesDukUndefined, "<init>", "(Lat/renehollander/duktape/Duktape;)V");
     methodIdCache.AtReneHollanderDuktapeValuesDukBooleanInit = env->GetMethodID(classCache.AtReneHollanderDuktapeValuesDukBoolean, "<init>", "(Lat/renehollander/duktape/Duktape;Z)V");
+
+    fieldIdCache.AtReneHollanderDuktapeValuesDukNumberValue = env->GetFieldID(classCache.AtReneHollanderDuktapeValuesDukNumber, "value", "D");
+    fieldIdCache.AtReneHollanderDuktapeValuesDukBooleanValue = env->GetFieldID(classCache.AtReneHollanderDuktapeValuesDukBoolean, "value", "Z");
+    fieldIdCache.AtReneHollanderDuktapeValuesDukStringValue = env->GetFieldID(classCache.AtReneHollanderDuktapeValuesDukString, "value", "Ljava/lang/String;");
+    fieldIdCache.AtReneHollanderDuktapeValuesDukArrayReference = env->GetFieldID(classCache.AtReneHollanderDuktapeValuesDukArray, "ref", "I");
+    fieldIdCache.AtReneHollanderDuktapeValuesDukObjectReference = env->GetFieldID(classCache.AtReneHollanderDuktapeValuesDukObject, "ref", "I");
+    fieldIdCache.AtReneHollanderDuktapeValuesAbstractDukReferencedValueReference = env->GetFieldID(classCache.AtReneHollanderDuktapeValuesAbstractDukReferencedValue, "ref", "I");
 
     resetJNIEnv(env);
 }

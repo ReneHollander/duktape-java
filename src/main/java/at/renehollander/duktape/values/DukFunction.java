@@ -8,8 +8,8 @@ public final class DukFunction extends AbstractDukReferencedValue {
         super(parent, ref);
     }
 
-    public void invoke(DukValue... args) {
-
+    public DukValue invoke(DukValue... args) {
+        return _invoke(this.getParent().getContextPointer(), this.getRef(), args);
     }
 
     @Override
@@ -21,4 +21,12 @@ public final class DukFunction extends AbstractDukReferencedValue {
     public DukFunction asFunction() {
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "function";
+    }
+
+    private static native DukValue _invoke(long contextPointer, int objectRef, DukValue[] arguments);
+
 }
