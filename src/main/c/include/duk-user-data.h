@@ -1,6 +1,6 @@
 #pragma once
 
-#include "memoryinfo.h"
+#include "duk-memory-allocator.h"
 #include "jni.h"
 #include <vector>
 #include <string>
@@ -15,3 +15,4 @@ struct DuktapeUserData {
 };
 
 typedef struct DuktapeUserData DuktapeUserData;
+

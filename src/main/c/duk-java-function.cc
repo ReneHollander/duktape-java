@@ -1,8 +1,13 @@
 #include "duk-java-function.h"
 #include "duktape.h"
 #include "refs.h"
-#include "method.h"
 #include "helper.h"
+
+struct MethodData {
+    jobject callerObject;
+    jmethodID methodID;
+};
+typedef struct MethodData MethodData;
 
 int methodExecutor(duk_context *ctx) {
     JNIEnv *env = setupJNIEnv();

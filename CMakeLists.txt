@@ -24,11 +24,10 @@ set(C_SRC_PATH ./src/main/c)
 include_directories(${C_SRC_PATH}/include)
 add_library(duktape-java SHARED
     ${C_SRC_PATH}/duktape.c
-    ${C_SRC_PATH}/memoryinfo.cc
+    ${C_SRC_PATH}/duk-memory-allocator.cc
     ${C_SRC_PATH}/refs.cc
     ${C_SRC_PATH}/cache.cc
     ${C_SRC_PATH}/helper.cc
-    ${C_SRC_PATH}/objectwrapper.cc
     ${C_SRC_PATH}/native-helper.cc
     ${C_SRC_PATH}/duktape-java.cc
     ${C_SRC_PATH}/duk-array.cc

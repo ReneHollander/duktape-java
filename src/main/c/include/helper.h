@@ -2,7 +2,7 @@
 
 #include "jni.h"
 #include "duktape.h"
-#include "duktape_user_data.h"
+#include "duk-user-data.h"
 
 extern JavaVM *jvm;
 

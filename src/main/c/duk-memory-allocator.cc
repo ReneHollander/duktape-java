@@ -1,6 +1,6 @@
 #include <stdlib.h>
-#include "memoryinfo.h"
-#include "duktape_user_data.h"
+#include "duk-memory-allocator.h"
+#include "duk-user-data.h"
 
 void *counting_alloc_function(void *udata, duk_size_t size) {
     DuktapeUserData *userData = (DuktapeUserData *) udata;

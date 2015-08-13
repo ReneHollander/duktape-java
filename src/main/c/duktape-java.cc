@@ -1,9 +1,9 @@
 #include <iosfwd>
 #include <sstream>
-#include <method.h>
-#include <objectwrapper.h>
 #include "duktape-java.h"
 #include "refs.h"
+#include "helper.h"
+#include "cache.h"
 
 using namespace std;
 
