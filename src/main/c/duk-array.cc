@@ -24,11 +24,11 @@ JNIEXPORT jstring JNICALL Java_at_renehollander_duktape_values_DukArray__1toJSON
     return env->NewStringUTF(json);
 }
 
-JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukArray__1get(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jobject duktape, jint index) {
+JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukArray__1get(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jint index) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
     duk_get_prop_index(ctx, -1, (duk_uarridx_t) index);
-    jobject retVal = duj_value_to_java_object(env, ctx, duktape);
+    jobject retVal = duj_value_to_java_object(env, ctx);
     duk_pop(ctx);
     return retVal;
 }

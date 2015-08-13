@@ -12,6 +12,7 @@ struct ClassCache {
     jclass AtReneHollanderDuktapeValuesDukReferencedValue;
     jclass AtReneHollanderDuktapeValuesAbstractDukValue;
     jclass AtReneHollanderDuktapeValuesAbstractDukReferencedValue;
+    jclass AtReneHollanderDuktapeValuesDukError;
     jclass AtReneHollanderDuktapeValuesDukArray;
     jclass AtReneHollanderDuktapeValuesDukFunction;
     jclass AtReneHollanderDuktapeValuesDukNull;
@@ -27,6 +28,7 @@ struct MethodIDCache {
     jmethodID JavaLangIntegerInit;
     jmethodID JavaLangLongInit;
     jmethodID AtReneHollanderDuktapeDuktapeFatalErrorHandler;
+    jmethodID AtReneHollanderDuktapeValuesDukErrorCreateError;
     jmethodID AtReneHollanderDuktapeValuesDukArrayInit;
     jmethodID AtReneHollanderDuktapeValuesDukFunctionInit;
     jmethodID AtReneHollanderDuktapeValuesDukNullInit;

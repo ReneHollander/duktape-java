@@ -6,7 +6,6 @@
 
 JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukFunction__1invoke(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jobjectArray arguments) {
     duk_context *ctx = (void *) contextPointer;
-    DuktapeUserData *userData = getDuktapeUserData(ctx);
     duj_push_ref(ctx, objectRef);
 
     jsize argc = env->GetArrayLength(arguments);
@@ -19,7 +18,7 @@ JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukFunction__1inv
     jobject retVal = NULL;
     int rc = duk_pcall(ctx, argc);
     if (rc == DUK_EXEC_SUCCESS) {
-        retVal = duj_value_to_java_object(env, ctx, userData->duktape);
+        retVal = duj_value_to_java_object(env, ctx);
     } else {
         printf("error: %s\n", duk_to_string(ctx, -1));
         duk_pop(ctx);

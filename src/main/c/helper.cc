@@ -35,7 +35,8 @@ DuktapeUserData *getDuktapeUserData(duk_context *ctx) {
     return (DuktapeUserData *) functions.udata;
 }
 
-jobject duj_value_to_java_object(JNIEnv *env, duk_context *ctx, jobject duktape) {
+jobject duj_value_to_java_object(JNIEnv *env, duk_context *ctx) {
+    jobject duktape = getDuktapeUserData(ctx)->duktape;
     int type = duk_get_type(ctx, -1);
     jobject retVal = NULL;
     if (type == DUK_TYPE_NUMBER) {
@@ -83,6 +84,8 @@ jobject duj_value_to_java_object(JNIEnv *env, duk_context *ctx, jobject duktape)
                     duktape,
                     objectRef
             );
+        } else if (duk_is_error(ctx, -1)) {
+            retVal = duj_error_to_dukerror(env, ctx);
         } else {
             retVal = env->NewObject(
                     classCache.AtReneHollanderDuktapeValuesDukObject,
@@ -126,4 +129,13 @@ void duj_java_object_to_value(JNIEnv *env, duk_context *ctx, jobject object) {
         int ref = env->GetIntField(object, fieldIdCache.AtReneHollanderDuktapeValuesAbstractDukReferencedValueReference);
         duj_push_ref(ctx, ref);
     }
+}
+
+jobject duj_error_to_dukerror(JNIEnv *env, duk_context *ctx) {
+    duk_get_prop_string(ctx, -1, "stack");
+    std::string errorMsg(duk_safe_to_string(ctx, -1));
+    duk_pop(ctx);
+    int errorCode = duk_get_error_code(ctx, -1);
+    jobject dukError = env->CallStaticObjectMethod(classCache.AtReneHollanderDuktapeValuesDukError, methodIdCache.AtReneHollanderDuktapeValuesDukErrorCreateError, getDuktapeUserData(ctx)->duktape, errorCode, env->NewStringUTF(errorMsg.c_str()));
+    return dukError;
 }

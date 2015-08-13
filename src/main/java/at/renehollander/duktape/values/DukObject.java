@@ -112,7 +112,7 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
         if (!(key instanceof String)) {
             return new DukUndefined(this.getParent());
         }
-        return _get(this.getParent().getContextPointer(), this.getRef(), this.getParent(), (String) key);
+        return _get(this.getParent().getContextPointer(), this.getRef(), (String) key);
     }
 
 
@@ -248,7 +248,7 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
 
     private static native boolean _containsKey(long contextPointer, int objectRef, String key);
 
-    private static native DukValue _get(long contextPointer, int objectRef, Duktape duktape, String key);
+    private static native DukValue _get(long contextPointer, int objectRef, String key);
 
     private static native void _remove(long contextPointer, int objectRef, String key);
 

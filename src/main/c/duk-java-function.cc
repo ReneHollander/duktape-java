@@ -11,7 +11,6 @@ typedef struct MethodData MethodData;
 
 int methodExecutor(duk_context *ctx) {
     JNIEnv *env = setupJNIEnv();
-    DuktapeUserData *userData = getDuktapeUserData(ctx);
 
     duk_push_current_function(ctx);
     duk_get_prop_index(ctx, -1, 0);
@@ -28,7 +27,7 @@ int methodExecutor(duk_context *ctx) {
     jvalue args[argc];
     for (int i = 0; i < argc; i++) {
         // fill from back to front to get correct order of arguments
-        args[argc - 1 - i].l = duj_value_to_java_object(env, ctx, userData->duktape);
+        args[argc - 1 - i].l = duj_value_to_java_object(env, ctx);
     }
 
     jobject retval = env->CallObjectMethodA(methodData->callerObject, methodData->methodID, args);

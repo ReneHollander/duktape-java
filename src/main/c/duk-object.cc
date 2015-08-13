@@ -76,12 +76,12 @@ JNIEXPORT jboolean JNICALL Java_at_renehollander_duktape_values_DukObject__1cont
     return has;
 }
 
-JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukObject__1get(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jobject duktape, jstring jKey) {
+JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukObject__1get(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
     const char *key = env->GetStringUTFChars(jKey, 0);
     duk_get_prop_string(ctx, -1, key);
-    jobject retVal = duj_value_to_java_object(env, ctx, duktape);
+    jobject retVal = duj_value_to_java_object(env, ctx);
     duk_pop(ctx);
     env->ReleaseStringUTFChars(jKey, key);
     return retVal;

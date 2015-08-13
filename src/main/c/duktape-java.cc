@@ -1,6 +1,5 @@
 #include <iosfwd>
 #include <sstream>
-#include "duktape-java.h"
 #include "refs.h"
 #include "helper.h"
 #include "cache.h"
@@ -75,14 +74,15 @@ JNIEXPORT jlong JNICALL Java_at_renehollander_duktape_Duktape__1getHeapUsage(JNI
     return (jlong) userData->memoryInfo.currentHeapSize;
 }
 
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1execute(JNIEnv *env, jclass cls, jlong contextPointer, jstring jScript) {
+JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_Duktape__1execute(JNIEnv *env, jclass cls, jlong contextPointer, jstring jScript) {
     duk_context *ctx = (void *) contextPointer;
-    const char *script = env->GetStringUTFChars(jScript, 0);
 
+    const char *script = env->GetStringUTFChars(jScript, 0);
     duk_push_string(ctx, script);
-    if (duk_peval(ctx) != 0) {
-        printf("eval failed: %s\n", duk_safe_to_string(ctx, -1));
-    }
-    duk_pop(ctx);
     env->ReleaseStringUTFChars(jScript, script);
+
+    duk_peval(ctx);
+
+    jobject retVal = duj_value_to_java_object(env, ctx);
+    return retVal;
 }

@@ -2,6 +2,7 @@ package at.renehollander.duktape;
 
 import at.renehollander.duktape.error.FatalErrorHandler;
 import at.renehollander.duktape.values.DukObject;
+import at.renehollander.duktape.values.DukValue;
 
 import java.io.File;
 
@@ -32,8 +33,8 @@ public class Duktape {
         return DukObject.getGlobal(this);
     }
 
-    public void execute(String script) {
-        _execute(this.getContextPointer(), script);
+    public DukValue execute(String script) {
+        return _execute(this.getContextPointer(), script);
     }
 
     public long getHeapUsage() {
@@ -78,7 +79,7 @@ public class Duktape {
 
     private static native long _getHeapUsage(long contextPointer);
 
-    private static native void _execute(long contextPointer, String script);
+    private static native DukValue _execute(long contextPointer, String script);
 
     /* ==================================================================== */
     /* ========================= END native calls ========================= */

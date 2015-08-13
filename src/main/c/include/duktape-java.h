@@ -58,18 +58,10 @@ JNIEXPORT jlong JNICALL Java_at_renehollander_duktape_Duktape__1getHeapUsage
 /*
  * Class:     at_renehollander_duktape_Duktape
  * Method:    _execute
- * Signature: (JLjava/lang/String;)V
+ * Signature: (JLjava/lang/String;)Lat/renehollander/duktape/values/DukValue;
  */
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1execute
+JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_Duktape__1execute
         (JNIEnv *, jclass, jlong, jstring);
-
-/*
- * Class:     at_renehollander_duktape_Duktape
- * Method:    _registerMethod
- * Signature: (JLjava/lang/String;Ljava/lang/Object;Ljava/lang/reflect/Method;I)V
- */
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_Duktape__1registerMethod
-        (JNIEnv *, jclass, jlong, jstring, jobject, jobject, jint);
 
 #ifdef __cplusplus
 }

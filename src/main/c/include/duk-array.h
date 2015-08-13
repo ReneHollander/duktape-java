@@ -36,10 +36,10 @@ JNIEXPORT jstring JNICALL Java_at_renehollander_duktape_values_DukArray__1toJSON
 /*
  * Class:     at_renehollander_duktape_values_DukArray
  * Method:    _get
- * Signature: (JILat/renehollander/duktape/Duktape;I)Lat/renehollander/duktape/values/DukValue;
+ * Signature: (JII)Lat/renehollander/duktape/values/DukValue;
  */
 JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukArray__1get
-        (JNIEnv *, jclass, jlong, jint, jobject, jint);
+        (JNIEnv *, jclass, jlong, jint, jint);
 
 /*
  * Class:     at_renehollander_duktape_values_DukArray

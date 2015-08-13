@@ -47,7 +47,7 @@ public final class DukArray extends AbstractList<DukValue> implements DukReferen
 
     @Override
     public DukValue get(int index) {
-        return _get(this.getParent().getContextPointer(), this.getRef(), this.getParent(), index);
+        return _get(this.getParent().getContextPointer(), this.getRef(), index);
     }
 
     @Override
@@ -270,7 +270,7 @@ public final class DukArray extends AbstractList<DukValue> implements DukReferen
 
     public static native String _toJSON(long contextPointer, int objectRef);
 
-    public static native DukValue _get(long contextPointer, int objectRef, Duktape duktape, int index);
+    public static native DukValue _get(long contextPointer, int objectRef, int index);
 
     public static native void _remove(long contextPointer, int objectRef, int index);
 

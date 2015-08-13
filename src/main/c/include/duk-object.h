@@ -58,10 +58,10 @@ JNIEXPORT jboolean JNICALL Java_at_renehollander_duktape_values_DukObject__1cont
 /*
  * Class:     at_renehollander_duktape_values_DukObject
  * Method:    _get
- * Signature: (JILat/renehollander/duktape/Duktape;Ljava/lang/String;)Lat/renehollander/duktape/values/DukValue;
+ * Signature: (JILjava/lang/String;)Lat/renehollander/duktape/values/DukValue;
  */
 JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukObject__1get
-        (JNIEnv *, jclass, jlong, jint, jobject, jstring);
+        (JNIEnv *, jclass, jlong, jint, jstring);
 
 /*
  * Class:     at_renehollander_duktape_values_DukObject
