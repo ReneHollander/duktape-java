@@ -78,6 +78,14 @@ public interface DukValue {
         throw new WrongValueTypeException("ReferencedValue");
     }
 
+    public default boolean isError() {
+        return false;
+    }
+
+    public default DukError asError() {
+        throw new WrongValueTypeException("DukError");
+    }
+
     public default <T> T as() {
         return (T) this;
     }
