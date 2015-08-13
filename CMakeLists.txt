@@ -10,8 +10,8 @@ endif()
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -std=c99")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -std=c++11")
 
-set(CMAKE_C_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -std=c99 -Os -flto -fstrict-aliasing -fomit-frame-pointer")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -std=c++11 -Os -flto -fomit-frame-pointer -fstrict-aliasing")
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -Wall -std=c99 -Os -flto -fstrict-aliasing -fomit-frame-pointer -ffunction-sections -fdata-sections -Wl,--gc-sections -s -fno-exceptions -fno-rtti -fno-ident")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -std=c++11 -Os -flto -fstrict-aliasing -fomit-frame-pointer -ffunction-sections -fdata-sections -Wl,--gc-sections -s -fno-exceptions -fno-rtti -fno-ident")
 
 set(CMAKE_C_CXX_FLAGS "'-DDUK_OPT_PANIC_HANDLER(code,msg)={}'")
 

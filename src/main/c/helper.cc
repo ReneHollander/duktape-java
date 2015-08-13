@@ -1,5 +1,4 @@
 #include "duk-user-data.h"
-#include <iostream>
 #include "helper.h"
 #include "cache.h"
 #include "refs.h"
@@ -12,12 +11,12 @@ JNIEnv *setupJNIEnv() {
     int getEnvStat = jvm->GetEnv((void **) &env, JNI_VERSION_1_6);
     if (getEnvStat == JNI_EDETACHED) {
         if (jvm->AttachCurrentThread((void **) &env, NULL) != 0) {
-            std::cout << "Failed to attach" << std::endl;
+            printf("Failed AttachCurrentThread\n");
             abort();
         }
     } else if (getEnvStat == JNI_OK) {
     } else if (getEnvStat == JNI_EVERSION) {
-        std::cout << "GetEnv: version not supported" << std::endl;
+        printf("GetEnv: version not supported\n");
         abort();
     }
     return env;
