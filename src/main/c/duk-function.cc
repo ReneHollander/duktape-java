@@ -2,42 +2,28 @@
 #include "duk-function.h"
 #include "duktape.h"
 #include "refs.h"
+#include "helper.h"
 
 JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukFunction__1invoke(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jobjectArray arguments) {
     duk_context *ctx = (void *) contextPointer;
+    DuktapeUserData *userData = getDuktapeUserData(ctx);
     duj_push_ref(ctx, objectRef);
 
     jsize argc = env->GetArrayLength(arguments);
 
     for (int i = 0; i < argc; i++) {
         jobject argument = env->GetObjectArrayElement(arguments, i);
-        if (env->IsInstanceOf(argument, classCache.AtReneHollanderDuktapeValuesDukNumber)) {
-            duk_push_number(ctx, env->GetDoubleField(argument, fieldIdCache.AtReneHollanderDuktapeValuesDukNumberValue));
-        } else if (env->IsInstanceOf(argument, classCache.AtReneHollanderDuktapeValuesDukBoolean)) {
-            duk_push_boolean(ctx, env->GetBooleanField(argument, fieldIdCache.AtReneHollanderDuktapeValuesDukBooleanValue));
-        } else if (env->IsInstanceOf(argument, classCache.AtReneHollanderDuktapeValuesDukString)) {
-            jstring jValue = (jstring) env->GetObjectField(argument, fieldIdCache.AtReneHollanderDuktapeValuesDukStringValue);
-            const char *value = env->GetStringUTFChars(jValue, 0);
-            duk_push_string(ctx, value);
-            env->ReleaseStringUTFChars(jValue, value);
-        } else if (env->IsInstanceOf(argument, classCache.AtReneHollanderDuktapeValuesDukUndefined)) {
-            duk_push_undefined(ctx);
-        } else if (env->IsInstanceOf(argument, classCache.AtReneHollanderDuktapeValuesDukNull)) {
-            duk_push_null(ctx);
-        } else if (env->IsInstanceOf(argument, classCache.AtReneHollanderDuktapeValuesDukArray)) {
-            int ref = env->GetIntField(argument, fieldIdCache.AtReneHollanderDuktapeValuesDukArrayReference);
-            duj_push_ref(ctx, ref);
-        } else if (env->IsInstanceOf(argument, classCache.AtReneHollanderDuktapeValuesDukObject)) {
-            int ref = env->GetIntField(argument, fieldIdCache.AtReneHollanderDuktapeValuesDukObjectReference);
-            duj_push_ref(ctx, ref);
-        } else if (env->IsInstanceOf(argument, classCache.AtReneHollanderDuktapeValuesDukReferencedValue)) {
-            int ref = env->GetIntField(argument, fieldIdCache.AtReneHollanderDuktapeValuesAbstractDukReferencedValueReference);
-            duj_push_ref(ctx, ref);
-        }
+        duj_java_object_to_value(env, ctx, argument);
     }
 
-    duk_call(ctx, argc);
-    duk_pop(ctx);
+    jobject retVal = NULL;
+    int rc = duk_pcall(ctx, argc);
+    if (rc == DUK_EXEC_SUCCESS) {
+        retVal = duj_value_to_java_object(env, ctx, userData->duktape);
+    } else {
+        printf("error: %s\n", duk_to_string(ctx, -1));
+        duk_pop(ctx);
+    }
 
-    return NULL;
+    return retVal;
 }

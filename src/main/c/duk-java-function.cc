@@ -31,11 +31,10 @@ int methodExecutor(duk_context *ctx) {
         args[argc - 1 - i].l = duj_value_to_java_object(env, ctx, userData->duktape);
     }
 
-    env->CallObjectMethodA(methodData->callerObject, methodData->methodID, args);
-
+    jobject retval = env->CallObjectMethodA(methodData->callerObject, methodData->methodID, args);
+    duj_java_object_to_value(env, ctx, retval);
     resetJNIEnv(env);
-
-    return 0;
+    return 1;
 }
 
 JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukJavaFunction__1createAndReference(JNIEnv *env, jclass cls, jlong contextPointer, jobject method, jint paramCount, jobject object) {

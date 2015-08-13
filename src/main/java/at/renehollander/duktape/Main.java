@@ -13,7 +13,7 @@ public class Main {
 
         this.duktape = new Duktape();
 
-        Object method = (Function.TwoArg.WithoutReturn<DukValue, DukValue>) this::lol;
+        Object method = (Function.TwoArg.WithReturn<DukValue, DukValue, DukValue>) this::lol;
         Class<?> clazz = method.getClass();
         Method invokeMethod = clazz.getMethods()[0];
 
@@ -22,7 +22,11 @@ public class Main {
         global.put("testMethod", testMethod.getDukFunction());
         global.put("key", "value");
         System.out.println(duktape.getGlobal());
-        duktape.execute("testMethod(4, function(v1, v2) { testMethod(v1, key); });");
+        duktape.execute("function lol() { return 4; }");
+        DukValue ret = duktape.getGlobal().get("lol").asFunction().invoke();
+        System.out.println("ret: " + ret);
+        System.out.println(duktape.getGlobal().get("testMethod").asFunction().invoke(new DukNumber(duktape, 10), new DukNumber(duktape, 11)));
+        duktape.execute("testMethod(4, function(v1, v2) { testMethod(v1, key); return 'yay'; });");
 
         System.out.println(global.get("key"));
 
@@ -37,12 +41,13 @@ public class Main {
         */
     }
 
-    public void lol(DukValue v1, DukValue v2) {
+    public DukValue lol(DukValue v1, DukValue v2) {
         System.out.println("v1=" + v1 + ", v2=" + v2);
         if (v2.isFunction()) {
             DukFunction function = v2.asFunction();
-            function.invoke(new DukString(duktape, "Hello from java through javascript and back to java :D"), new DukNumber(duktape, 2));
+            System.out.println("function invoke: " + function.invoke(new DukString(duktape, "Hello from java through javascript and back to java :D"), new DukNumber(duktape, 2)));
         }
+        return new DukNumber(duktape, 5);
     }
 
     public static void main(String[] args) throws Exception {

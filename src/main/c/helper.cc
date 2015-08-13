@@ -102,3 +102,29 @@ jobject duj_value_to_java_object(JNIEnv *env, duk_context *ctx, jobject duktape)
     duk_pop(ctx);
     return retVal;
 }
+
+void duj_java_object_to_value(JNIEnv *env, duk_context *ctx, jobject object) {
+    if (env->IsInstanceOf(object, classCache.AtReneHollanderDuktapeValuesDukNumber)) {
+        duk_push_number(ctx, env->GetDoubleField(object, fieldIdCache.AtReneHollanderDuktapeValuesDukNumberValue));
+    } else if (env->IsInstanceOf(object, classCache.AtReneHollanderDuktapeValuesDukBoolean)) {
+        duk_push_boolean(ctx, env->GetBooleanField(object, fieldIdCache.AtReneHollanderDuktapeValuesDukBooleanValue));
+    } else if (env->IsInstanceOf(object, classCache.AtReneHollanderDuktapeValuesDukString)) {
+        jstring jValue = (jstring) env->GetObjectField(object, fieldIdCache.AtReneHollanderDuktapeValuesDukStringValue);
+        const char *value = env->GetStringUTFChars(jValue, 0);
+        duk_push_string(ctx, value);
+        env->ReleaseStringUTFChars(jValue, value);
+    } else if (env->IsInstanceOf(object, classCache.AtReneHollanderDuktapeValuesDukUndefined)) {
+        duk_push_undefined(ctx);
+    } else if (env->IsInstanceOf(object, classCache.AtReneHollanderDuktapeValuesDukNull)) {
+        duk_push_null(ctx);
+    } else if (env->IsInstanceOf(object, classCache.AtReneHollanderDuktapeValuesDukArray)) {
+        int ref = env->GetIntField(object, fieldIdCache.AtReneHollanderDuktapeValuesDukArrayReference);
+        duj_push_ref(ctx, ref);
+    } else if (env->IsInstanceOf(object, classCache.AtReneHollanderDuktapeValuesDukObject)) {
+        int ref = env->GetIntField(object, fieldIdCache.AtReneHollanderDuktapeValuesDukObjectReference);
+        duj_push_ref(ctx, ref);
+    } else if (env->IsInstanceOf(object, classCache.AtReneHollanderDuktapeValuesDukReferencedValue)) {
+        int ref = env->GetIntField(object, fieldIdCache.AtReneHollanderDuktapeValuesAbstractDukReferencedValueReference);
+        duj_push_ref(ctx, ref);
+    }
+}
