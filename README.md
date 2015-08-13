@@ -3,10 +3,24 @@ duktape-java - A Java binding for [Duktape](http://duktape.org/)
 
 Work in progress
 
-# Featurs
+# Implemented Features
 - Spawn multiple duktape contexts that are isolated from each other
 - Access Javascript objects and arrays through Java maps and lists
+- Access and modify the Javascript global object
 - Execute Javascript from Java
+- Register Java functions in Javascript objects
+- Invoke Javascript functions from Java
+- Invoke Java methods from Javascript
+
+# WIP Features
+- Getting Javascript errors into Java
+- Throwing Javascript errors to Javascript from Java
+- Compiling of scripts
+- Error handling of script evalutation/compilation fails
+- Unit Tests
+- Access Debugger from Java
+- Javadoc and documentation
+- Examples
 
 # Building
 ### Native
