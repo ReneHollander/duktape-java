@@ -24,6 +24,8 @@ public class Main {
         System.out.println(duktape.getGlobal());
         duktape.execute("testMethod(4, function(v1, v2) { testMethod(v1, key); });");
 
+        System.out.println(global.get("key"));
+
         /*
         Class<?> clazz = Main.class;
         Method invokeMethod = clazz.getMethod("lol", int.class, long.class);

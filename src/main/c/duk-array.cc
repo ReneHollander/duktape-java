@@ -1,6 +1,6 @@
 #include "duk-array.h"
-#include "cache.h"
 #include "refs.h"
+#include "helper.h"
 
 JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukArray__1createArray(JNIEnv *env, jclass cls, jlong contextPointer) {
     duk_context *ctx = (void *) contextPointer;
@@ -28,78 +28,8 @@ JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukArray__1get(JN
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
     duk_get_prop_index(ctx, -1, (duk_uarridx_t) index);
-    int type = duk_get_type(ctx, -1);
-    jobject retVal = NULL;
-    if (type == DUK_TYPE_NUMBER) {
-        retVal = env->NewObject(
-                classCache.AtReneHollanderDuktapeValuesDukNumber,
-                methodIdCache.AtReneHollanderDuktapeValuesDukNumberInit,
-                duktape,
-                duk_get_number(ctx, -1)
-        );
-    } else if (type == DUK_TYPE_BOOLEAN) {
-        retVal = env->NewObject(
-                classCache.AtReneHollanderDuktapeValuesDukBoolean,
-                methodIdCache.AtReneHollanderDuktapeValuesDukBooleanInit,
-                duktape,
-                duk_get_boolean(ctx, -1)
-        );
-    } else if (type == DUK_TYPE_STRING) {
-        retVal = env->NewObject(
-                classCache.AtReneHollanderDuktapeValuesDukString,
-                methodIdCache.AtReneHollanderDuktapeValuesDukStringInit,
-                duktape,
-                env->NewStringUTF(duk_get_string(ctx, -1))
-        );
-    } else if (type == DUK_TYPE_UNDEFINED) {
-        retVal = env->NewObject(
-                classCache.AtReneHollanderDuktapeValuesDukUndefined,
-                methodIdCache.AtReneHollanderDuktapeValuesDukUndefinedInit,
-                duktape
-        );
-    } else if (type == DUK_TYPE_NULL) {
-        retVal = env->NewObject(
-                classCache.AtReneHollanderDuktapeValuesDukNull,
-                methodIdCache.AtReneHollanderDuktapeValuesDukNullInit,
-                duktape
-        );
-    } else if (type == DUK_TYPE_OBJECT) {
-        duk_dup(ctx, -1);
-        int ref = duj_ref(ctx);
-
-        if (duk_is_array(ctx, -1)) {
-            retVal = env->NewObject(
-                    classCache.AtReneHollanderDuktapeValuesDukArray,
-                    methodIdCache.AtReneHollanderDuktapeValuesDukArrayInit,
-                    duktape,
-                    ref
-            );
-        } else if (duk_is_function(ctx, -1)) {
-            retVal = env->NewObject(
-                    classCache.AtReneHollanderDuktapeValuesDukFunction,
-                    methodIdCache.AtReneHollanderDuktapeValuesDukFunctionInit,
-                    duktape,
-                    ref
-            );
-        } else {
-            retVal = env->NewObject(
-                    classCache.AtReneHollanderDuktapeValuesDukObject,
-                    methodIdCache.AtReneHollanderDuktapeValuesDukObjectInit,
-                    duktape,
-                    ref
-            );
-        }
-    }
-
+    jobject retVal = duj_value_to_java_object(env, ctx, duktape);
     duk_pop(ctx);
-    duk_pop(ctx);
-    if (retVal == NULL) {
-        retVal = env->NewObject(
-                classCache.AtReneHollanderDuktapeValuesDukUndefined,
-                methodIdCache.AtReneHollanderDuktapeValuesDukUndefinedInit,
-                duktape
-        );
-    }
     return retVal;
 }
 
