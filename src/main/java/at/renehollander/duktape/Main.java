@@ -35,6 +35,10 @@ public class Main {
 
         System.out.println(global.get("key"));
 
+        global.remove("testMethod");
+
+        duktape.gc();
+
         /*
         Class<?> clazz = Main.class;
         Method invokeMethod = clazz.getMethod("lol", int.class, long.class);
@@ -42,8 +46,8 @@ public class Main {
         duktape.registerMethod("testMethod", this, invokeMethod, invokeMethod.getParameterCount());
         duktape.execute("testMethod();");
 
-        duktape.destroy();
         */
+        duktape.destroy();
     }
 
     public DukValue lol(DukValue v1, DukValue v2) {

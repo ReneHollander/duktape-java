@@ -36,6 +36,26 @@ int methodExecutor(duk_context *ctx) {
     return 1;
 }
 
+int methodFinalizer(duk_context *ctx) {
+    JNIEnv *env = setupJNIEnv();
+
+    duk_get_prop_index(ctx, -1, 0);
+    int ref = duk_get_int(ctx, -1);
+    duk_pop(ctx);
+    duk_pop(ctx);
+
+    duk_size_t size;
+    duj_push_ref(ctx, ref);
+    MethodData *methodData = (MethodData *) duk_get_buffer(ctx, -1, &size);
+    duk_pop(ctx);
+
+    env->DeleteGlobalRef(methodData->callerObject);
+    duj_unref(ctx, ref);
+
+    resetJNIEnv(env);
+    return 0;
+}
+
 JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukJavaFunction__1createAndReference(JNIEnv *env, jclass cls, jlong contextPointer, jobject method, jint paramCount, jobject object) {
     duk_context *ctx = (void *) contextPointer;
 
@@ -48,6 +68,8 @@ JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukJavaFunction__1cr
     duk_push_c_function(ctx, methodExecutor, paramCount);
     duk_push_int(ctx, ref);
     duk_put_prop_index(ctx, -2, 0);
+    duk_push_c_function(ctx, methodFinalizer, 1);
+    duk_set_finalizer(ctx, -2);
     int function_ref = duj_ref(ctx);
 
     return function_ref;
