@@ -27,7 +27,7 @@ void duj_fatal_handler(duk_context *ctx, duk_errcode_t code, const char *msg) {
 }
 
 JNIEXPORT jlong JNICALL Java_at_renehollander_duktape_Duktape__1createContext(JNIEnv *env, jclass cls, jobject duktape) {
-    DuktapeUserData *userData = (DuktapeUserData *) malloc(sizeof(MemoryInfo));
+    DuktapeUserData *userData = (DuktapeUserData *) malloc(sizeof(DuktapeUserData));
     userData->memoryInfo.currentHeapSize = 0;
     duk_context *ctx = duk_create_heap(counting_alloc_function, counting_realloc_function, counting_free_function, userData, duj_fatal_handler);
     duj_ref_setup(ctx);
