@@ -11,12 +11,12 @@ Work in progress
 - Register Java functions in Javascript objects
 - Invoke Javascript functions from Java
 - Invoke Java methods from Javascript
-
-# WIP Features
+- Error handling of script evalutation/compilation fails
 - Getting Javascript errors into Java
 - Throwing Javascript errors to Javascript from Java
+
+# WIP Features
 - Compiling of scripts
-- Error handling of script evalutation/compilation fails
 - Unit Tests
 - Access Debugger from Java
 - Javadoc and documentation
