@@ -1,5 +1,7 @@
 package at.renehollander.duktape;
 
+import at.renehollander.duktape.values.DukValue;
+
 public interface Function {
 
     interface NoArg {
@@ -9,44 +11,44 @@ public interface Function {
         }
 
         @FunctionalInterface
-        interface WithReturn<R> extends Function {
-            R invoke();
+        interface WithReturnDukValue extends Function {
+            DukValue invoke();
         }
     }
 
     interface OneArg {
         @FunctionalInterface
-        interface WithoutReturn<A1> extends Function {
-            void invoke(A1 arg1);
+        interface WithoutReturn extends Function {
+            void invoke(DukValue arg1);
         }
 
         @FunctionalInterface
-        interface WithReturn<R, A1> extends Function {
-            R invoke(A1 arg1);
+        interface WithReturn extends Function {
+            DukValue invoke(DukValue arg1);
         }
     }
 
     interface TwoArg {
         @FunctionalInterface
-        interface WithoutReturn<A1, A2> extends Function {
-            void invoke(A1 arg1, A2 arg2);
+        interface WithoutReturn extends Function {
+            void invoke(DukValue arg1, DukValue arg2);
         }
 
         @FunctionalInterface
-        interface WithReturn<R, A1, A2> extends Function {
-            R invoke(A1 arg1, A2 arg2);
+        interface WithReturn extends Function {
+            DukValue invoke(DukValue arg1, DukValue arg2);
         }
     }
 
     interface ThreeArg {
         @FunctionalInterface
-        interface WithoutReturn<A1, A2, A3> extends Function {
-            void invoke(A1 arg1, A2 arg2, A3 arg3);
+        interface WithoutReturn extends Function {
+            void invoke(DukValue arg1, DukValue arg2, DukValue arg3);
         }
 
         @FunctionalInterface
-        interface WithReturn<R, A1, A2, A3> extends Function {
-            R invoke(A1 arg1, A2 arg2, A3 arg3);
+        interface WithReturn extends Function {
+            DukValue invoke(DukValue arg1, DukValue arg2, DukValue arg3);
         }
     }
 

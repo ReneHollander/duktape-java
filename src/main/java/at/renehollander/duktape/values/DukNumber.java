@@ -26,11 +26,26 @@ public final class DukNumber extends AbstractDukValue {
 
     @Override
     public double asNumber() {
-        return value;
+        return this.getValue();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Double) {
+            return Double.compare((Double) o, this.getValue()) == 0;
+        } else
+            return o instanceof DukNumber && Double.compare(((DukNumber) o).getValue(), this.getValue()) == 0;
+    }
+
+
+    @Override
+    public int hashCode() {
+        long temp = Double.doubleToLongBits(this.getValue());
+        return (int) (temp ^ (temp >>> 32));
     }
 
     @Override
     public String toString() {
-        return Double.toString(value);
+        return Double.toString(this.getValue());
     }
 }

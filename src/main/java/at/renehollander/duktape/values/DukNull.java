@@ -22,4 +22,14 @@ public final class DukNull extends AbstractDukValue {
     public String toString() {
         return null;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj == null || obj instanceof DukNull;
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
 }

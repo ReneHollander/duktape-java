@@ -26,11 +26,24 @@ public final class DukBoolean extends AbstractDukValue {
 
     @Override
     public boolean asBoolean() {
-        return this.value;
+        return this.getValue();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Boolean) {
+            return (boolean) o == this.getValue();
+        } else
+            return o instanceof DukBoolean && ((DukBoolean) o).getValue() == this.getValue();
+    }
+
+    @Override
+    public int hashCode() {
+        return (getValue() ? 1 : 0);
     }
 
     @Override
     public String toString() {
-        return Boolean.toString(value);
+        return Boolean.toString(getValue());
     }
 }

@@ -22,4 +22,14 @@ public final class DukUndefined extends AbstractDukValue {
     public String toString() {
         return "undefined";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof DukUndefined;
+    }
+
+    @Override
+    public int hashCode() {
+        return 1;
+    }
 }

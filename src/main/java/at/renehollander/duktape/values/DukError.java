@@ -4,6 +4,7 @@ import at.renehollander.duktape.Duktape;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class DukError extends AbstractDukReferencedValue {
 
@@ -88,6 +89,23 @@ public class DukError extends AbstractDukReferencedValue {
         public static ErrorType fromCode(int code) {
             return codeErrorTypeMapping.get(code);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof DukError) {
+            DukError err = (DukError) o;
+            return err.getErrorType() == this.getErrorType() && Objects.equals(err.getErrorMessage(), this.getErrorMessage());
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getErrorType() != null ? getErrorType().hashCode() : 0;
+        result = 31 * result + (getErrorMessage() != null ? getErrorMessage().hashCode() : 0);
+        return result;
     }
 
     private static native int _createDukError(long contextPointer, int code, String message);

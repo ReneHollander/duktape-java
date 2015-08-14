@@ -16,7 +16,7 @@ public class Main {
         DukValue val = duktape.execute("new Error('i am a error');");
         System.out.println("val: " + val);
 
-        Object method = (Function.TwoArg.WithReturn<DukValue, DukValue, DukValue>) this::lol;
+        Object method = (Function.TwoArg.WithReturn) this::lol;
         Class<?> clazz = method.getClass();
         Method invokeMethod = clazz.getMethods()[0];
 

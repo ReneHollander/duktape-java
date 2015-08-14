@@ -1,5 +1,6 @@
-package at.renehollander.duktape;
+package test.at.renehollander.duktape;
 
+import at.renehollander.duktape.Duktape;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

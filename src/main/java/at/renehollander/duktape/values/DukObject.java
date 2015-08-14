@@ -120,12 +120,8 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
     public DukValue remove(Object key) {
         if (!(key instanceof String)) return new DukUndefined(this.getParent());
         DukValue oldValue = get(key);
-        if (oldValue == null) {
-            return new DukUndefined(this.getParent());
-        } else {
-            _remove(this.getParent().getContextPointer(), this.getRef(), (String) key);
-            return oldValue;
-        }
+        _remove(this.getParent().getContextPointer(), this.getRef(), (String) key);
+        return oldValue;
     }
 
     @Override
@@ -201,6 +197,7 @@ public final class DukObject extends AbstractMap<String, DukValue> implements Du
 
             public DukObjectEntrySetIterator() {
                 cursor = -1;
+                keys = getKeys();
             }
 
             @Override

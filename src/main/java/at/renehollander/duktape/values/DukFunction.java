@@ -27,6 +27,18 @@ public final class DukFunction extends AbstractDukReferencedValue {
         return "function";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        // TODO implement
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    @Override
+    public int hashCode() {
+        // TODO implement
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
     private static native DukValue _invoke(long contextPointer, int objectRef, DukValue[] arguments);
 
 }
