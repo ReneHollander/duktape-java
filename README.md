@@ -16,11 +16,15 @@ Work in progress
 - Throwing Javascript errors to Javascript from Java
 
 # WIP Features
+- Prototyping
 - Compiling of scripts
 - Unit Tests
 - Access Debugger from Java
 - Javadoc and documentation
 - Examples
+
+# Known issues
+- If a DukJavaFunction is removed from an javascript object, references to the java object that method is invoked from are kept resulting the object never to be gc'ed by the JVM
 
 # Building
 ### Native
