@@ -6,7 +6,6 @@ JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukBuffer__1createDu
     duk_context *ctx = (void *) contextPointer;
     duk_push_fixed_buffer(ctx, (duk_size_t) size);
     int ref = duj_ref(ctx);
-    duj_push_ref(ctx, ref);
     return ref;
 }
 
