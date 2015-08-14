@@ -30,6 +30,7 @@ add_library(duktape-java SHARED
     ${C_SRC_PATH}/helper.cc
     ${C_SRC_PATH}/native-helper.cc
     ${C_SRC_PATH}/duktape-java.cc
+    ${C_SRC_PATH}/duk-error.cc
     ${C_SRC_PATH}/duk-array.cc
     ${C_SRC_PATH}/duk-object.cc
     ${C_SRC_PATH}/duk-function.cc

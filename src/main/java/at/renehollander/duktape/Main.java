@@ -21,6 +21,8 @@ public class Main {
         Method invokeMethod = clazz.getMethods()[0];
 
         DukObject global = duktape.getGlobal();
+        global.put("error", new DukError(duktape, DukError.ErrorType.DUK_ERR_TYPE_ERROR, "hurr durr ima type error"));
+        System.out.println(global.get("error"));
         DukJavaFunction testMethod = new DukJavaFunction(this.duktape, invokeMethod, method);
         global.put("testMethod", testMethod.getDukFunction());
         global.put("key", "value");

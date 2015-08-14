@@ -8,14 +8,9 @@ FieldIDCache fieldIdCache;
 void populateCache() {
     JNIEnv *env = setupJNIEnv();
 
-    classCache.JavaLangObject = (jclass) env->NewGlobalRef(env->FindClass("java/lang/Object"));
-    classCache.JavaLangInteger = (jclass) env->NewGlobalRef(env->FindClass("java/lang/Integer"));
-    classCache.JavaLangLong = (jclass) env->NewGlobalRef(env->FindClass("java/lang/Long"));
     classCache.JavaLangString = (jclass) env->NewGlobalRef(env->FindClass("java/lang/String"));
     classCache.AtReneHollanderDuktapeDuktape = (jclass) env->NewGlobalRef(env->FindClass("at/renehollander/duktape/Duktape"));
-    classCache.AtReneHollanderDuktapeValuesDukValue = (jclass) env->NewGlobalRef(env->FindClass("at/renehollander/duktape/values/DukValue"));
     classCache.AtReneHollanderDuktapeValuesDukReferencedValue = (jclass) env->NewGlobalRef(env->FindClass("at/renehollander/duktape/values/DukReferencedValue"));
-    classCache.AtReneHollanderDuktapeValuesAbstractDukValue = (jclass) env->NewGlobalRef(env->FindClass("at/renehollander/duktape/values/AbstractDukValue"));
     classCache.AtReneHollanderDuktapeValuesAbstractDukReferencedValue = (jclass) env->NewGlobalRef(env->FindClass("at/renehollander/duktape/values/AbstractDukReferencedValue"));
     classCache.AtReneHollanderDuktapeValuesDukError = (jclass) env->NewGlobalRef(env->FindClass("at/renehollander/duktape/values/DukError"));
     classCache.AtReneHollanderDuktapeValuesDukArray = (jclass) env->NewGlobalRef(env->FindClass("at/renehollander/duktape/values/DukArray"));
@@ -27,10 +22,8 @@ void populateCache() {
     classCache.AtReneHollanderDuktapeValuesDukUndefined = (jclass) env->NewGlobalRef(env->FindClass("at/renehollander/duktape/values/DukUndefined"));
     classCache.AtReneHollanderDuktapeValuesDukBoolean = (jclass) env->NewGlobalRef(env->FindClass("at/renehollander/duktape/values/DukBoolean"));
 
-    methodIdCache.JavaLangIntegerInit = env->GetMethodID(classCache.JavaLangInteger, "<init>", "(I)V");
-    methodIdCache.JavaLangLongInit = env->GetMethodID(classCache.JavaLangLong, "<init>", "(J)V");
     methodIdCache.AtReneHollanderDuktapeDuktapeFatalErrorHandler = env->GetMethodID(classCache.AtReneHollanderDuktapeDuktape, "fatalErrorHandler", "(ILjava/lang/String;)V");
-    methodIdCache.AtReneHollanderDuktapeValuesDukErrorCreateError = env->GetStaticMethodID(classCache.AtReneHollanderDuktapeValuesDukError, "createError", "(Lat/renehollander/duktape/Duktape;ILjava/lang/String;)Lat/renehollander/duktape/values/DukError;");
+    methodIdCache.AtReneHollanderDuktapeValuesDukErrorInit = env->GetMethodID(classCache.AtReneHollanderDuktapeValuesDukError, "<init>", "(Lat/renehollander/duktape/Duktape;I)V");
     methodIdCache.AtReneHollanderDuktapeValuesDukArrayInit = env->GetMethodID(classCache.AtReneHollanderDuktapeValuesDukArray, "<init>", "(Lat/renehollander/duktape/Duktape;I)V");
     methodIdCache.AtReneHollanderDuktapeValuesDukFunctionInit = env->GetMethodID(classCache.AtReneHollanderDuktapeValuesDukFunction, "<init>", "(Lat/renehollander/duktape/Duktape;I)V");
     methodIdCache.AtReneHollanderDuktapeValuesDukNullInit = env->GetMethodID(classCache.AtReneHollanderDuktapeValuesDukNull, "<init>", "(Lat/renehollander/duktape/Duktape;)V");

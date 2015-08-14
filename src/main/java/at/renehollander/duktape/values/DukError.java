@@ -5,33 +5,22 @@ import at.renehollander.duktape.Duktape;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DukError extends AbstractDukValue {
+public class DukError extends AbstractDukReferencedValue {
 
-    private ErrorType errorType;
-    private String errorMessage;
-    private String[] stackTrace;
-
-    public DukError(Duktape parent, ErrorType errorType, String errorMessage) {
-        this(parent, errorType, errorMessage, null);
+    protected DukError(Duktape parent, int ref) {
+        super(parent, ref);
     }
 
-    public DukError(Duktape parent, ErrorType errorType, String errorMessage, String[] stackTrace) {
-        super(parent);
-        this.errorType = errorType;
-        this.errorMessage = errorMessage;
-        this.stackTrace = stackTrace;
+    public DukError(Duktape parent, ErrorType errorType, String message) {
+        this(parent, _createDukError(parent.getContextPointer(), errorType.getCode(), message));
     }
 
     public ErrorType getErrorType() {
-        return errorType;
+        return ErrorType.fromCode(_getErrorCode(this.getParent().getContextPointer(), this.getRef()));
     }
 
     public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public String[] getStackTrace() {
-        return stackTrace;
+        return _getErrorMessage(this.getParent().getContextPointer(), this.getRef());
     }
 
     @Override
@@ -46,26 +35,7 @@ public class DukError extends AbstractDukValue {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(getErrorType().getReadableName()).append(": ").append(this.getErrorMessage()).append("\n");
-        for (int i = 0; i < stackTrace.length; i++) {
-            String stackElement = stackTrace[i];
-            stringBuilder.append("\t").append(stackElement);
-            if (i < stackTrace.length - 1)
-                stringBuilder.append("\n");
-        }
-        return stringBuilder.toString();
-    }
-
-    private static DukError createError(Duktape duktape, int code, String msg) {
-        String[] lines = msg.split(System.lineSeparator());
-        String line0 = lines[0].trim();
-        String errorMessage = line0.substring(line0.indexOf(':') + 2, line0.length());
-        String[] stackTrace = new String[lines.length - 1];
-        for (int i = 1; i < lines.length; i++) {
-            stackTrace[i - 1] = lines[i].trim();
-        }
-        return new DukError(duktape, ErrorType.fromCode(code), errorMessage, stackTrace);
+        return this.getErrorMessage();
     }
 
     public enum ErrorType {
@@ -119,4 +89,10 @@ public class DukError extends AbstractDukValue {
             return codeErrorTypeMapping.get(code);
         }
     }
+
+    private static native int _createDukError(long contextPointer, int code, String message);
+
+    private static native int _getErrorCode(long contextPointer, int ref);
+
+    private static native String _getErrorMessage(long contextPointer, int ref);
 }

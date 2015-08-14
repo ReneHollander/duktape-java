@@ -3,6 +3,7 @@
 #include "refs.h"
 #include "helper.h"
 #include "cache.h"
+#include "duktape-java.h"
 
 using namespace std;
 

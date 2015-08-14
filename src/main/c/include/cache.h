@@ -3,14 +3,9 @@
 #include "jni.h"
 
 struct ClassCache {
-    jclass JavaLangObject;
-    jclass JavaLangInteger;
-    jclass JavaLangLong;
     jclass JavaLangString;
     jclass AtReneHollanderDuktapeDuktape;
-    jclass AtReneHollanderDuktapeValuesDukValue;
     jclass AtReneHollanderDuktapeValuesDukReferencedValue;
-    jclass AtReneHollanderDuktapeValuesAbstractDukValue;
     jclass AtReneHollanderDuktapeValuesAbstractDukReferencedValue;
     jclass AtReneHollanderDuktapeValuesDukError;
     jclass AtReneHollanderDuktapeValuesDukArray;
@@ -25,10 +20,8 @@ struct ClassCache {
 typedef struct ClassCache ClassCache;
 
 struct MethodIDCache {
-    jmethodID JavaLangIntegerInit;
-    jmethodID JavaLangLongInit;
     jmethodID AtReneHollanderDuktapeDuktapeFatalErrorHandler;
-    jmethodID AtReneHollanderDuktapeValuesDukErrorCreateError;
+    jmethodID AtReneHollanderDuktapeValuesDukErrorInit;
     jmethodID AtReneHollanderDuktapeValuesDukArrayInit;
     jmethodID AtReneHollanderDuktapeValuesDukFunctionInit;
     jmethodID AtReneHollanderDuktapeValuesDukNullInit;
@@ -46,7 +39,6 @@ struct FieldIDCache {
     jfieldID AtReneHollanderDuktapeValuesDukStringValue;
     jfieldID AtReneHollanderDuktapeValuesDukArrayReference;
     jfieldID AtReneHollanderDuktapeValuesDukObjectReference;
-    jfieldID AtReneHollanderDuktapeValuesDukFunctionReference;
     jfieldID AtReneHollanderDuktapeValuesAbstractDukReferencedValueReference;
 };
 typedef struct FieldIDCache FieldIDCache;
