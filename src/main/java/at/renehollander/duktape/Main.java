@@ -2,8 +2,6 @@ package at.renehollander.duktape;
 
 import at.renehollander.duktape.values.*;
 
-import java.lang.reflect.Method;
-
 public class Main {
 
     private Duktape duktape;
@@ -13,40 +11,16 @@ public class Main {
 
         this.duktape = new Duktape();
 
-        DukValue val = duktape.execute("new Error('i am a error');");
-        System.out.println("val: " + val);
-
-        Object method = (Function.TwoArg.WithReturn) this::lol;
-        Class<?> clazz = method.getClass();
-        Method invokeMethod = clazz.getMethods()[0];
+        DukBuffer dukBuffer = new DukBuffer(duktape, 1024);
+        System.out.println(dukBuffer.getRef());
+        System.out.println(dukBuffer.getByteBuffer());
+        dukBuffer.getByteBuffer().put((byte) 18);
+        System.out.println(dukBuffer.getByteBuffer().get(0));
 
         DukObject global = duktape.getGlobal();
-        global.put("error", new DukError(duktape, DukError.ErrorType.DUK_ERR_TYPE_ERROR, "hurr durr ima type error"));
-        System.out.println(global.get("error"));
-        DukJavaFunction testMethod = new DukJavaFunction(this.duktape, invokeMethod, method);
-        global.put("testMethod", testMethod.getDukFunction());
-        global.put("key", "value");
-        System.out.println(duktape.getGlobal());
-        duktape.execute("function lol() { return 4; }");
-        DukValue ret = duktape.getGlobal().get("lol").asFunction().invoke();
-        System.out.println("ret: " + ret);
-        System.out.println(duktape.getGlobal().get("testMethod").asFunction().invoke(new DukNumber(duktape, 10), new DukNumber(duktape, 11)));
-        duktape.execute("testMethod(4, function(v1, v2) { testMethod(v1, key); return 'yay'; });");
 
-        System.out.println(global.get("key"));
-
-        global.remove("testMethod");
-
-        duktape.gc();
-
-        /*
-        Class<?> clazz = Main.class;
-        Method invokeMethod = clazz.getMethod("lol", int.class, long.class);
-
-        duktape.registerMethod("testMethod", this, invokeMethod, invokeMethod.getParameterCount());
-        duktape.execute("testMethod();");
-
-        */
+        global.put("buffer", dukBuffer);
+        System.out.println(global.get("buffer").asBuffer().getByteBuffer());
         duktape.destroy();
     }
 

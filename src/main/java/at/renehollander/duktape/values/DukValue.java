@@ -86,6 +86,14 @@ public interface DukValue {
         throw new WrongValueTypeException("DukError");
     }
 
+    public default boolean isBuffer() {
+        return false;
+    }
+
+    public default DukBuffer asBuffer() {
+        throw new WrongValueTypeException("DukBuffer");
+    }
+
     public default <T> T as() {
         return (T) this;
     }

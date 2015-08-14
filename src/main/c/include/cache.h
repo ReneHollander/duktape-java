@@ -8,6 +8,7 @@ struct ClassCache {
     jclass AtReneHollanderDuktapeValuesDukReferencedValue;
     jclass AtReneHollanderDuktapeValuesAbstractDukReferencedValue;
     jclass AtReneHollanderDuktapeValuesDukError;
+    jclass AtReneHollanderDuktapeValuesDukBuffer;
     jclass AtReneHollanderDuktapeValuesDukArray;
     jclass AtReneHollanderDuktapeValuesDukFunction;
     jclass AtReneHollanderDuktapeValuesDukNull;
@@ -22,6 +23,7 @@ typedef struct ClassCache ClassCache;
 struct MethodIDCache {
     jmethodID AtReneHollanderDuktapeDuktapeFatalErrorHandler;
     jmethodID AtReneHollanderDuktapeValuesDukErrorInit;
+    jmethodID AtReneHollanderDuktapeValuesDukBufferInit;
     jmethodID AtReneHollanderDuktapeValuesDukArrayInit;
     jmethodID AtReneHollanderDuktapeValuesDukFunctionInit;
     jmethodID AtReneHollanderDuktapeValuesDukNullInit;

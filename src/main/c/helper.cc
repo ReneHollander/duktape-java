@@ -66,6 +66,15 @@ jobject duj_value_to_java_object(JNIEnv *env, duk_context *ctx) {
                 methodIdCache.AtReneHollanderDuktapeValuesDukNullInit,
                 duktape
         );
+    } else if (type == DUK_TYPE_BUFFER) {
+        duk_dup(ctx, -1);
+        int objectRef = duj_ref(ctx);
+        retVal = env->NewObject(
+                classCache.AtReneHollanderDuktapeValuesDukBuffer,
+                methodIdCache.AtReneHollanderDuktapeValuesDukBufferInit,
+                duktape,
+                objectRef
+        );
     } else if (type == DUK_TYPE_OBJECT) {
         duk_dup(ctx, -1);
         int objectRef = duj_ref(ctx);

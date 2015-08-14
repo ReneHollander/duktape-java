@@ -35,5 +35,6 @@ add_library(duktape-java SHARED
     ${C_SRC_PATH}/duk-object.cc
     ${C_SRC_PATH}/duk-function.cc
     ${C_SRC_PATH}/duk-java-function.cc
+    ${C_SRC_PATH}/duk-buffer.cc
 )
 target_link_libraries(duktape-java -lm)
