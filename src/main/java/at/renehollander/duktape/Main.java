@@ -2,26 +2,25 @@ package at.renehollander.duktape;
 
 import at.renehollander.duktape.values.*;
 
+import java.nio.ByteBuffer;
+
 public class Main {
 
     private Duktape duktape;
 
     public Main() throws Exception {
         System.out.println("Duktape Version " + Duktape.getVersion());
-
         this.duktape = new Duktape();
-
-        DukBuffer dukBuffer = new DukBuffer(duktape, 1024);
-        System.out.println(dukBuffer.getRef());
-        System.out.println(dukBuffer.getByteBuffer());
-        dukBuffer.getByteBuffer().put((byte) 18);
-        System.out.println(dukBuffer.getByteBuffer().get(0));
-
         DukObject global = duktape.getGlobal();
 
+        DukBuffer dukBuffer = DukBuffer.allocate(duktape, 16);
+        ByteBuffer byteBuffer = dukBuffer.getByteBuffer();
+        byteBuffer.put((byte) 1);
         global.put("buffer", dukBuffer);
-        System.out.println(global.get("buffer").asBuffer().getByteBuffer());
+        DukBuffer fromGlobal = global.get("buffer").as();
+        System.out.println(fromGlobal.getByteBuffer().get(0));
         duktape.destroy();
+
     }
 
     public DukValue lol(DukValue v1, DukValue v2) {

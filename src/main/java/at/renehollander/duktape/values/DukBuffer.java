@@ -8,8 +8,8 @@ public class DukBuffer extends AbstractDukReferencedValue {
 
     private ByteBuffer byteBuffer;
 
-    public DukBuffer(Duktape parent, int size) {
-        super(parent, _createDukBuffer(parent.getContextPointer(), size));
+    private DukBuffer(Duktape parent, int ref) {
+        super(parent, ref);
     }
 
     public ByteBuffer getByteBuffer() {
@@ -27,6 +27,10 @@ public class DukBuffer extends AbstractDukReferencedValue {
     @Override
     public DukBuffer asBuffer() {
         return this;
+    }
+
+    public static DukBuffer allocate(Duktape parent, int size) {
+        return new DukBuffer(parent, _createDukBuffer(parent.getContextPointer(), size));
     }
 
     private static native int _createDukBuffer(long contextPointer, int size);
