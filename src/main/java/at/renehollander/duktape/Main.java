@@ -14,13 +14,14 @@ public class Main {
 
         this.duktape = new Duktape();
 
+        System.out.println(duktape.toObjectPrototype(TestObject.class));
+
         DukObject global = duktape.getGlobal();
         DukJavaFunction testObject = new DukJavaFunction(this.duktape, (Function.TwoArg.WithoutReturn) this::lol);
         DukFunction testObjectConstructor = testObject.getDukFunction();
         DukObject testObjectConstructorPrototype = new DukObject(duktape);
         testObjectConstructorPrototype.put("lol", 1234);
         testObjectConstructor.put("prototype", testObjectConstructorPrototype);
-
         global.put("TestObject", testObjectConstructor);
         global.put("key", "value");
         System.out.println(duktape.getGlobal());
