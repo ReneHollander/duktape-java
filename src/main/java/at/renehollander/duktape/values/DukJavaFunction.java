@@ -5,6 +5,7 @@ import at.renehollander.duktape.Duktape;
 import at.renehollander.duktape.Function;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 public class DukJavaFunction implements Destroyable {
 
@@ -22,7 +23,7 @@ public class DukJavaFunction implements Destroyable {
 
     public DukJavaFunction(Duktape duktape, Function function) {
         this.duktape = duktape;
-        this.method = function.getClass().getMethods()[0];
+        this.method = validateMethod(function.getClass().getMethods()[0]);
         this.object = function;
     }
 
@@ -65,5 +66,17 @@ public class DukJavaFunction implements Destroyable {
     }
 
     private static native int _createAndReference(long contextPointer, Method method, int paramCount, Object object, boolean voidFunction);
+
+    public static Method validateMethod(Method method) {
+        if (!method.getReturnType().equals(Void.TYPE) && !method.getReturnType().equals(DukValue.class)) {
+            throw new IllegalArgumentException("Method " + method + " must have either a void or DukValue return type");
+        }
+        Arrays.stream(method.getParameterTypes()).forEach((clazz) -> {
+            if (!clazz.equals(DukValue.class)) {
+                throw new IllegalArgumentException("Method " + method + " must only have DukValue as parameter types");
+            }
+        });
+        return method;
+    }
 
 }
