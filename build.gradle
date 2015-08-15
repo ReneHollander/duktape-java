@@ -31,7 +31,6 @@ task javah(dependsOn: [build]) {
         def classes = [
                 'at.renehollander.duktape.Duktape'                  : 'src/main/c/include/duktape-java.h',
                 'at.renehollander.duktape.NativeHelper'             : 'src/main/c/include/native-helper.h',
-                'at.renehollander.duktape.values.DukReferencedValue': 'src/main/c/include/duk-referenced-value.h',
                 'at.renehollander.duktape.values.DukFunction'       : 'src/main/c/include/duk-function.h',
                 'at.renehollander.duktape.values.DukObject'         : 'src/main/c/include/duk-object.h',
                 'at.renehollander.duktape.values.DukArray'          : 'src/main/c/include/duk-array.h',

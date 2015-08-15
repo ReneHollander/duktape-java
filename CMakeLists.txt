@@ -21,20 +21,33 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_C_CXX_FLAGS}")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 
 set(C_SRC_PATH ./src/main/c)
-include_directories(${C_SRC_PATH}/include)
 add_library(duktape-java SHARED
-    ${C_SRC_PATH}/duktape.c
-    ${C_SRC_PATH}/duk-memory-allocator.cc
-    ${C_SRC_PATH}/refs.cc
+    ${C_SRC_PATH}/cache.h
     ${C_SRC_PATH}/cache.cc
-    ${C_SRC_PATH}/helper.cc
-    ${C_SRC_PATH}/native-helper.cc
-    ${C_SRC_PATH}/duktape-java.cc
-    ${C_SRC_PATH}/duk-error.cc
+    ${C_SRC_PATH}/duk-array.h
     ${C_SRC_PATH}/duk-array.cc
-    ${C_SRC_PATH}/duk-object.cc
-    ${C_SRC_PATH}/duk-function.cc
-    ${C_SRC_PATH}/duk-java-function.cc
+    ${C_SRC_PATH}/duk-buffer.h
     ${C_SRC_PATH}/duk-buffer.cc
+    ${C_SRC_PATH}/duk-error.h
+    ${C_SRC_PATH}/duk-error.cc
+    ${C_SRC_PATH}/duk-function.h
+    ${C_SRC_PATH}/duk-function.cc
+    ${C_SRC_PATH}/duk-java-function.h
+    ${C_SRC_PATH}/duk-java-function.cc
+    ${C_SRC_PATH}/duk-memory-allocator.h
+    ${C_SRC_PATH}/duk-memory-allocator.cc
+    ${C_SRC_PATH}/duk-object.h
+    ${C_SRC_PATH}/duk-object.cc
+    ${C_SRC_PATH}/duk-user-data.h
+    ${C_SRC_PATH}/duktape.h
+    ${C_SRC_PATH}/duktape.c
+    ${C_SRC_PATH}/duktape-java.h
+    ${C_SRC_PATH}/duktape-java.cc
+    ${C_SRC_PATH}/helper.h
+    ${C_SRC_PATH}/helper.cc
+    ${C_SRC_PATH}/native-helper.h
+    ${C_SRC_PATH}/native-helper.cc
+    ${C_SRC_PATH}/refs.h
+    ${C_SRC_PATH}/refs.cc
 )
 target_link_libraries(duktape-java -lm)

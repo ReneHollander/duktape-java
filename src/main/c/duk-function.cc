@@ -1,4 +1,3 @@
-#include <cache.h>
 #include "duk-function.h"
 #include "duktape.h"
 #include "refs.h"
