@@ -1,8 +1,9 @@
 package at.renehollander.duktape;
 
-import at.renehollander.duktape.values.*;
-
-import java.nio.ByteBuffer;
+import at.renehollander.duktape.values.DukFunction;
+import at.renehollander.duktape.values.DukJavaFunction;
+import at.renehollander.duktape.values.DukObject;
+import at.renehollander.duktape.values.DukValue;
 
 public class Main {
 
@@ -10,26 +11,32 @@ public class Main {
 
     public Main() throws Exception {
         System.out.println("Duktape Version " + Duktape.getVersion());
+
         this.duktape = new Duktape();
+
         DukObject global = duktape.getGlobal();
+        DukJavaFunction testObject = new DukJavaFunction(this.duktape, (Function.TwoArg.WithoutReturn) this::lol);
+        DukFunction testObjectConstructor = testObject.getDukFunction();
+        DukObject testObjectConstructorPrototype = new DukObject(duktape);
+        testObjectConstructorPrototype.put("lol", 1234);
+        testObjectConstructor.put("prototype", testObjectConstructorPrototype);
 
-        DukBuffer dukBuffer = DukBuffer.allocate(duktape, 16);
-        ByteBuffer byteBuffer = dukBuffer.getByteBuffer();
-        byteBuffer.put((byte) 1);
-        global.put("buffer", dukBuffer);
-        DukBuffer fromGlobal = global.get("buffer").as();
-        System.out.println(fromGlobal.getByteBuffer().get(0));
+        global.put("TestObject", testObjectConstructor);
+        global.put("key", "value");
+        System.out.println(duktape.getGlobal());
+        duktape.execute("var to = new TestObject(key, 5); print(to.lol)");
+
+        /*
+        Class<?> clazz = Main.class;
+        Method invokeMethod = clazz.getMethod("lol", int.class, long.class);
+        duktape.registerMethod("testMethod", this, invokeMethod, invokeMethod.getParameterCount());
+        duktape.execute("testMethod();");
         duktape.destroy();
-
+        */
     }
 
-    public DukValue lol(DukValue v1, DukValue v2) {
+    public void lol(DukValue v1, DukValue v2) {
         System.out.println("v1=" + v1 + ", v2=" + v2);
-        if (v2.isFunction()) {
-            DukFunction function = v2.asFunction();
-            System.out.println("function invoke: " + function.invoke(new DukString(duktape, "Hello from java through javascript and back to java :D"), new DukNumber(duktape, 2)));
-        }
-        return new DukNumber(duktape, 5);
     }
 
     public static void main(String[] args) throws Exception {

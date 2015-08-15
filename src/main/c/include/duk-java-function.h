@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     at_renehollander_duktape_values_DukJavaFunction
  * Method:    _createAndReference
- * Signature: (JLjava/lang/reflect/Method;ILjava/lang/Object;)I
+ * Signature: (JLjava/lang/reflect/Method;ILjava/lang/Object;Z)I
  */
 JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukJavaFunction__1createAndReference
-        (JNIEnv *, jclass, jlong, jobject, jint, jobject);
+        (JNIEnv *, jclass, jlong, jobject, jint, jobject, jboolean);
 
 #ifdef __cplusplus
 }

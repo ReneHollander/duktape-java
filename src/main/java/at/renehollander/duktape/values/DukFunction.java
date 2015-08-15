@@ -2,7 +2,7 @@ package at.renehollander.duktape.values;
 
 import at.renehollander.duktape.Duktape;
 
-public final class DukFunction extends AbstractDukReferencedValue {
+public final class DukFunction extends DukObject {
 
     protected DukFunction(Duktape parent, int ref) {
         super(parent, ref);
@@ -20,6 +20,16 @@ public final class DukFunction extends AbstractDukReferencedValue {
     @Override
     public DukFunction asFunction() {
         return this;
+    }
+
+    @Override
+    public boolean isObject() {
+        return false;
+    }
+
+    @Override
+    public DukObject asObject() {
+        throw new WrongValueTypeException("DukFunction");
     }
 
     @Override

@@ -40,7 +40,7 @@ public class DukJavaFunction implements Destroyable {
 
     public DukFunction getDukFunction() {
         if (dukFunction == null) {
-            this.dukFunction = new DukFunction(this.getDuktape(), _createAndReference(this.getDuktape().getContextPointer(), this.getMethod(), this.getMethod().getParameterCount(), this.getObject()));
+            this.dukFunction = new DukFunction(this.getDuktape(), _createAndReference(this.getDuktape().getContextPointer(), this.getMethod(), this.getMethod().getParameterCount(), this.getObject(), this.getMethod().getReturnType().equals(Void.TYPE)));
         }
         return this.dukFunction;
     }
@@ -64,6 +64,6 @@ public class DukJavaFunction implements Destroyable {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
-    private static native int _createAndReference(long contextPointer, Method method, int paramCount, Object object);
+    private static native int _createAndReference(long contextPointer, Method method, int paramCount, Object object, boolean voidFunction);
 
 }

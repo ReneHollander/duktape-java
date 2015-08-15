@@ -6,6 +6,7 @@
 struct MethodData {
     jobject callerObject;
     jmethodID methodID;
+    bool voidFunction;
 };
 typedef struct MethodData MethodData;
 
@@ -30,10 +31,16 @@ int methodExecutor(duk_context *ctx) {
         args[argc - 1 - i].l = duj_value_to_java_object(env, ctx);
     }
 
-    jobject retval = env->CallObjectMethodA(methodData->callerObject, methodData->methodID, args);
-    duj_java_object_to_value(env, ctx, retval);
-    resetJNIEnv(env);
-    return 1;
+    if (methodData->voidFunction) {
+        env->CallVoidMethodA(methodData->callerObject, methodData->methodID, args);
+        resetJNIEnv(env);
+        return 0;
+    } else {
+        jobject retval = env->CallObjectMethodA(methodData->callerObject, methodData->methodID, args);
+        duj_java_object_to_value(env, ctx, retval);
+        resetJNIEnv(env);
+        return 1;
+    }
 }
 
 int methodFinalizer(duk_context *ctx) {
@@ -56,7 +63,7 @@ int methodFinalizer(duk_context *ctx) {
     return 0;
 }
 
-JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukJavaFunction__1createAndReference(JNIEnv *env, jclass cls, jlong contextPointer, jobject method, jint paramCount, jobject object) {
+JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukJavaFunction__1createAndReference(JNIEnv *env, jclass cls, jlong contextPointer, jobject method, jint paramCount, jobject object, jboolean voidFunction) {
     duk_context *ctx = (void *) contextPointer;
 
     MethodData *methodData = (MethodData *) duk_push_fixed_buffer(ctx, sizeof(MethodData));
@@ -64,6 +71,7 @@ JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukJavaFunction__1cr
 
     methodData->callerObject = env->NewGlobalRef(object);
     methodData->methodID = env->FromReflectedMethod(method);
+    methodData->voidFunction = voidFunction;
 
     duk_push_c_function(ctx, methodExecutor, paramCount);
     duk_push_int(ctx, ref);

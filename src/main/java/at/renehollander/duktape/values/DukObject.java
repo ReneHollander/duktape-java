@@ -5,7 +5,7 @@ import at.renehollander.duktape.Duktape;
 
 import java.util.*;
 
-public final class DukObject extends AbstractMap<String, DukValue> implements DukReferencedValue, Destroyable {
+public class DukObject extends AbstractMap<String, DukValue> implements DukReferencedValue, Destroyable {
 
     private Duktape parent;
     private int ref;
