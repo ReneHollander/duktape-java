@@ -1,8 +1,9 @@
-package at.renehollander.duktape.values;
+package at.renehollander.duktape.value.object;
 
-import at.renehollander.duktape.Destroyable;
 import at.renehollander.duktape.Duktape;
-import at.renehollander.duktape.Function;
+import at.renehollander.duktape.util.Function;
+import at.renehollander.duktape.value.Destroyable;
+import at.renehollander.duktape.value.DukValue;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -22,9 +23,7 @@ public class DukJavaFunction implements Destroyable {
     }
 
     public DukJavaFunction(Duktape duktape, Function function) {
-        this.duktape = duktape;
-        this.method = validateMethod(function.getClass().getMethods()[0]);
-        this.object = function;
+        this(duktape, validateMethod(function.getClass().getMethods()[0]), function);
     }
 
     public Duktape getDuktape() {

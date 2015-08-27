@@ -1,7 +1,8 @@
-package at.renehollander.duktape.values;
+package at.renehollander.duktape.value.object;
 
-import at.renehollander.duktape.Destroyable;
+import at.renehollander.duktape.value.Destroyable;
 import at.renehollander.duktape.Duktape;
+import at.renehollander.duktape.value.AbstractDukValue;
 
 public abstract class AbstractDukReferencedValue extends AbstractDukValue implements DukReferencedValue, Destroyable {
 
@@ -30,6 +31,7 @@ public abstract class AbstractDukReferencedValue extends AbstractDukValue implem
 
     @Override
     protected void finalize() throws Throwable {
+        super.finalize();
         this.markForDestroy();
     }
 

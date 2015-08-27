@@ -1,18 +1,10 @@
 package at.renehollander.duktape;
 
-import at.renehollander.duktape.annotation.ExposeToJavascript;
-import at.renehollander.duktape.error.FatalErrorHandler;
-import at.renehollander.duktape.values.DukFunction;
-import at.renehollander.duktape.values.DukJavaFunction;
-import at.renehollander.duktape.values.DukObject;
-import at.renehollander.duktape.values.DukValue;
+import at.renehollander.duktape.util.FatalErrorHandler;
+import at.renehollander.duktape.value.object.DukObject;
+import at.renehollander.duktape.value.DukValue;
 
 import java.io.File;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Duktape {
 
@@ -69,48 +61,6 @@ public class Duktape {
 
     public static String getVersion() {
         return _getVersion();
-    }
-
-    public DukFunction toObjectPrototype(Class<?> clazz) {
-        Constructor javascriptConstructor = null;
-        List<Field> javascriptFields = new ArrayList<>();
-        List<Method> javascriptMethods = new ArrayList<>();
-
-        // check constructors
-        for (Constructor<?> constructor : clazz.getConstructors()) {
-            ExposeToJavascript etj = constructor.getAnnotation(ExposeToJavascript.class);
-            if (etj != null) {
-                if (javascriptConstructor != null) {
-                    throw new IllegalArgumentException("You can only have one constructor with the ExposeToJavascript annotation");
-                }
-                javascriptConstructor = constructor;
-            }
-        }
-        if (javascriptConstructor == null) {
-            throw new IllegalArgumentException("You need to specify at least one constructor in the given class with the ExposeToJavascript annotation");
-        }
-
-        // check fields
-        for (Field field : clazz.getFields()) {
-            ExposeToJavascript etj = field.getAnnotation(ExposeToJavascript.class);
-            if (etj != null) {
-                if (!field.getType().equals(DukValue.class)) {
-                    throw new IllegalArgumentException("Field " + field + " needs the type DukValue to get exported to javascript");
-                }
-                javascriptFields.add(field);
-            }
-        }
-
-        // check methods
-        for (Method method : clazz.getMethods()) {
-            ExposeToJavascript etj = method.getAnnotation(ExposeToJavascript.class);
-            if (etj != null) {
-                javascriptMethods.add(DukJavaFunction.validateMethod(method));
-            }
-        }
-
-
-        return null;
     }
 
     /* ==================================================================== */

@@ -1,6 +1,6 @@
-package at.renehollander.duktape;
+package at.renehollander.duktape.util;
 
-import at.renehollander.duktape.values.DukValue;
+import at.renehollander.duktape.value.DukValue;
 
 public interface Function {
 

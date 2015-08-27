@@ -1,7 +1,10 @@
-package at.renehollander.duktape.values;
+package at.renehollander.duktape.value.object;
 
-import at.renehollander.duktape.Destroyable;
 import at.renehollander.duktape.Duktape;
+import at.renehollander.duktape.exception.WrongValueTypeException;
+import at.renehollander.duktape.value.Destroyable;
+import at.renehollander.duktape.value.DukValue;
+import at.renehollander.duktape.value.primitive.DukUndefined;
 
 import java.util.*;
 
@@ -168,6 +171,7 @@ public class DukObject extends AbstractMap<String, DukValue> implements DukRefer
 
     @Override
     protected void finalize() throws Throwable {
+        super.finalize();
         this.markForDestroy();
     }
 
@@ -209,7 +213,7 @@ public class DukObject extends AbstractMap<String, DukValue> implements DukRefer
             public Entry<String, DukValue> next() {
                 cursor++;
                 String key = keys[cursor];
-                last = new SimpleEntry<String, DukValue>(key, get(key));
+                last = new SimpleEntry<>(key, get(key));
                 return last;
             }
 

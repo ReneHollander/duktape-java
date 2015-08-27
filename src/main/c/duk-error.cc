@@ -2,7 +2,7 @@
 #include "refs.h"
 #include "duk-error.h"
 
-JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukError__1createDukError(JNIEnv *env, jclass cls, jlong contextPointer, jint errorCode, jstring jMessage) {
+JNIEXPORT jint JNICALL Java_at_renehollander_duktape_value_object_DukError__1createDukError(JNIEnv *env, jclass cls, jlong contextPointer, jint errorCode, jstring jMessage) {
     duk_context *ctx = (void *) contextPointer;
     const char *message = env->GetStringUTFChars(jMessage, 0);
     duk_push_error_object(ctx, errorCode, message);
@@ -11,7 +11,7 @@ JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukError__1createDuk
     return ref;
 }
 
-JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukError__1getErrorCode(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef) {
+JNIEXPORT jint JNICALL Java_at_renehollander_duktape_value_object_DukError__1getErrorCode(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
     int code = duk_get_error_code(ctx, -1);
@@ -19,7 +19,7 @@ JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukError__1getErrorC
     return code;
 }
 
-JNIEXPORT jstring JNICALL Java_at_renehollander_duktape_values_DukError__1getErrorMessage(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef) {
+JNIEXPORT jstring JNICALL Java_at_renehollander_duktape_value_object_DukError__1getErrorMessage(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
     duk_get_prop_string(ctx, -1, "stack");

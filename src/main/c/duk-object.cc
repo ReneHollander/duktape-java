@@ -3,7 +3,7 @@
 #include "refs.h"
 #include "helper.h"
 
-JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukObject_createObject(JNIEnv *env, jclass cls, jlong contextPointer) {
+JNIEXPORT jint JNICALL Java_at_renehollander_duktape_value_object_DukObject_createObject(JNIEnv *env, jclass cls, jlong contextPointer) {
     duk_context *ctx = (void *) contextPointer;
     duk_push_object(ctx);
     return duj_ref(ctx);
@@ -20,12 +20,12 @@ static int getObjectSize(duk_context *ctx, duk_idx_t index) {
     return count;
 }
 
-JNIEXPORT jobjectArray JNICALL Java_at_renehollander_duktape_values_DukObject__1getKeys(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef) {
+JNIEXPORT jobjectArray JNICALL Java_at_renehollander_duktape_value_object_DukObject__1getKeys(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
     int size = getObjectSize(ctx, -1);
 
-    jobjectArray ret = (jobjectArray) env->NewObjectArray(size, classCache.JavaLangString, env->NewStringUTF(""));
+    jobjectArray ret = (jobjectArray) env->NewObjectArray(size, classCache.java.lang.String, env->NewStringUTF(""));
     duk_enum(ctx, -1, 0);
     int count = 0;
     while (duk_next(ctx, -1, 0)) {
@@ -38,7 +38,7 @@ JNIEXPORT jobjectArray JNICALL Java_at_renehollander_duktape_values_DukObject__1
     return ret;
 }
 
-JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukObject__1size(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef) {
+JNIEXPORT jint JNICALL Java_at_renehollander_duktape_value_object_DukObject__1size(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
     int size = getObjectSize(ctx, -1);
@@ -46,7 +46,7 @@ JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukObject__1size(JNI
     return size;
 }
 
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1clear(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef) {
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_value_object_DukObject__1clear(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
     duk_enum(ctx, -1, 0);
@@ -58,7 +58,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1clear(JN
     duk_pop(ctx);
 }
 
-JNIEXPORT jstring JNICALL Java_at_renehollander_duktape_values_DukObject__1toJSON(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef) {
+JNIEXPORT jstring JNICALL Java_at_renehollander_duktape_value_object_DukObject__1toJSON(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
     const char *json = duk_json_encode(ctx, -1);
@@ -66,7 +66,7 @@ JNIEXPORT jstring JNICALL Java_at_renehollander_duktape_values_DukObject__1toJSO
     return env->NewStringUTF(json);
 }
 
-JNIEXPORT jboolean JNICALL Java_at_renehollander_duktape_values_DukObject__1containsKey(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey) {
+JNIEXPORT jboolean JNICALL Java_at_renehollander_duktape_value_object_DukObject__1containsKey(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
     const char *key = env->GetStringUTFChars(jKey, 0);
@@ -76,7 +76,7 @@ JNIEXPORT jboolean JNICALL Java_at_renehollander_duktape_values_DukObject__1cont
     return has;
 }
 
-JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukObject__1get(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey) {
+JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_value_object_DukObject__1get(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
     const char *key = env->GetStringUTFChars(jKey, 0);
@@ -87,7 +87,7 @@ JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukObject__1get(J
     return retVal;
 }
 
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1remove(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey) {
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_value_object_DukObject__1remove(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
     const char *key = env->GetStringUTFChars(jKey, 0);
@@ -96,7 +96,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1remove(J
     duk_pop(ctx);
 }
 
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putDouble(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey, jdouble value) {
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_value_object_DukObject__1putDouble(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey, jdouble value) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
     duk_push_number(ctx, value);
@@ -106,7 +106,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putDoubl
     duk_pop(ctx);
 }
 
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putBoolean(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey, jboolean value) {
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_value_object_DukObject__1putBoolean(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey, jboolean value) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
     duk_push_boolean(ctx, value);
@@ -116,7 +116,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putBoole
     duk_pop(ctx);
 }
 
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putString(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey, jstring jValue) {
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_value_object_DukObject__1putString(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey, jstring jValue) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
     if (jValue != NULL) {
@@ -132,7 +132,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putStrin
     duk_pop(ctx);
 }
 
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putUndefined(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey) {
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_value_object_DukObject__1putUndefined(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
     duk_push_undefined(ctx);
@@ -142,7 +142,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putUndef
     duk_pop(ctx);
 }
 
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putNull(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey) {
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_value_object_DukObject__1putNull(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
     duk_push_null(ctx);
@@ -152,7 +152,7 @@ JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putNull(
     duk_pop(ctx);
 }
 
-JNIEXPORT void JNICALL Java_at_renehollander_duktape_values_DukObject__1putReference(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey, jint value) {
+JNIEXPORT void JNICALL Java_at_renehollander_duktape_value_object_DukObject__1putReference(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jstring jKey, jint value) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
     duj_push_ref(ctx, value);

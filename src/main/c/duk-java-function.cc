@@ -63,7 +63,7 @@ int methodFinalizer(duk_context *ctx) {
     return 0;
 }
 
-JNIEXPORT jint JNICALL Java_at_renehollander_duktape_values_DukJavaFunction__1createAndReference(JNIEnv *env, jclass cls, jlong contextPointer, jobject method, jint paramCount, jobject object, jboolean voidFunction) {
+JNIEXPORT jint JNICALL Java_at_renehollander_duktape_value_object_DukJavaFunction__1createAndReference(JNIEnv *env, jclass cls, jlong contextPointer, jobject method, jint paramCount, jobject object, jboolean voidFunction) {
     duk_context *ctx = (void *) contextPointer;
 
     MethodData *methodData = (MethodData *) duk_push_fixed_buffer(ctx, sizeof(MethodData));

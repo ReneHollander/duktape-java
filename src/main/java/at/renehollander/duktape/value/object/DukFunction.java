@@ -1,6 +1,8 @@
-package at.renehollander.duktape.values;
+package at.renehollander.duktape.value.object;
 
 import at.renehollander.duktape.Duktape;
+import at.renehollander.duktape.value.DukValue;
+import at.renehollander.duktape.exception.WrongValueTypeException;
 
 public final class DukFunction extends DukObject {
 

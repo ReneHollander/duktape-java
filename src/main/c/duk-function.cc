@@ -3,7 +3,7 @@
 #include "refs.h"
 #include "helper.h"
 
-JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_values_DukFunction__1invoke(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jobjectArray arguments) {
+JNIEXPORT jobject JNICALL Java_at_renehollander_duktape_value_object_DukFunction__1invoke(JNIEnv *env, jclass cls, jlong contextPointer, jint objectRef, jobjectArray arguments) {
     duk_context *ctx = (void *) contextPointer;
     duj_push_ref(ctx, objectRef);
     jsize argc = env->GetArrayLength(arguments);

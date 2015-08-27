@@ -1004,7 +1004,7 @@ typedef duk_int32_t duk_intmax_t;
 #endif
 
 /* Note: the funny looking computations for signed minimum 16-bit, 32-bit, and
- * 64-bit values are intentional as the obvious forms (e.g. -0x80000000L) are
+ * 64-bit value are intentional as the obvious forms (e.g. -0x80000000L) are
  * -not- portable.  See code-issues.txt for a detailed discussion.
  */
 #define DUK_UINT8_MIN         0UL
@@ -1045,7 +1045,7 @@ typedef duk_int32_t duk_intmax_t;
 #define DUK_INT_FAST32_MAX    0x7fffffffL
 
 /* 64-bit constants.  Since LL / ULL constants are not always available,
- * use computed values.  These values can't be used in preprocessor
+ * use computed value.  These value can't be used in preprocessor
  * comparisons; flag them as such.
  */
 #if defined(DUK_F_HAVE_64BIT)
@@ -1180,17 +1180,17 @@ typedef duk_uint_fast16_t duk_small_uint_fast_t;
 #define DUK_SMALL_UINT_FAST_MIN   DUK_UINT_FAST16_MIN
 #define DUK_SMALL_UINT_FAST_MAX   DUK_UINT_FAST16_MAX
 
-/* Boolean values are represented with the platform 'int'. */
+/* Boolean value are represented with the platform 'int'. */
 typedef duk_small_int_t duk_bool_t;
 #define DUK_BOOL_MIN              DUK_SMALL_INT_MIN
 #define DUK_BOOL_MAX              DUK_SMALL_INT_MAX
 
-/* Index values must have at least 32-bit signed range. */
+/* Index value must have at least 32-bit signed range. */
 typedef duk_int_t duk_idx_t;
 #define DUK_IDX_MIN               DUK_INT_MIN
 #define DUK_IDX_MAX               DUK_INT_MAX
 
-/* Array index values, could be exact 32 bits.
+/* Array index value, could be exact 32 bits.
  * Currently no need for signed duk_arridx_t.
  */
 typedef duk_uint_t duk_uarridx_t;
@@ -1199,7 +1199,7 @@ typedef duk_uint_t duk_uarridx_t;
 
 /* Duktape/C function return value, platform int is enough for now to
  * represent 0, 1, or negative error code.  Must be compatible with
- * assigning truth values (e.g. duk_ret_t rc = (foo == bar);).
+ * assigning truth value (e.g. duk_ret_t rc = (foo == bar);).
  */
 typedef duk_small_int_t duk_ret_t;
 #define DUK_RET_MIN               DUK_SMALL_INT_MIN
@@ -1394,7 +1394,7 @@ typedef double duk_double_t;
  *
  *  Duktape supports little and big endian machines.  There's also support
  *  for a hybrid used by some ARM machines where integers are little endian
- *  but IEEE double values use a mixed order (12345678 -> 43218765).  This
+ *  but IEEE double value use a mixed order (12345678 -> 43218765).  This
  *  byte order for doubles is referred to as "mixed endian".
  */
 
@@ -1522,7 +1522,7 @@ typedef double duk_double_t;
  */
 #if !defined(DUK_F_BYTEORDER) && defined(DUK_F_WINDOWS)
 /* XXX: verify that Windows on ARM is little endian for floating point
- * values too.
+ * value too.
  */
 #define DUK_F_BYTEORDER 1
 #endif  /* Windows */
@@ -1558,7 +1558,7 @@ typedef double duk_double_t;
 #endif
 
 /* Check whether or not byte order detection worked based on the intermediate
- * define, and define final values.  If detection failed, #error out.
+ * define, and define final value.  If detection failed, #error out.
  */
 #if defined(DUK_F_BYTEORDER)
 #if (DUK_F_BYTEORDER == 1)
@@ -1579,7 +1579,7 @@ typedef double duk_double_t;
 
 /*
  *  Check whether or not a packed duk_tval representation is possible.
- *  What's basically required is that pointers are 32-bit values
+ *  What's basically required is that pointers are 32-bit value
  *  (sizeof(void *) == 4).  Best effort check, not always accurate.
  *  If guess goes wrong, crashes may result; self tests also verify
  *  the guess.
@@ -1827,7 +1827,7 @@ extern double duk_computed_nan;
  *  and so on.  Such broken platforms can be dealt with here.
  *
  *  NOTE: ANSI C (various versions) and some implementations require that the
- *  pointer arguments to memset(), memcpy(), and memmove() be valid values
+ *  pointer arguments to memset(), memcpy(), and memmove() be valid value
  *  even when byte size is 0 (even a NULL pointer is considered invalid in
  *  this context).  Zero-size operations as such are allowed, as long as their
  *  pointer arguments point to a valid memory area.  The DUK_MEMSET(),
@@ -2820,7 +2820,7 @@ typedef FILE duk_file;
 /* Ensure final bytecode never exceeds a certain byte size and never uses
  * line numbers above a certain limit.  This ensures that there is no need
  * to deal with unbounded ranges in e.g. pc2line data structures.  For now,
- * limits are set so that signed 32-bit values can represent line number
+ * limits are set so that signed 32-bit value can represent line number
  * and byte offset with room to spare.
  */
 #define DUK_USE_ESBC_LIMITS
@@ -2938,7 +2938,7 @@ typedef FILE duk_file;
 
 /* Force built-ins to use lightfunc function pointers when possible.  This
  * makes the built-in functions non-compliant with respect to their property
- * values and such, but is very useful in low memory environments (can save
+ * value and such, but is very useful in low memory environments (can save
  * around 14kB of initial RAM footprint).
  */
 #undef DUK_USE_LIGHTFUNC_BUILTINS
@@ -3421,8 +3421,8 @@ DUK_EXTERNAL_DECL duk_idx_t duk_require_top_index(duk_context *ctx);
 
 /* Although extra/top could be an unsigned type here, using a signed type
  * makes the API more robust to calling code calculation errors or corner
- * cases (where caller might occasionally come up with negative values).
- * Negative values are treated as zero, which is better than casting them
+ * cases (where caller might occasionally come up with negative value).
+ * Negative value are treated as zero, which is better than casting them
  * to a large unsigned number.  (This principle is used elsewhere in the
  * API too.)
  */
@@ -4142,8 +4142,8 @@ DUK_EXTERNAL_DECL void duk_debugger_cooperate(duk_context *ctx);
  *    H G F E D C B A    Little endian (e.g. x86)        DUK_USE_DOUBLE_LE
  *    D C B A H G F E    Mixed/cross endian (e.g. ARM)   DUK_USE_DOUBLE_ME
  *
- *  ARM is a special case: ARM double values are in mixed/cross endian
- *  format while ARM duk_uint64_t values are in standard little endian
+ *  ARM is a special case: ARM double value are in mixed/cross endian
+ *  format while ARM duk_uint64_t value are in standard little endian
  *  format (H G F E D C B A).  When a double is read as a duk_uint64_t
  *  from memory, the register will contain the (logical) value
  *  E F G H A B C D.  This requires some special handling below.
@@ -4156,10 +4156,10 @@ DUK_EXTERNAL_DECL void duk_debugger_cooperate(duk_context *ctx);
  *    LE             76543210         3210               10
  *    ME (ARM)       32107654         1032               01
  *
- *  Some processors may alter NaN values in a floating point load+store.
+ *  Some processors may alter NaN value in a floating point load+store.
  *  For instance, on X86 a FLD + FSTP may convert a signaling NaN to a
  *  quiet one.  This is catastrophic when NaN space is used in packed
- *  duk_tval values.  See: misc/clang_aliasing.c.
+ *  duk_tval value.  See: misc/clang_aliasing.c.
  */
 
 #ifndef DUK_DBLUNION_H_INCLUDED
@@ -4312,23 +4312,23 @@ typedef union duk_double_union duk_double_union;
 /*
  *  Double NaN manipulation macros related to NaN normalization needed when
  *  using the packed duk_tval representation.  NaN normalization is necessary
- *  to keep double values compatible with the duk_tval format.
+ *  to keep double value compatible with the duk_tval format.
  *
  *  When packed duk_tval is used, the NaN space is used to store pointers
- *  and other tagged values in addition to NaNs.  Actual NaNs are normalized
+ *  and other tagged value in addition to NaNs.  Actual NaNs are normalized
  *  to a specific format.  The macros below are used by the implementation
- *  to check and normalize NaN values when they might be created.  The macros
+ *  to check and normalize NaN value when they might be created.  The macros
  *  are essentially NOPs when the non-packed duk_tval representation is used.
  *
  *  A FULL check is exact and checks all bits.  A NOTFULL check is used by
  *  the packed duk_tval and works correctly for all NaNs except those that
- *  begin with 0x7ff0.  Since the 'normalized NaN' values used with packed
+ *  begin with 0x7ff0.  Since the 'normalized NaN' value used with packed
  *  duk_tval begin with 0x7ff8, the partial check is reliable when packed
  *  duk_tval is used.
  *
  *  The ME variant below is specifically for ARM byte order, which has the
  *  feature that while doubles have a mixed byte order (32107654), unsigned
- *  long long values has a little endian byte order (76543210).  When writing
+ *  long long value has a little endian byte order (76543210).  When writing
  *  a logical double value through a ULL pointer, the 32-bit words need to be
  *  swapped; hence the #ifdefs below for ULL writes with DUK_USE_DOUBLE_ME.
  *  This is not full ARM support but suffices for some environments.

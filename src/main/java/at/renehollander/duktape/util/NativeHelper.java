@@ -1,6 +1,6 @@
-package at.renehollander.duktape;
+package at.renehollander.duktape.util;
 
-import at.renehollander.duktape.values.DukReferencedValue;
+import at.renehollander.duktape.value.object.DukReferencedValue;
 
 public class NativeHelper {
 

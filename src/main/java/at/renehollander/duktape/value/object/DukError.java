@@ -1,4 +1,4 @@
-package at.renehollander.duktape.values;
+package at.renehollander.duktape.value.object;
 
 import at.renehollander.duktape.Duktape;
 

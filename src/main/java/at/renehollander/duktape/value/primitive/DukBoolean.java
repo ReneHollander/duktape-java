@@ -1,6 +1,7 @@
-package at.renehollander.duktape.values;
+package at.renehollander.duktape.value.primitive;
 
 import at.renehollander.duktape.Duktape;
+import at.renehollander.duktape.value.AbstractDukValue;
 
 public final class DukBoolean extends AbstractDukValue {
 

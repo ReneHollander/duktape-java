@@ -1,6 +1,8 @@
-package at.renehollander.duktape.values;
+package at.renehollander.duktape.value.object;
 
 import at.renehollander.duktape.Duktape;
+import at.renehollander.duktape.value.DukValue;
+import at.renehollander.duktape.exception.WrongValueTypeException;
 
 import java.util.AbstractList;
 
@@ -82,6 +84,7 @@ public final class DukArray extends AbstractList<DukValue> implements DukReferen
 
     @Override
     protected void finalize() throws Throwable {
+        super.finalize();
         this.markForDestroy();
     }
 

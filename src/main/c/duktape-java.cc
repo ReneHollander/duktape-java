@@ -22,7 +22,7 @@ JNIEXPORT jstring JNICALL Java_at_renehollander_duktape_Duktape__1getVersion(JNI
 void duj_fatal_handler(duk_context *ctx, duk_errcode_t code, const char *msg) {
     JNIEnv *env = setupJNIEnv();
     DuktapeUserData *userData = getDuktapeUserData(ctx);
-    env->CallObjectMethod(userData->duktape, methodIdCache.AtReneHollanderDuktapeDuktapeFatalErrorHandler, code, env->NewStringUTF(msg));
+    env->CallObjectMethod(userData->duktape, methodIdCache.at.renehollander.duktape.Duktape.fatalErrorHandler, code, env->NewStringUTF(msg));
     resetJNIEnv(env);
 }
 

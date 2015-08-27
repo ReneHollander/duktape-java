@@ -1,6 +1,6 @@
 package at.renehollander.duktape;
 
-import at.renehollander.duktape.values.DukObject;
+import at.renehollander.duktape.value.object.DukObject;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,23 +1,20 @@
 package at.renehollander.duktape;
 
-import at.renehollander.duktape.values.DukFunction;
-import at.renehollander.duktape.values.DukJavaFunction;
-import at.renehollander.duktape.values.DukObject;
-import at.renehollander.duktape.values.DukValue;
+import at.renehollander.duktape.util.Function;
+import at.renehollander.duktape.value.object.DukFunction;
+import at.renehollander.duktape.value.object.DukJavaFunction;
+import at.renehollander.duktape.value.object.DukObject;
+import at.renehollander.duktape.value.DukValue;
 
 public class Main {
-
-    private Duktape duktape;
 
     public Main() throws Exception {
         System.out.println("Duktape Version " + Duktape.getVersion());
 
-        this.duktape = new Duktape();
-
-        System.out.println(duktape.toObjectPrototype(TestObject.class));
+        Duktape duktape = new Duktape();
 
         DukObject global = duktape.getGlobal();
-        DukJavaFunction testObject = new DukJavaFunction(this.duktape, (Function.TwoArg.WithoutReturn) this::lol);
+        DukJavaFunction testObject = new DukJavaFunction(duktape, (Function.TwoArg.WithoutReturn) this::lol);
         DukFunction testObjectConstructor = testObject.getDukFunction();
         DukObject testObjectConstructorPrototype = new DukObject(duktape);
         testObjectConstructorPrototype.put("lol", 1234);

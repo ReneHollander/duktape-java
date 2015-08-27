@@ -29,14 +29,14 @@ jar {
 task javah(dependsOn: [build]) {
     doLast {
         def classes = [
-                'at.renehollander.duktape.Duktape'                  : 'src/main/c/include/duktape-java.h',
-                'at.renehollander.duktape.NativeHelper'             : 'src/main/c/include/native-helper.h',
-                'at.renehollander.duktape.values.DukFunction'       : 'src/main/c/include/duk-function.h',
-                'at.renehollander.duktape.values.DukObject'         : 'src/main/c/include/duk-object.h',
-                'at.renehollander.duktape.values.DukArray'          : 'src/main/c/include/duk-array.h',
-                'at.renehollander.duktape.values.DukJavaFunction'   : 'src/main/c/include/duk-java-function.h',
-                'at.renehollander.duktape.values.DukError'          : 'src/main/c/include/duk-error.h',
-                'at.renehollander.duktape.values.DukBuffer'         : 'src/main/c/include/duk-buffer.h'
+                'at.renehollander.duktape.Duktape'                  : 'src/main/c/duktape-java.h',
+                'at.renehollander.duktape.util.NativeHelper'             : 'src/main/c/native-helper.h',
+                'at.renehollander.duktape.value.object.DukFunction'       : 'src/main/c/duk-function.h',
+                'at.renehollander.duktape.value.object.DukObject'         : 'src/main/c/duk-object.h',
+                'at.renehollander.duktape.value.object.DukArray'          : 'src/main/c/duk-array.h',
+                'at.renehollander.duktape.value.object.DukJavaFunction'   : 'src/main/c/duk-java-function.h',
+                'at.renehollander.duktape.value.object.DukError'          : 'src/main/c/duk-error.h',
+                'at.renehollander.duktape.value.object.DukBuffer'         : 'src/main/c/duk-buffer.h'
         ]
         classes.each { inputClass, outputFile ->
             // println inputClass + ": " + outputFile

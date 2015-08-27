@@ -1,8 +1,12 @@
 package test.at.renehollander.duktape;
 
 import at.renehollander.duktape.Duktape;
-import at.renehollander.duktape.Function;
-import at.renehollander.duktape.values.*;
+import at.renehollander.duktape.util.Function;
+import at.renehollander.duktape.value.*;
+import at.renehollander.duktape.value.object.DukArray;
+import at.renehollander.duktape.value.object.DukJavaFunction;
+import at.renehollander.duktape.value.object.DukObject;
+import at.renehollander.duktape.value.primitive.*;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
