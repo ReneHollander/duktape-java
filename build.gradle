@@ -1,23 +1,30 @@
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'eclipse'
+group 'org.duktape'
+version '0.0.0'
 
-def mainClassName = "at.renehollander.duktape.Main"
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
 }
 
-dependencies {
-    testCompile 'junit:junit:4.12'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'org.bytedeco', name: 'javacpp', version: '1.2.1'
+    }
 }
 
-task fatJar(type: Jar) {
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
-    manifest {
-        attributes 'Main-Class': mainClassName
-    }
+
+import org.bytedeco.javacpp.tools.Builder
+import org.duktape.duktapejava.generator.Generator
+
+dependencies {
+    compile group: 'org.bytedeco', name: 'javacpp', version: '1.2.1'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
 jar {
@@ -26,23 +33,86 @@ jar {
     dependsOn('fatJar')
 }
 
-task javah(dependsOn: [build]) {
-    doLast {
-        def classes = [
-                'at.renehollander.duktape.Duktape'                  : 'src/main/c/duktape-java.h',
-                'at.renehollander.duktape.util.NativeHelper'             : 'src/main/c/native-helper.h',
-                'at.renehollander.duktape.value.object.DukFunction'       : 'src/main/c/duk-function.h',
-                'at.renehollander.duktape.value.object.DukObject'         : 'src/main/c/duk-object.h',
-                'at.renehollander.duktape.value.object.DukArray'          : 'src/main/c/duk-array.h',
-                'at.renehollander.duktape.value.object.DukJavaFunction'   : 'src/main/c/duk-java-function.h',
-                'at.renehollander.duktape.value.object.DukError'          : 'src/main/c/duk-error.h',
-                'at.renehollander.duktape.value.object.DukBuffer'         : 'src/main/c/duk-buffer.h'
-        ]
-        classes.each { inputClass, outputFile ->
-            // println inputClass + ": " + outputFile
-            delete(outputFile)
-            ant.javah(class: inputClass, outputFile: outputFile, classpath: sourceSets.main.output.asPath)
-        }
+compileJava.dependsOn('generateJava')
+
+def nativeArtifactDir = new File("$buildDir/native/")
+
+task fatJar(type: Jar, dependsOn: 'natives') {
+    baseName = project.name
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    from(nativeArtifactDir) {
+        include '**/*'
+    }
+    with jar
+    manifest {
+        attributes 'Implementation-Version': version
     }
 }
 
+task natives(dependsOn: 'generateJava') {
+    doFirst {
+        nativeArtifactDir.deleteDir()
+        nativeArtifactDir.mkdirs()
+    }
+
+    doLast {
+        // buildNative(nativeArtifactDir, null, "linux-x86_64-debug.properties")
+        buildNative(nativeArtifactDir, null, null)
+    }
+}
+
+def buildNative(nativeArtifactDir, platformName, platformFileName) {
+
+    def nativeTmpDir = new File("$buildDir/tmp/native/")
+    nativeTmpDir.deleteDir()
+    nativeTmpDir.mkdirs()
+
+    new groovy.util.AntBuilder().copy(todir: nativeTmpDir) {
+        fileset(dir: "src/main/c/")
+    }
+
+    def builder = new Builder()
+
+    def propertiesField = Builder.class.getDeclaredField("properties")
+    propertiesField.setAccessible(true)
+    def properties = propertiesField.get(builder);
+    def platform = properties.get("platform")
+
+    builder.classPaths(sourceSets.main.runtimeClasspath.collect { it.getAbsolutePath() }.toArray(new String[0]))
+    builder.outputDirectory(nativeTmpDir)
+    if (platformName != null) builder.properties((String) platformName)
+    if (platformFileName != null) builder.propertyFile((String) platformFileName)
+    builder.outputName("duktape-java-$platform")
+    builder.classesOrPackages('org.duktape.duktapejava.Duktape')
+    def file = builder.build()[0]
+
+    builder.compile(false)
+    builder.build()
+
+    new groovy.util.AntBuilder().copy(file: file, tofile: new File(nativeArtifactDir, file.getName()))
+}
+
+task generateJava(type: Generator) {
+    outputs.upToDateWhen { false }
+    apiDirectory = new File("duktape-api/")
+    headerFile = new File("duktape-api/constants.h")
+    outputDirectory = new File("src/main/java")
+}
+
+//if (JavaVersion.current().isJava8Compatible()) {
+//    allprojects {
+//        tasks.withType(Javadoc) {
+//            options.addStringOption('Xdoclint:none', '-quiet')
+//        }
+//    }
+//}
+
+task generateDocumntation(type: Javadoc, dependsOn: 'build') {
+    classpath = sourceSets.main.runtimeClasspath
+    source = sourceSets.main.allJava
+}
+
+task generateDocumntationWithoutBuild(type: Javadoc) {
+    classpath = sourceSets.main.runtimeClasspath
+    source = sourceSets.main.allJava
+}

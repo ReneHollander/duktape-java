@@ -1,0 +1,88 @@
+@org.bytedeco.javacpp.annotation.Namespace("")
+public static abstract class FatalHandler extends org.bytedeco.javacpp.FunctionPointer {
+
+    static {
+        org.duktape.duktapejava.LibraryLoader.load();
+    }
+
+    public FatalHandler() {
+        allocate();
+    }
+
+    private native void allocate();
+
+    public abstract void call(duk_context ctx, int code, String msg);
+
+}
+
+@org.bytedeco.javacpp.annotation.Namespace("")
+public static abstract class Function extends org.bytedeco.javacpp.FunctionPointer {
+
+    static {
+        org.duktape.duktapejava.LibraryLoader.load();
+    }
+
+    public Function() {
+        allocate();
+    }
+
+    private native void allocate();
+
+    public abstract int call(duk_context ctx);
+
+}
+
+@org.bytedeco.javacpp.annotation.Namespace("")
+@org.bytedeco.javacpp.annotation.Name("duk_function_list_entry")
+public static class FunctionListEntry extends org.bytedeco.javacpp.Pointer {
+
+    static {
+        org.duktape.duktapejava.LibraryLoader.load();
+    }
+
+    public FunctionListEntry() {
+        allocate();
+    }
+
+    private native void allocate();
+
+    public native void key(String key);
+    public native String key();
+
+    public native void value(Function value);
+    public native Function value();
+
+    public native void nargs(@Cast("duk_int_t") int nargs);
+    public native @Cast("duk_int_t") int nargs();
+
+}
+
+@org.bytedeco.javacpp.annotation.Namespace("")
+@org.bytedeco.javacpp.annotation.Name("duk_function_list_entry *")
+public static class FunctionListEntryArray extends org.bytedeco.javacpp.PointerPointer<FunctionListEntry> {
+
+    static {
+        org.duktape.duktapejava.LibraryLoader.load();
+    }
+
+    public FunctionListEntryArray(FunctionListEntry ... array) { this(array.length); put(array); position(0); }
+    public FunctionListEntryArray(int size) { super(size); allocateArray(size); }
+    public FunctionListEntryArray(Pointer p) { super(p); }
+
+    private native void allocateArray(int size);
+
+    public FunctionListEntryArray position(int position) {
+        return (FunctionListEntryArray) super.position(position);
+    }
+
+    public FunctionListEntryArray put(FunctionListEntry ... array) {
+        for (int i = 0; i < array.length; i++) {
+            position(i).put(array[i]);
+        }
+        return this;
+    }
+
+    public native FunctionListEntry get();
+    public native FunctionListEntryArray put(FunctionListEntry p);
+
+}
